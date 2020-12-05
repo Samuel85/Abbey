@@ -99,6 +99,7 @@ public:
 	bool cambioModoInformacion; // se ha cambiado el estado
 	InfoJuego *infoJuego;					// objeto para mostrar informaci??n interna del juego
 	int currentState;
+	int firstTime;
 
 	
 	int seleccionado;
@@ -146,6 +147,8 @@ public:
 	void updateScreen();
 	void run2();
 	void stateMachine();
+	void changeState(int newState);
+
 	// inicializaci??n y limpieza
 	Juego(UINT8 *romData, CPC6128 *cpc);
 	~Juego();

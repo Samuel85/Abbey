@@ -170,9 +170,11 @@ void InputHandler::process()
 
 void InputHandler::copyInputsState(int *dest)
 {
+	/*
 	for (int i = 0; i < END_OF_INPUTS; i++){
 		dest[i] = _inputs[i];
 	}
+	*/
 }
 
 /////////////////////////////////////////////////////////////////////////////

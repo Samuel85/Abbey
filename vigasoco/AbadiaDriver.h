@@ -71,6 +71,7 @@ public:
 	virtual void runSync();
 	virtual void runAsync();
 	virtual void showMenu();
+	virtual void changeState(int newState);
 	virtual void render(IDrawPlugin *dp);
 	virtual void showGameLogic(IDrawPlugin *dp);
 

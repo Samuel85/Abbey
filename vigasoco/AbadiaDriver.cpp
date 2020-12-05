@@ -262,7 +262,12 @@ void AbadiaDriver::runAsync()
 }
 void AbadiaDriver::showMenu()
 {
-	_abadiaGame->currentState = MENU;
+	//_abadiaGame->currentState = MENU;
+	_abadiaGame->changeState(MENU);
+}
+void AbadiaDriver::changeState(int newState)
+{
+	_abadiaGame->changeState(newState);
 }
 void AbadiaDriver::render(IDrawPlugin *dp)
 {

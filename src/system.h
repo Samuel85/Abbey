@@ -3,9 +3,10 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include <SDL_ttf.h>
 #include <vector>
 
-#define WINDOW_WIDTH 1280
+#define WINDOW_WIDTH 1280  
 #define WINDOW_HEIGHT 800
 #define TEXTURE_WIDTH 640
 #define TEXTURE_HEIGHT 400
@@ -73,6 +74,7 @@ struct System{
 	SDL_Renderer *renderer;
 	SDL_Texture *texture;
 	SDL_Window *window;
+	TTF_Font *font;
 	
 	std::vector<Mix_Chunk*>sounds;
 	std::vector<Mix_Music*>music;

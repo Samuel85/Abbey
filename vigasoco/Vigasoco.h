@@ -74,10 +74,10 @@ public:
 	FontManager *getFontManager() const { return _fontManager; }
 	const std::string getError() const { return _errorMsg; }
 
-	// platform services
-	//virtual ICriticalSection *createCriticalSection() = 0;
+	// platform services	
 	void toggleInformationMode();
 	void showMenu();
+	void changeState(int newState);
 
 protected:
 	// template methods
@@ -104,15 +104,10 @@ protected:
 	virtual void platformSpecificEnd() = 0;
 
 	virtual bool processEvents() = 0;
-	virtual void initFrame();
-	virtual void endFrame(){}
 
 	// helper methods
-	GameDriver *createGameDriver(std::string game);
-	void processCoreInputs();
-	void showFPS(bool skipThisFrame);
+	GameDriver *createGameDriver(std::string game);		
 };
 
 #endif	// _VIGASOCO_H_
 
-// 4568M-5694

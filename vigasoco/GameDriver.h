@@ -105,6 +105,7 @@ public:
 	virtual void render(IDrawPlugin *dp) = 0;
 	virtual void showGameLogic(IDrawPlugin *dp){}
 	virtual void showMenu() = 0;
+	virtual void changeState(int newState) = 0;
 
 
 	// initialization and cleanup

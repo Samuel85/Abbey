@@ -20,7 +20,8 @@ endif(RG350)
 
 find_package(SDL2 REQUIRED)
 find_package(SDL2_Mixer REQUIRED)
-include_directories(${SDL2_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR})
+find_package(SDL2_ttf REQUIRED)
+include_directories(${SDL2_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR})
 
 include_directories ("src")
 file(GLOB_RECURSE vigasoco_core_SOURCES "vigasoco/*.cpp")
@@ -30,6 +31,6 @@ file(GLOB_RECURSE vigasoco_SOURCES "src/*.cpp")
 
 
 add_executable (abbey ${vigasoco_SOURCES} ${vigasoco_core_SOURCES})
-target_link_libraries(abbey ${SDL2_LIBRARY} ${SDL2_MIXER_LIBRARY})
+target_link_libraries(abbey ${SDL2_LIBRARY} ${SDL2_MIXER_LIBRARY} ${SDL2_TTF_LIBRARY})
 install(TARGETS abbey RUNTIME DESTINATION ${BIN_DIR} )
 
