@@ -23,78 +23,98 @@ void System::init()
 	Uint32 initFlags = SDL_INIT_VIDEO;  
 	
 	if (enableJoystick)
+	{
 		initFlags = initFlags | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;
-	
+	}
+
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);    
-	if (fullscreen)
+	if (fullscreen) 
+	{
 		windowFlags = windowFlags | SDL_WINDOW_FULLSCREEN;
-	
+	}
+
 	window = SDL_CreateWindow(WINDOW_TITLE, 0, 0, w, h, windowFlags);                            
 	if (window == NULL)
+	{
 		std::cout << "ERROR: Could not create window: " << SDL_GetError() << std::endl;    
-	
+	}
+
 	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
 	if( renderer == NULL )
+	{
 		std::cout << "ERROR: Could not create renderer: " << SDL_GetError() << std::endl;    
-	
+	}
+
 	if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 )
+	{
 		std::cout << "ERROR: Mix_OpenAudio" << std::endl;
-	
+	}
 	for (int i=0;i<TOTAL_SOUND_FILES;i++)
 	{
 		sounds.push_back(Mix_LoadWAV(soundsPathList[i]));
 		if (sounds[i] == NULL)
-			std::cout << "Error: can't read " << soundsPathList[i] <<std::endl;		
+		{
+			std::cout << "Error: can't read " << soundsPathList[i] <<std::endl;	
+		}
 	}
-	
+
 	for (int i=0;i<TOTAL_MUSIC_FILES;i++)
 	{
 		music.push_back(Mix_LoadMUS(musicPathList[i]));
 		if (music[i] == NULL)
-			std::cout << "Error: can't read " << musicPathList[i] <<std::endl;		
+		{
+			std::cout << "Error: can't read " << musicPathList[i] <<std::endl;
+		}
 	}
 
-	Uint32 rmask, gmask, bmask, amask;
 	#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-		rmask = 0xff000000;
-		gmask = 0x00ff0000;
-		bmask = 0x0000ff00;
-		amask = 0x000000ff;
+		const Uint32 rmask = 0xff000000;
+		const Uint32 gmask = 0x00ff0000;
+		const Uint32 bmask = 0x0000ff00;
+		const Uint32 amask = 0x000000ff;
 	#else
-		rmask = 0x000000ff;
-		gmask = 0x0000ff00;
-		bmask = 0x00ff0000;
-		amask = 0xff000000;
+		const Uint32 rmask = 0x000000ff;
+		const Uint32 gmask = 0x0000ff00;
+		const Uint32 bmask = 0x00ff0000;
+		const Uint32 amask = 0xff000000;
 	#endif
 
-	surface = SDL_CreateRGBSurface(0, TEXTURE_WIDTH,TEXTURE_HEIGHT>>1,32, rmask, gmask,bmask, amask);
+	//surface = SDL_CreateRGBSurface(0, TEXTURE_WIDTH,TEXTURE_HEIGHT>>1,32, rmask, gmask,bmask, amask);
+	surface = SDL_CreateRGBSurface(0, TEXTURE_WIDTH,TEXTURE_HEIGHT,32, rmask, gmask,bmask, amask);
 	if (surface == NULL)
+	{
 		std::cout << "Surface Error:" << SDL_GetError() << std::endl;
-	
+	}
 	texture = SDL_CreateTextureFromSurface(renderer, surface);	
 	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 	
 	// Init Fonts
 	if (TTF_Init() < 0)
+	{
 		std::cout << "Error initializing TTF library" << std::endl;
-	
+	}
 	font = TTF_OpenFont("fonts/arial.ttf", 10);
 	if (font == NULL)
-		std::cout << "Error loading fonts" << std::endl;	
+	{
+		std::cout << "Error loading fonts" << std::endl;
+	}
 }
 
-void System::quit(){
+void System::quit()
+{
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);	
 
 	for (int i=0;i<TOTAL_MUSIC_FILES;i++)
+	{
 		Mix_FreeMusic(music[i]);
-	
+	}
 	music.clear();
 
 	for (int i=0;i<TOTAL_SOUND_FILES;i++)
+	{
 		Mix_FreeChunk(sounds[i]);
-	
+	}
 	sounds.clear();  
 	TTF_CloseFont(font);
 	TTF_Quit();
@@ -129,13 +149,15 @@ void System::handleEvents()
 	SDL_Event event;
 	while(SDL_PollEvent(&event))
 	{
-		if( event.type == SDL_QUIT ){exit = true;}
-		else if( event.type == SDL_KEYDOWN )
+		if( event.type == SDL_QUIT )
+		{
+			exit = true;
+		}
+		else if(event.type == SDL_KEYDOWN)
 		{
 			switch(event.key.keysym.sym)
 			{
-				case SDLK_ESCAPE:
-					//exit = true;
+				case SDLK_ESCAPE:					
 					informationMode = !informationMode;
 					break;
 				case SDLK_LEFT:
@@ -169,8 +191,10 @@ void System::handleEvents()
 					break;
 			}
 		}
-		else if(event.type == SDL_KEYUP){
-			switch(event.key.keysym.sym){
+		else if(event.type == SDL_KEYUP)
+		{
+			switch(event.key.keysym.sym)
+			{
 				case SDLK_LEFT:
 					pad.left = false;
 					break;

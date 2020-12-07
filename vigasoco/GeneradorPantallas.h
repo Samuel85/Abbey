@@ -79,7 +79,9 @@ public:
 	void grabaTile(int tile);
 	void actualizaTile(int tile, TileInfo *tileDesc);
 	void limpiaPantalla(int color);
-	void dibujaBufferTiles();
+	//void dibujaBufferTiles();
+	bool dibujaBufferTiles();
+	bool dibujaBufferTiles2();
 
 	// operaciones sobre registros y expresiones del generador de bloques
 	int leeDatoORegistro(int *posReg);
@@ -98,8 +100,9 @@ public:
 	// m�todos de ayuda
 	int obtenerDir(int direccion);
 
-	//int tilesAnimationCounter;
-	//int x, y;
+	int tilesAnimationCounter;
+	int x, y;
+	int abajo, derecha, arriba, izquierda;	
 protected:
 	void transformaCoordBloqueRejilla(int altura);
 	void interpretaComandos();

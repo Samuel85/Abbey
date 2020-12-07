@@ -6,7 +6,7 @@
 #include "IDrawPlugin.h"
 #include "FileLoader.h"
 #include "FontManager.h"
-#include "InputHandler.h"
+
 #include "IPalette.h"
 #include "ITimer.h"
 #include "Vigasoco.h"

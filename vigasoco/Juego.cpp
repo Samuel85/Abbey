@@ -5,7 +5,7 @@
 #include <string>
 
 #include "cpc6128.h"
-#include "InputHandler.h"
+
 #include "IPalette.h"
 
 #include "Vigasoco.h"
@@ -15,7 +15,7 @@
 #include "Berengario.h"
 #include "Bernardo.h"
 #include "BuscadorRutas.h"
-#include "Controles.h"
+
 #include "GestorFrases.h"
 #include "Guillermo.h"
 #include "InfoJuego.h"
@@ -93,21 +93,19 @@ Juego::Juego(UINT8 *romData, CPC6128 *cpc)
 	}
 
 	// inicia los objetos del juego
-	for (int i = 0; i < numObjetos; i++){
+	for (int i = 0; i < numObjetos; i++)
+	{
 		objetos[i] = 0;
 	}
 
-	//timer = 0;
-
 	// crea los objetos principales que usar?? el juego
-	//paleta = new Paleta();
 	paleta = new Paleta(romData+0x24000-1); // le pasamos los datos de la paleta VGA
 	pergamino = new Pergamino();
 	motor = new MotorGrafico(buffer, 8192);
 	marcador = new Marcador();
 	logica = new Logica(roms, buffer, 8192); 
 	infoJuego = new InfoJuego();
-	controles = new Controles();
+	
 
 	pausa = false;
 	modoInformacion = false;
@@ -145,8 +143,7 @@ Juego::~Juego()
 	delete marcador;
 	delete motor;
 	delete pergamino;
-	delete paleta;
-	delete controles;
+	delete paleta;	
 }
 
 void Juego::ReiniciaPantalla(void)
@@ -223,8 +220,54 @@ bool Juego::menuCargar2()
 	return false;
 }
 
-void Juego::pintaMenuGrabar(int seleccionado,bool efecto)
+bool Juego::cargar(int slot)
 {
+	std::ifstream in(savefile[slot]);
+	in >> logica;
+	if (in.fail())
+	{
+		/* CPC
+		   elMarcador->imprimeFrase("            ", 110, 164, 2, 3);
+		   elMarcador->imprimeFrase("??????ERROR!!!", 110, 164, 2, 3); */
+		// VGA
+		elMarcador->imprimeFrase("                  ", 100, 164, 4, 0);
+		elMarcador->imprimeFrase("ERROR: PRESS SPACE", 100, 164, 4, 0);
+		// el juego ha podido quedar destrozado
+		// lo suyo seria cargar en un objeto logica temporal
+		// y luego intercambiar los punteros
+		// pero como es un singleton...
+		// intentemos , al menos, reiniciar
+		//do
+		//{
+		//	losControles->actualizaEstado();
+		//}while (losControles->estaSiendoPulsado(P1_BUTTON1) == false);
+
+		// CPC elMarcador->imprimeFrase("           ", 110, 164, 2, 3);
+		elMarcador->imprimeFrase("                  ", 100, 164, 4, 0);
+		logica->inicia();
+		// devolvemos true, para que se reinicie todo
+		return true;
+	}
+	else {return true;}
+}
+
+void Juego::save(int slot)
+{
+	std::ofstream out(savefile[slot],
+			std::ofstream::out|std::ofstream::trunc);
+
+	out << logica; 
+
+	if (out.fail())
+	{
+		// VGA
+		elMarcador->imprimeFrase("                  ", 100, 164, 4, 0);
+		elMarcador->imprimeFrase("ERROR: PRESS SPACE", 100, 164, 4, 0);		
+	}
+}
+
+void Juego::pintaMenuGrabar(int seleccionado,bool efecto)
+{	
 	// limpia el ??rea que ocupa el marcador
 	limpiaAreaJuego(0); 
 	marcador->limpiaAreaMarcador();	
@@ -233,25 +276,49 @@ void Juego::pintaMenuGrabar(int seleccionado,bool efecto)
 	// menu de izquierda a derecha y asi dar tiempo a soltar las teclas
 	// al usuario
 
-	// repinta todo el menu
-	for(int x=efecto?8:88;x<88;x+=10)
-	{
-		cpc6128->fillMode1Rect(8, 0, x-1, 160, 0);
-		for (int i=0;i<8;i++)
-		{
-			marcador->imprimeFrase(textSave[idioma][i], x, 32+(i*16),4, 0);
-		}		
-	}
 	cpc6128->fillMode1Rect(8, 0, 88, 160, 0);
-	for (int i=0;i<8;i++)
+	for (int i=0;i<7;i++)
 	{
-		marcador->imprimeFrase(textSave[idioma][i], 88, 32+(i*16),4, 0);
+		//marcador->imprimeFrase(textSave[idioma][i], 88, 32+(i*16),4, 0);
+		if (saveFileExist[i])
+		{
+			if (i == seleccionado)
+			{
+				marcador->imprimeFrase(textSave[idioma][i], 88, 32+(i*16),0, 4);
+			}
+			else 
+			{
+				marcador->imprimeFrase(textSave[idioma][i], 88, 32+(i*16),4, 0);
+			}			
+		}
+		else
+		{
+			if (i == seleccionado)
+			{
+				marcador->imprimeFrase("--", 88, 32+(i*16),0, 4);
+			}
+			else 
+			{
+				marcador->imprimeFrase("--", 88, 32+(i*16),4, 0);
+			}				
+		}
 	}
+	// Text for the option "Back"
+	if (seleccionado == 7)
+	{
+		marcador->imprimeFrase(textSave[idioma][7], 88, 32+(7*16),0, 4);
+	}
+	else
+	{
+		marcador->imprimeFrase(textSave[idioma][7], 88, 32+(7*16),4, 0);
+	}
+	
 
 	// pinta la opci??n seleccionado con el color de fondo y el color
 	// de letra cambiado 
-	marcador->imprimeFrase(textSave[idioma][seleccionado], 88, 
-		32+(seleccionado*16), 0, 4);
+
+	//marcador->imprimeFrase(textSave[idioma][seleccionado], 88, 
+	//	32+(seleccionado*16), 0, 4);
 	
 }
 bool Juego::menuGrabar2()
@@ -297,33 +364,7 @@ bool Juego::menuGrabar2()
 	return false;	
 }
 
-bool Juego::menuIntroduccion()
-{
-	limpiaAreaJuego(0);
-	pergamino->muestraTexto(Pergamino::pergaminoIntroduccion[idioma]);
 
-	// espera a que se suelte el bot??n
-	bool espera = true;
-
-	while (espera)
-	{
-		controles->actualizaEstado();		
-		espera = controles->estaSiendoPulsado(P1_BUTTON1);
-	}
-
-	// Es necesario ya que el pergamino 
-	// cambia la paleta
-	marcador->limpiaAreaMarcador();
-	ReiniciaPantalla();
-
-	while (	losControles->estaSiendoPulsado(P1_BUTTON1) ||
-			losControles->estaSiendoPulsado(KEYBOARD_INTRO) ) {
-		losControles->actualizaEstado();
-		//timer->sleep(50);
-	}
-
-	return false;
-}
 
 void Juego::pintaMenuMejoras(int seleccionado)
 {
@@ -343,26 +384,7 @@ void Juego::pintaMenuMejoras(int seleccionado)
 	
 }
 
-bool Juego::menuMejoras()
-{
-	limpiaAreaJuego(0);
 
-	pintaMenuMejoras(0);
-	{
-		bool salir=false;
-		while(salir==false) {	
-			//timer->sleep(100);
-			losControles->actualizaEstado();
-
-			if (losControles->estaSiendoPulsado(P1_BUTTON1) ||
-			    losControles->estaSiendoPulsado(KEYBOARD_INTRO) ) {
-				salir=true;
-			}
-		}
-	}
-
-	return false;
-}
 
 void Juego::pintaMenuCamaras(int seleccionado)
 {
@@ -382,32 +404,7 @@ void Juego::pintaMenuCamaras(int seleccionado)
 	
 }
 
-bool Juego::menuCamaras()
-{
-	limpiaAreaJuego(0);
 
-	pintaMenuCamaras(0);
-	{
-		bool salir=false;
-		while(salir==false) {	
-			//timer->sleep(100);
-			losControles->actualizaEstado();
-
-			if (losControles->estaSiendoPulsado(P1_BUTTON1) ||
-			    losControles->estaSiendoPulsado(KEYBOARD_INTRO) ) {
-				salir=true;
-			}
-		}
-	}
-
-	while (	losControles->estaSiendoPulsado(P1_BUTTON1) ||
-		losControles->estaSiendoPulsado(KEYBOARD_INTRO) ) {
-		losControles->actualizaEstado();
-		//timer->sleep(50);
-	}
-
-	return false;
-}
 
 void Juego::pintaMenuIdioma(int seleccionado,bool efecto)
 {
@@ -445,87 +442,43 @@ void Juego::pintaMenuIdioma(int seleccionado,bool efecto)
 
 bool Juego::menuIdioma()
 {
-	int seleccionado=idioma;
 	int pulsado=-1;
 
 	limpiaAreaJuego(0);
 
 	// pruebas menu elegir idioma
 	pintaMenuIdioma(seleccionado,true);
-	{
-		bool salir=false;
-		while(salir==false) {	
-			pulsado=-1;
-			//timer->sleep(100);
-			losControles->actualizaEstado();
-
-			if (losControles->estaSiendoPulsado(P1_DOWN)) {
-				seleccionado++;
-				if (seleccionado==8) seleccionado=0;
-				pintaMenuIdioma(seleccionado);
-			}
-			if (losControles->estaSiendoPulsado(P1_UP)) {
-				seleccionado--;
-				if (seleccionado==-1) seleccionado=7;
-				pintaMenuIdioma(seleccionado);
-			}
-			if (losControles->estaSiendoPulsado(P1_BUTTON1) ||
-			    losControles->estaSiendoPulsado(KEYBOARD_INTRO) ) {
-				pulsado=seleccionado;
-			}
-			
-			if (losControles->estaSiendoPulsado(KEYBOARD_0) ||
-				pulsado==0 )
-			{
-				idioma=0;
-				salir=true;
-			} 
-			if (losControles->estaSiendoPulsado(KEYBOARD_1) ||
-				pulsado==1 )
-			{
-				idioma=1;
-				salir=true;
-			}
-			if (losControles->estaSiendoPulsado(KEYBOARD_2) ||
-				pulsado==2 )
-			{
-				idioma=2;
-				salir=true;
-			}
-			if (losControles->estaSiendoPulsado(KEYBOARD_3) ||
-				pulsado==3 )
-			{
-				idioma=3;
-				salir=true;
-			}
-			if (losControles->estaSiendoPulsado(KEYBOARD_4) ||
-				pulsado==4 )
-			{
-				idioma=4;
-				salir=true;
-			}
-			if (losControles->estaSiendoPulsado(KEYBOARD_5) ||
-				pulsado==5 )
-			{
-				idioma=5;
-				salir=true;
-			}
-			if (losControles->estaSiendoPulsado(KEYBOARD_6) ||
-				pulsado==6 )
-			{
-				idioma=6;
-				salir=true;
-			}
-			if (losControles->estaSiendoPulsado(KEYBOARD_7) ||
-				pulsado==7 )
-			{
-				idioma=7;
-				salir=true;
-			} 
-		}
 	
-	}
+	bool salir=false;
 
+	pulsado=-1;
+				
+	if (sys->pad.down) {
+		seleccionado++;
+		
+		sys->pad.down = false;
+	}
+	else if (sys->pad.up) {
+		seleccionado--;
+						
+		sys->pad.up = false;
+	}
+	if (seleccionado==8) seleccionado=0;
+	else if (seleccionado==-1) seleccionado=7;
+
+	pintaMenuIdioma(seleccionado);
+
+	if (sys->pad.button1)
+	{
+		sys->pad.button1 = false;
+		pulsado=seleccionado;
+		idioma=seleccionado;
+
+		seleccionado = 8;
+		changeState(MENU);
+		return true;
+	}	
+	
 	return false;
 }
 
@@ -576,9 +529,13 @@ bool Juego::menu2()
 	}				
 	seleccionado += i;
 	if (seleccionado > 8)
-		seleccionado = 0;	
+	{
+		seleccionado = 0;
+	}
 	else if (seleccionado < 0)
+	{
 		seleccionado = 8;
+	}
 
 	pintaMenuPrincipal(seleccionado,true);	
 	if (sys->pad.button1)
@@ -587,26 +544,30 @@ bool Juego::menu2()
 		switch(seleccionado)
 		{
 			case 0: //IDIOMA
+				changeState(LANGUAGE);
+				ReiniciaPantalla();
+				paleta->setGamePalette(2);		
+				marcador->limpiaAreaMarcador();					
+				sys->pad.button1 = false;
+				contadorInterrupcion = 0;
 				break;
 			case 1: //CARGAR
-				//currentState = LOAD;
+				checkForSaveFiles();				
 				changeState(LOAD);
 				ReiniciaPantalla();
 				paleta->setGamePalette(2);		
-				marcador->limpiaAreaMarcador();	
-				ReiniciaPantalla();
+				marcador->limpiaAreaMarcador();					
 				sys->pad.button1 = false;
 				contadorInterrupcion = 0;
 				break;
 			case 2: //GRABAR
 				if (!firstTime)
 				{
-					//currentState = SAVE;
+					checkForSaveFiles();
 					changeState(SAVE);
 					ReiniciaPantalla();				
 					paleta->setGamePalette(2);		
-					marcador->limpiaAreaMarcador();	
-					ReiniciaPantalla();
+					marcador->limpiaAreaMarcador();						
 					sys->pad.button1 = false;
 					contadorInterrupcion = 0;
 				}
@@ -623,8 +584,7 @@ bool Juego::menu2()
 				break;			
 			case 8: //JUGAR
 				if (firstTime)
-				{				
-					//currentState = SCROLL;
+				{									
 					changeState(SCROLL);
 					ReiniciaPantalla();
 					paleta->setGamePalette(2);		
@@ -680,6 +640,9 @@ void Juego::stateMachine()
 		case INTRO:			
 			muestraPresentacion();
 			break;
+		case LANGUAGE:
+			menuIdioma();
+			break;
 		case MENU:
 			menu2();
 			break;
@@ -701,16 +664,45 @@ void Juego::stateMachine()
 	}
 }
 
+// check for save files correct the menu options
+void Juego::checkForSaveFiles()
+{
+	FILE *f;
+	
+	#ifdef RG350
+	char filename[] = "/usr/local/home/Abbey/abadiaX.save";
+	#else
+	char filename[] = "abadiaX.save";
+	#endif 
+
+	for (int i=0;i<7;i++)
+	{
+		#ifdef RG350
+		filename[28] = i + '0';
+		#else
+		filename[6] = i + '0';
+		#endif		
+
+		if (f = fopen(&filename[0],"r"))
+		{
+			fclose(f);
+			saveFileExist[i] = true;
+			//std::cout << filename << ": True" << std::endl;
+		}
+		else
+		{
+			saveFileExist[i] = false;
+			//std::cout << filename << ": False" << std::endl;
+		}
+	}
+}
+
 void Juego::run()
 {	
 		elBuscadorDeRutas->contadorAnimGuillermo = laLogica->guillermo->contadorAnimacion;
 		
 		logica->compruebaAbreEspejo();
 		
-		compruebaPausa();
-		
-		compruebaSave();
-	
 		logica->actualizaVariablesDeTiempo();
 
 		// si guillermo ha muerto, empieza una partida
@@ -730,7 +722,8 @@ void Juego::run()
 
 		logica->compruebaAbrirCerrarPuertas();
 				
-		for (int i = 0; i < numPersonajes; i++){
+		for (int i = 0; i < numPersonajes; i++)
+		{
 			personajes[i]->run();
 		}
 		
@@ -765,16 +758,10 @@ void Juego::run()
 		}
 	
 		if (laLogica->guillermo->contadorAnimacion==1)
-		{
-			//audio_plugin->Play(SONIDOS::Pasos);
+		{			
 			sys->playSound(STEPS);
 		}
 	
-}
-
-void Juego::updateScreen(){
-	//motor->dibujaPantalla();
-	//motor->dibujaSprites();	
 }
 
 // limpia el ??rea de juego de color que se le pasa y los bordes de negro
@@ -964,24 +951,6 @@ void Juego::actualizaLuz()
 	sprLuz->ajustaAPersonaje(personajes[1]);
 }
 
-// comprueba si se debe pausar el juego
-void Juego::compruebaPausa()
-{
-	// si se ha pulsado suprimir, se para hasta que se vuelva a pulsar
-	//if (controles->seHaPulsado(KEYBOARD_SUPR)){
-	//	pausa = true;
-
-	//	while (true){
-	//		controles->actualizaEstado();
-	//		timer->sleep(10);
-	//		if (controles->seHaPulsado(KEYBOARD_SUPR)){
-	//			pausa = false;
-	//			break;
-	//		}
-	//	}
-	//}
-}
-
 // comprueba si se desea cambiar los graficos VGA por CPC
 void Juego::cambioCPC_VGA()
 {
@@ -1010,170 +979,9 @@ void Juego::cambioCPC_VGA()
 
 	// genera los gr??ficos flipeados en x de las entidades que lo necesiten
 	generaGraficosFlipeados();
-
 	ReiniciaPantalla();		
 }
 
-
-// comprueba si se desea cambiar los graficos VGA por CPC
-void Juego::compruebaCambioCPC_VGA()
-{
-	// ESTE FUNCIONAMIENTO NO SE CORRESPONDE
-	// CON EL DE LA VERSION ORIGINAL
-	if (controles->seHaPulsado(FUNCTION_2))
-	{
-		// adelanto las inicializaciones antes del pergamino inicial
-		// para que se pueda llamar a ReiniciaPantalla en cambioCPC_VGA
-		cambioCPC_VGA();
-	}
-}
-
-bool Juego::cargar(int slot)
-{
-	std::ifstream in(savefile[slot]);
-	in >> logica;
-	if (in.fail())
-	{
-		/* CPC
-		   elMarcador->imprimeFrase("            ", 110, 164, 2, 3);
-		   elMarcador->imprimeFrase("??????ERROR!!!", 110, 164, 2, 3); */
-		// VGA
-		elMarcador->imprimeFrase("                  ", 100, 164, 4, 0);
-		elMarcador->imprimeFrase("ERROR: PRESS SPACE", 100, 164, 4, 0);
-		// el juego ha podido quedar destrozado
-		// lo suyo seria cargar en un objeto logica temporal
-		// y luego intercambiar los punteros
-		// pero como es un singleton...
-		// intentemos , al menos, reiniciar
-		do
-		{
-			losControles->actualizaEstado();
-		}while (losControles->estaSiendoPulsado(P1_BUTTON1) == false);
-
-		// CPC elMarcador->imprimeFrase("           ", 110, 164, 2, 3);
-		elMarcador->imprimeFrase("                  ", 100, 164, 4, 0);
-		logica->inicia();
-		// devolvemos true, para que se reinicie todo
-		return true;
-	}
-	else {return true;}
-}
-
-void Juego::save(int slot)
-{
-	std::ofstream out(savefile[slot],
-			std::ofstream::out|std::ofstream::trunc);
-
-	out << logica; 
-
-	if (out.fail())
-	{
-		/* CPC
-		   elMarcador->imprimeFrase("            ", 110, 164, 2, 3);
-		   elMarcador->imprimeFrase("??????ERROR!!!", 110, 164, 2, 3); */
-		// VGA
-		elMarcador->imprimeFrase("                  ", 100, 164, 4, 0);
-		elMarcador->imprimeFrase("ERROR: PRESS SPACE", 100, 164, 4, 0);
-		do{
-			losControles->actualizaEstado();
-		}while (losControles->estaSiendoPulsado(P1_BUTTON1) == false);
-	}
-}
-
-// comprueba si se desea grabar la partida
-void Juego::compruebaSave()
-{
-	// ESTE FUNCIONAMIENTO NO SE CORRESPONDE
-	// CON EL DE LA VERSION ORIGINAL
-
-	if (controles->seHaPulsado(KEYBOARD_G))
-	{
-		// Frase vacia para parar la frase actual
-		elGestorFrases->muestraFraseYa(0x38);
-		
-		// Esperamos a que se limpie el marcador
-		while (elGestorFrases->mostrandoFrase)
-		{
-			elGestorFrases->actualizaEstado();
-		} 
-
-		// Preguntamos
-		// CPC elMarcador->imprimeFrase("??GRABAR? S:N", 110, 164, 2, 3);
-		//elMarcador->imprimeFrase(",.W??", 110, 164, 4, 0); // VGA
-		elMarcador->imprimeFrase("??GRABAR? S:N", 110, 164, 4, 0); // VGA
-		//se estaba guardando el ?? como multibyte c2bf 
-		// en vez de un simple char bf
-		// con imprimeFrase no se cambia la ?? por la W
-		// la ?? por el caracter adecuado ...
-		//elMarcador->imprimeFrase("\xbfGRABAR? S:N", 110, 164, 4, 0); // VGA
-		// TODO esto deberia tener su numero de frase  y estar traducido
-		// e imprimirse con  
-		//elGestorFrases->muestraFrase??ya?
-
-		do
-		{
-			losControles->actualizaEstado();
-			if (losControles->estaSiendoPulsado(KEYBOARD_S))
-			{
-				save(0);
-				break;
-			}
-		}while (losControles->estaSiendoPulsado(KEYBOARD_N) == false);
-		elGestorFrases->muestraFraseYa(0x38);
-	}
-}
-
-
-// comprueba si se desea cargar la partida
-bool Juego::compruebaLoad()
-{
-	// ESTE FUNCIONAMIENTO NO SE CORRESPONDE
-	// CON EL DE LA VERSION ORIGINAL
-
-	if (controles->seHaPulsado(KEYBOARD_C))
-	{
-		// Frase vacia para parar la frase actual
-		elGestorFrases->muestraFraseYa(0x38);
-
-		// Esperamos a que se limpie el marcador
-		while (elGestorFrases->mostrandoFrase)
-		{
-			elGestorFrases->actualizaEstado();
-		} 
-
-		// Preguntamos
-		// CPC elMarcador->imprimeFrase("??CARGAR? S:N", 110, 164, 2, 3);
-		elMarcador->imprimeFrase("??CARGAR? S:N", 110, 164, 4, 0);  // VGA
-
-		do
-		{
-			losControles->actualizaEstado();
-			if (losControles->estaSiendoPulsado(KEYBOARD_S))
-			{
-				return cargar(0);
-			}
-
-		}while (losControles->estaSiendoPulsado(KEYBOARD_N) == false);
-		elGestorFrases->muestraFraseYa(0x38);
-	} 
-	return false;
-}
-
-// comprueba si se desea entrar en el menu
-bool Juego::compruebaMenu()
-{
-	// ESTE FUNCIONAMIENTO NO SE CORRESPONDE
-	// CON EL DE LA VERSION ORIGINAL
-
-	if (controles->seHaPulsado(KEYBOARD_Z))
-	{
-		bool res=menu2();
-		motor->compruebaCambioPantalla(true);	
-		return res;
-	}
-
-	return false;
-}
 
 /////////////////////////////////////////////////////////////////////////////
 // m??todos para mostrar distintas las pantallas de distintas situaciones del juego
@@ -1283,20 +1091,20 @@ bool Juego::muestraPantallaFinInvestigacion()
 	// espera a que se pulse y se suelte el bot??n
 	bool espera = true;
 
-	while (espera)
-	{
-		controles->actualizaEstado();		
-		espera = !(controles->estaSiendoPulsado(P1_BUTTON1) || controles->estaSiendoPulsado(KEYBOARD_SPACE));
-	}
+	//while (espera)
+	//{
+	//	controles->actualizaEstado();		
+	//	espera = !(controles->estaSiendoPulsado(P1_BUTTON1) || controles->estaSiendoPulsado(KEYBOARD_SPACE));
+	//}
 
 	espera = true;
 
 	// TODO Revisar por que esta esto duplicado
-	while (espera)
-	{
-		controles->actualizaEstado();		
-		espera = controles->estaSiendoPulsado(P1_BUTTON1) || controles->estaSiendoPulsado(KEYBOARD_SPACE);
-	}
+	//while (espera)
+	//{
+	//	controles->actualizaEstado();		
+	//	espera = controles->estaSiendoPulsado(P1_BUTTON1) || controles->estaSiendoPulsado(KEYBOARD_SPACE);
+	//}
 
 	return true;
 }

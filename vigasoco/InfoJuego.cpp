@@ -12,7 +12,6 @@
 #include "FontManager.h"
 
 
-#include "Controles.h"
 #include "GeneradorPantallas.h"
 #include "Guillermo.h"
 #include "InfoJuego.h"

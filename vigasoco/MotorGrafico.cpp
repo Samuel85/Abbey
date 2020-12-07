@@ -319,7 +319,8 @@ void MotorGrafico::dibujaSprites()
 
 void MotorGrafico::dibujaPantalla()
 {
-	if (hayQueRedibujar){
+	if (hayQueRedibujar)
+	{
 		// elige un color de fondo seg?n el tipo de pantalla
 		// CPC int colorFondo = (pantallaIluminada) ? 0 : 3;
 		int colorFondo = (pantallaIluminada) ? 12 : 0; // VGA 
@@ -348,23 +349,15 @@ void MotorGrafico::dibujaPantalla()
 			genPant->Parchea(numPantalla);
 		}
 
+		
 		// si es una pantalla iluminada, dibuja el contenido del buffer de tiles
-		if (pantallaIluminada){			
+		if (pantallaIluminada)
+		{	
 			genPant->dibujaBufferTiles();
-			//genPant->tilesAnimationCounter = 1;
-			//genPant->x = 7;
-			//genPant->y = 8;			
 		}
 
 		hayQueRedibujar = false;
 	}
-	// to do the fancy animation of the screen transition
-	//if (genPant->tilesAnimationCounter == 0){
-	//	dibujaSprites();
-	//}
-	//else{
-	//	genPant->dibujaBufferTiles();		
-	//}
 	
 }
 

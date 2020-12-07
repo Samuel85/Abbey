@@ -6,7 +6,7 @@
 #include "Berengario.h"
 #include "Bernardo.h"
 #include "BuscadorRutas.h"
-#include "Controles.h"
+
 #include "GestorFrases.h"
 #include "Guillermo.h"
 #include "Juego.h"

@@ -10,7 +10,7 @@
 #include "Berengario.h"
 #include "Bernardo.h"
 #include "BuscadorRutas.h"
-#include "Controles.h"
+
 #include "GestorFrases.h"
 #include "Guillermo.h"
 #include "Jorge.h"
@@ -154,7 +154,7 @@ void Logica::actualizaBonusYCamara()
 	// ???ojo!!! estas teclas (1-7) se usan tambien para infuego.cpp
 	// aunque algunas no funcionan en SDL por carencias del SDLVideoPlugin
 	// pero 5 y 6 si coinciden: ??? CAMBIAR EN INFOJUEGO !!!
-	if (losControles->estaSiendoPulsado(KEYBOARD_1)) 
+/* 	if (losControles->estaSiendoPulsado(KEYBOARD_1)) 
 	{
 		opcionPersonajeCamara=3; // abad
 		return;
@@ -195,9 +195,10 @@ void Logica::actualizaBonusYCamara()
 		opcionPersonajeCamara=1; // adso
 		return;
 	}
+
 	// cuando hacemos trampa, hacemos return y salimos para evitar
 	// que se nos vaya a la camara real que corresponde
-
+	*/
 	// comprueba si hay que seguir a berengario
 	if (((berengario->aDondeVa == POS_LIBRO) && (berengario->posX < 0x50) && (berengario->estaVivo)) ||	(berengario->aDondeVa == POS_ABAD)){
 		// si va al scriptorium a por el libro o va a avisar al abad, indica el posible cambio de c?mara
@@ -215,7 +216,8 @@ void Logica::actualizaBonusYCamara()
 	}
 
 	// comprueba si hay que seguir al abad
-	if (((momentoDia == SEXTA) && (abad->aDondeHaLlegado >= 2)) || (abad->estado == 0x15) || (abad->guillermoHaCogidoElPergamino) || (abad->estado == 0x0b)){
+	if (((momentoDia == SEXTA) && (abad->aDondeHaLlegado >= 2)) || 
+		(abad->estado == 0x15) || (abad->guillermoHaCogidoElPergamino) || (abad->estado == 0x0b)){
 		// si en sexta va a alg?n lugar interesante o si va a dejar el pergamino a su celda o si berengario le ha dicho
 		// que bernardo tiene el pergamino o si est? en estado de echar a guillermo, indica el posible cambio de c?mara
 		opcionPersonajeCamara = 3;
@@ -286,7 +288,7 @@ void Logica::actualizaBonusYCamara()
 	// si ha entrado en la habitaci?n que hay detr?s del espejo
 	if (elMotorGrafico->numPantalla == 0x72){
 		bonus |= 0x0200;
-	}
+	} 
 }
 
 void Logica::compruebaBonusYCambiosDeCamara()
@@ -567,9 +569,9 @@ void Logica::compruebaFinMomentoDia()
 {
 	// si se pulsa intro, avanza el momento del d?a (s?lo en modo informaci?n)
 	// NOTA: usar esto con mucho cuidado ya que puede romper la l?gica normal del juego al no producirse algunos eventos
-	if (losControles->seHaPulsado(KEYBOARD_INTRO) && elJuego->modoInformacion){
-		elMarcador->avanzaMomentoDia();
-	}
+	//if (losControles->seHaPulsado(KEYBOARD_INTRO) && elJuego->modoInformacion){
+	//	elMarcador->avanzaMomentoDia();
+	//}
 
 	// si esta etapa del d?a tiene una duraci?n programada, comprueba si ha terminado
 	if (duracionMomentoDia != 0){

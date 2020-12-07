@@ -6,7 +6,7 @@
 
 #include "Adso.h"
 #include "BuscadorRutas.h"
-#include "Controles.h"
+
 #include "GestorFrases.h"
 #include "GeneradorPantallas.h"
 #include "Guillermo.h"

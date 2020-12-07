@@ -7,7 +7,7 @@
 #include "FileLoader.h"
 #include "FontManager.h"
 #include "IInputPlugin.h"
-#include "InputHandler.h"
+
 #include "VigasocoSDL.h"
 
 

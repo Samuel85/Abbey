@@ -63,6 +63,14 @@ GeneradorPantallas::GeneradorPantallas()
 
 	// genera las m�scaras para combinar los pixels
 	generaMascaras();
+	tilesAnimationCounter = 0;
+	x = 7;
+	y = 8;
+
+	abajo   = 4;
+	derecha = 1;
+	arriba  = 5;
+	izquierda=2;
 
 }
 
@@ -822,14 +830,12 @@ int GeneradorPantallas::evaluaExpresion(int rdo)
 /////////////////////////////////////////////////////////////////////////////
 
 // dibuja en pantalla el contenido del buffer de tiles desde el centro hacia fuera
-void GeneradorPantallas::dibujaBufferTiles()
+//void GeneradorPantallas::dibujaBufferTiles()
+bool GeneradorPantallas::dibujaBufferTiles()
 {
 	// posici�n inicial en el buffer de tiles
 	int x = 7;
 	int y = 8;
-
-	// obtiene acceso al temporizador
-	//TimingHandler *timer = elJuego->timer;
 
 	// fija las variables de recorrido
 	int abajo = 4;	
@@ -837,12 +843,6 @@ void GeneradorPantallas::dibujaBufferTiles()
 	int arriba = abajo + 1;
 	int izquierda = derecha + 1;
 	
-	//int abajo, derecha, arriba, izquierda;		
-	//abajo   = 4 + 2*(tilesAnimationCounter-1);	
-	//derecha = 1 + 2*(tilesAnimationCounter-1);
-	//arriba  = 5 + 2*(tilesAnimationCounter-1);
-	//izquierda=2 + 2*(tilesAnimationCounter-1);	
-
 	// milisegundos que esperar entre iteraciones para ver el efecto
 	//const int retardo = 100;
 
@@ -863,15 +863,55 @@ void GeneradorPantallas::dibujaBufferTiles()
 		derecha += 2;
 		arriba += 2;
 		izquierda += 2;
-		//tilesAnimationCounter++;
 
 		// espera un poco para que se vea el resultado
 		//timer->sleep(retardo);		
 	}
-	//else{
-	//	tilesAnimationCounter = 0;
-	//}
+	return false;
 }
+
+bool GeneradorPantallas::dibujaBufferTiles2()
+{
+	// posici�n inicial en el buffer de tiles	
+	bool ret = false;
+
+	//int abajo, derecha, arriba, izquierda;		
+	
+
+	// milisegundos que esperar entre iteraciones para ver el efecto
+	//const int retardo = 100;
+
+	// repite mientras no se complete toda la pantalla visible
+	if (abajo < 20)
+	{
+		// dibuja 4 tiras: una hacia abajo, otra a la derecha, otra hacia arriba y la otra a la izquierda
+		dibujaTira(x, y, 0, 1,  abajo);
+		dibujaTira(x, y, 1, 0,  derecha);
+		dibujaTira(x, y, 0, -1,  arriba);
+		dibujaTira(x, y, -1, 0, izquierda); 
+
+		// aumenta el tama�o del rect�ngulo que dibuja
+		abajo += 2;
+		derecha += 2;
+		arriba += 2;
+		izquierda += 2;		
+		ret = false;
+	}
+	else
+	{				
+		x = 7;
+		y = 8;
+
+		abajo   = 4;
+		derecha = 1;
+		arriba  = 5;
+		izquierda=2;
+		ret = true;
+	}
+	return ret;
+}
+
+
 
 // dibuja una tira de tiles
 void GeneradorPantallas::dibujaTira(int &x, int &y, int deltaX, int deltaY, int veces)

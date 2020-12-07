@@ -11,7 +11,6 @@
 #define TEXTURE_WIDTH 640
 #define TEXTURE_HEIGHT 400
 #define WINDOW_TITLE "Abbey"
-
 #define GAME_FRAME_TIME 130
 #define SCROLL_FRAME_TIME 10
 
@@ -42,6 +41,18 @@ enum SOUNDFILES{
 
   TOTAL_SOUND_FILES
 };	
+
+enum STATES{
+	INTRO,
+	SCROLL,
+	MENU,
+	LANGUAGE,
+	LOAD,
+	SAVE,	
+	PLAY,
+	ENDING
+};
+
 static const char* const
 soundsPathList[] = {
 	"./roms/abadia/abrir.wav",
@@ -55,32 +66,31 @@ soundsPathList[] = {
 	"./roms/abadia/tintineo.wav",
 	};
 
-struct PlayerInput{
+struct PlayerInput
+{
 	bool up, down, left, right, button1, button2, button3, button4;
 	bool start;
 };
 
-struct System{	
+struct System
+{	
 	PlayerInput pad;
 	bool exit = false;
-	bool informationMode = false;
-	
+	bool informationMode = false;	
 	bool enableJoystick = false;
 	bool fullscreen = false;
 	int w = WINDOW_WIDTH;
 	int h = WINDOW_HEIGHT;
+	int minimumFrameTime = GAME_FRAME_TIME;
 
 	SDL_Surface *surface;
 	SDL_Renderer *renderer;
 	SDL_Texture *texture;
 	SDL_Window *window;
-	TTF_Font *font;
-	
+	TTF_Font *font;	
 	std::vector<Mix_Chunk*>sounds;
 	std::vector<Mix_Music*>music;
 	
-	int minimumFrameTime = GAME_FRAME_TIME;
-
 	void init();
 	void quit();
 	void playMusic(int i);
@@ -88,23 +98,23 @@ struct System{
 	void playSound(int i);
 	void updateScreen();
 	void handleEvents();
-
-	void setFastSpeed(){
+	void setFastSpeed()
+	{
 		minimumFrameTime = SCROLL_FRAME_TIME;
 	}	
-	void setNormalSpeed(){
+	void setNormalSpeed()
+	{
 		minimumFrameTime = GAME_FRAME_TIME;
 	}
-	
-	inline Uint32 RGBA(Uint8 r, Uint8 g, Uint8 b, Uint8 a){
+	inline Uint32 RGBA(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+	{
 		return SDL_MapRGBA(surface->format, r,g,b,a);
 	}
-	inline void updateTexture(){
+	inline void updateTexture()
+	{
 		SDL_UpdateTexture(texture, NULL, surface->pixels, surface->pitch);
 	}
 };
-
 extern System *const sys;
-
 
 #endif

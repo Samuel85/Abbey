@@ -7,41 +7,27 @@
 #ifndef _ABADIA_JUEGO_H_
 #define _ABADIA_JUEGO_H_
 
+#include <stdio.h>
 
 #include "Singleton.h"
 #include "Types.h"
 #include "Paleta.h"
 
 class CPC6128;					// definido en CPC6128.h
-class IAudioPlugin;				// definido en IAudioPlugin.h
-class TimingHandler;			// definido en TimingHandler.h
 
 namespace Abadia {
 
-class Controles;				// definido en Controles.h
 class InfoJuego;				// definido en InfoJuego.h
 class Logica;					// definido en Logica.h
 class Marcador;					// definido en Marcador.h
 class MotorGrafico;				// definido en MotorGrafico.h
 class Objeto;					// definido en Objeto.h
-//class Paleta;					// definido en Paleta.h
 class Pergamino;				// definido en Pergamino.h
 class Personaje;				// definido en Personaje.h
 class Puerta;					// definido en Puerta.h
 class Sprite;					// definido en Sprite.h
 
 #define elJuego Juego::getSingletonPtr()
-
-enum STATES{
-	INTRO,
-	SCROLL,
-	MENU,
-	LOAD,
-	SAVE,	
-	PLAY,
-	ENDING
-};
-
 
 class Juego : public Singleton<Juego>
 {
@@ -75,10 +61,8 @@ public:
 			  // o del GraficosVGA
 			  // En ambos casos, son de 8 bits
 	CPC6128 *cpc6128;						// objeto de ayuda para realizar operaciones gr??ficas del cpc6128
-	IAudioPlugin *audio_plugin;	// puntero al plugin de audio
-	Controles *controles;					// acceso a los controles del juego
+	
 	Paleta *paleta;							// paleta del juego
-	//TimingHandler *timer;					// manejador del temporizador
 	UINT8 buffer[8192];						// buffer para mezclar los sprites y para buscar las rutas
 	UINT8 *roms;							// puntero a las roms originales
 
@@ -99,11 +83,9 @@ public:
 	bool cambioModoInformacion; // se ha cambiado el estado
 	InfoJuego *infoJuego;					// objeto para mostrar informaci??n interna del juego
 	int currentState;
-	int firstTime;
-
-	
+	int firstTime;	
 	int seleccionado;
-// m??todos
+
 private:
 	bool cargar(int slot);
 	void save(int slot);
@@ -115,8 +97,6 @@ private:
 	void pintaMenuGrabar(int seleccionado,bool efecto=false);
 	bool menuGrabar(void);
 	bool menuGrabar2(void);
-
-	//void pintaMenuIntroduccion(int seleccionado); //NO SE USA
 	bool menuIntroduccion(void);
 	void pintaMenuTeclado(int seleccionado);
 	bool menuTeclado(void);
@@ -144,7 +124,6 @@ public:
 	// bucle principal del juego
 	void preRun();
 	void run();
-	void updateScreen();
 	void run2();
 	void stateMachine();
 	void changeState(int newState);
@@ -152,7 +131,7 @@ public:
 	// inicializaci??n y limpieza
 	Juego(UINT8 *romData, CPC6128 *cpc);
 	~Juego();
-		bool showingMenu;
+	bool showingMenu;
 
 protected:
 	void muestraPresentacion();
@@ -166,10 +145,9 @@ protected:
 	void flipeaGraficos(UINT8 *tablaFlip, UINT8 *src, UINT8 *dest, int ancho, int bytes);
 	void generaGraficosFlipeadosVGA();
 	void flipeaGraficosVGA(UINT8 *src, UINT8 *dest, int ancho, int bytes);
-
-	void compruebaPausa();
-	bool compruebaLoad();
-	void compruebaSave();
+	
+	void checkForSaveFiles();
+	bool saveFileExist[7];
 };
 
 

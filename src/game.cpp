@@ -37,10 +37,10 @@ void Game::mainLoop()
 void Game::handleEvents()
 {
 	sys->handleEvents();
-	//if (sys->pad.start)	vigasocosdl->showMenu();
+		
 	if (sys->pad.start)
 	{	
-		vigasocosdl->changeState(Abadia::STATES::MENU);
+		vigasocosdl->changeState(MENU);
 		sys->pad.start = false;
 	}
 }

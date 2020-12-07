@@ -10,7 +10,6 @@
 #include "GameDataEntity.h"
 #include "GameDriver.h"
 #include "GfxData.h"
-#include "InputHandler.h"
 
 #include "system.h"
 
@@ -276,22 +275,26 @@ void AbadiaDriver::render(IDrawPlugin *dp)
 	//de abadia.dsk seria diferente
 
 	UINT8 *posPant = cpc6128->screenBuffer;
-	
+	UINT8 *posPantTmp = NULL;
 	// dibuja los datos que el juego escribe en el otro hilo en el buffer de pantalla
-	void *pixels = sys->surface->pixels;
+	uint8_t *pixels = (uint8_t*)sys->surface->pixels;
 	int pitch = sys->surface->pitch;
 	Uint32 *p = NULL;
 	Uint8 *dirtyByte, bit, r,g,b;
 	bool dirty = false;	
 	int data;
-	
-	for (int y = 0; y < 200; y++){
+
+	/*	
+	for (int y = 0; y < 200; y++)
+	{
 		p = (Uint32 *)(pixels + pitch*y);			
-		for (int x = 0; x < 640; x++){
+		for (int x = 0; x < 640; x++)
+		{
 			dirtyByte = &(cpc6128->DirtyPixels[(y*640 + x)/8]);
 			bit = 1<<((y*640 + x)%8);
 			dirty = *dirtyByte & bit;
-			if (dirty){
+			if (dirty)
+			{
 				*dirtyByte = *dirtyByte & (~bit);
 				data = *posPant;														
 				r = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].R;
@@ -304,7 +307,37 @@ void AbadiaDriver::render(IDrawPlugin *dp)
 			posPant++;
 		}
 	}
-	
+	*/
+	//p = (Uint32 *)(pixels + pitch*y);
+	p = (Uint32 *)pixels;
+	for (int y = 0; y < TEXTURE_HEIGHT>>1; y++)
+	{	
+		posPantTmp = posPant;			
+		for (int x = 0; x < TEXTURE_WIDTH; x++)
+		{			
+			data = *posPant;														
+			r = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].R;
+			g = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].G;
+			b = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].B;															
+			*p = sys->RGBA(r,g,b,0xFF);
+			
+			p++;
+			posPant++;
+		}
+		posPant = posPantTmp;
+		for (int x = 0; x < TEXTURE_WIDTH; x++)
+		{			
+			data = *posPant;														
+			r = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].R;
+			g = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].G;
+			b = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].B;															
+			*p = sys->RGBA(r,g,b,0xFF);
+			
+			p++;
+			posPant++;
+		}
+	}
+
 	sys->updateTexture();
 }
 

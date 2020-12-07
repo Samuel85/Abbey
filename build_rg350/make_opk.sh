@@ -1,15 +1,15 @@
 #!/bin/sh
 
-OPK_NAME=abadia.opk
+OPK_NAME=abbey.opk
 
 echo ${OPK_NAME}
 
 # create default.gcw0.desktop
 cat > default.gcw0.desktop <<EOF
 [Desktop Entry]
-Name=Abadia
-Comment=La Abadia del Crimen
-Exec=abadia
+Name=Abbey
+Comment=The Abbey of Crime
+Exec=abbey
 Terminal=false
 Type=games
 StartupNotify=true
@@ -19,7 +19,7 @@ X-OD-NeedsDownscaling=true
 EOF
 
 # create opk
-FLIST="abadia ./roms/"
+FLIST="abbey ./roms/"
 FLIST="${FLIST} default.gcw0.desktop"
 FLIST="${FLIST} icon.png"
 

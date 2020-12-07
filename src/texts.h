@@ -25,7 +25,7 @@ const char * menuText[8][9] =
 		"JUGAR"
 	},
 	{ // 1 INGLES
-		"IDIOMA" , 
+		"LANGUAGE" , 
 		"LOAD GAME" ,
 		"SAVE GAME" ,
 		"GRAPHICS VGA-CPC" ,
@@ -191,84 +191,84 @@ const char * textSave[8][8] =
  const char * textLanguage[8][8] = 
 	{ 
 		{ // 0 Castellano
-			"0 CASTELLANO" , 
-			"1 ENGLISH" ,
-			"2 PORTUGU??S BRASIL" ,
-			"3 CATAL??N" ,
-			"4 GALLEGO" ,
-			"5 ITALIANO",
-			"6 FINES",
-			"7 PORTUGU??S"
+			"CASTELLANO" , 
+			"ENGLISH" ,
+			"PORTUGU??S BRASIL" ,
+			"CATAL??N" ,
+			"GALLEGO" ,
+			"ITALIANO",
+			"FINES",
+			"PORTUGU??S"
 		},
 		{ // 1 INGLES
-			"0 CASTELLANO" , 
-			"1 ENGLISH" ,
-			"2 PORTUGU??S BRASIL" ,
-			"3 CATAL??N" ,
-			"4 GALLEGO" ,
-			"5 ITALIANO",
-			"6 FINES",
-			"7 PORTUGU??S"
+			"CASTELLANO" , 
+			"ENGLISH" ,
+			"PORTUGU??S BRASIL" ,
+			"CATAL??N" ,
+			"GALLEGO" ,
+			"ITALIANO",
+			"FINES",
+			"PORTUGU??S"
 		},
 		{ // 2 PORTUGUES BRASIL
-			"0 CASTELLANO" , 
-			"1 ENGLISH" ,
-			"2 PORTUGU??S BRASIL" ,
-			"3 CATAL??N" ,
-			"4 GALLEGO" ,
-			"5 ITALIANO",
-			"6 FINES",
-			"7 PORTUGU??S"
+			"CASTELLANO" , 
+			"ENGLISH" ,
+			"PORTUGU??S BRASIL" ,
+			"CATAL??N" ,
+			"GALLEGO" ,
+			"ITALIANO",
+			"FINES",
+			"PORTUGU??S"
 		},
 		{ // 3 CATALAN
-			"0 CASTELLANO" , 
-			"1 ENGLISH" ,
-			"2 PORTUGU??S BRASIL" ,
-			"3 CATAL??N" ,
-			"4 GALLEGO" ,
-			"5 ITALIANO",
-			"6 FINES",
-			"7 PORTUGU??S"
+			"CASTELLANO" , 
+			"ENGLISH" ,
+			"PORTUGU??S BRASIL" ,
+			"CATAL??N" ,
+			"GALLEGO" ,
+			"ITALIANO",
+			"FINES",
+			"PORTUGU??S"
 		},
 		{ // 4 GALLEGO
-			"0 CASTELLANO" , 
-			"1 ENGLISH" ,
-			"2 PORTUGU??S BRASIL" ,
-			"3 CATAL??N" ,
-			"4 GALLEGO" ,
-			"5 ITALIANO",
-			"6 FINES",
-			"7 PORTUGU??S"
+			"CASTELLANO" , 
+			"ENGLISH" ,
+			"PORTUGU??S BRASIL" ,
+			"CATAL??N" ,
+			"GALLEGO" ,
+			"ITALIANO",
+			"FINES",
+			"PORTUGU??S"
 		},
 		{ // 5 ITALIANO
-			"0 CASTELLANO" , 
-			"1 ENGLISH" ,
-			"2 PORTUGU??S BRASIL" ,
-			"3 CATAL??N" ,
-			"4 GALLEGO" ,
-			"5 ITALIANO",
-			"6 FINES",
-			"7 PORTUGU??S"
+			"CASTELLANO" , 
+			"ENGLISH" ,
+			"PORTUGU??S BRASIL" ,
+			"CATAL??N" ,
+			"GALLEGO" ,
+			"ITALIANO",
+			"FINES",
+			"PORTUGU??S"
 		},
 		{ // 6 FINES
-			"0 CASTELLANO" , 
-			"1 ENGLISH" ,
-			"2 PORTUGU??S BRASIL" ,
-			"3 CATAL??N" ,
-			"4 GALLEGO" ,
-			"5 ITALIANO",
-			"6 FINES",
-			"7 PORTUGU??S"
+			"CASTELLANO" , 
+			"ENGLISH" ,
+			"PORTUGU??S BRASIL" ,
+			"CATAL??N" ,
+			"GALLEGO" ,
+			"ITALIANO",
+			"FINES",
+			"PORTUGU??S"
 		},
 		{ // 7 PORTUGUES
-			"0 CASTELLANO" , 
-			"1 ENGLISH" ,
-			"2 PORTUGU??S BRASIL" ,
-			"3 CATAL??N" ,
-			"4 GALLEGO" ,
-			"5 ITALIANO",
-			"6 FINES",
-			"7 PORTUGU??S"
+			"CASTELLANO" , 
+			"ENGLISH" ,
+			"PORTUGU??S BRASIL" ,
+			"CATAL??N" ,
+			"GALLEGO" ,
+			"ITALIANO",
+			"FINES",
+			"PORTUGU??S"
 		}
 	};
 
