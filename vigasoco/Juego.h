@@ -13,6 +13,11 @@
 #include "Types.h"
 #include "Paleta.h"
 
+#include "../ConfigReader/configreader.h"
+#include <string>
+#include <iostream>
+#include <cstdlib>
+
 class CPC6128;					// definido en CPC6128.h
 
 namespace Abadia {
@@ -85,6 +90,7 @@ public:
 	int currentState;
 	int firstTime;	
 	int seleccionado;
+	ConfigReader *configReader;
 
 private:
 	bool cargar(int slot);
@@ -148,6 +154,11 @@ protected:
 	
 	void checkForSaveFiles();
 	bool saveFileExist[7];
+	string saveFile[7];
+	void checkConfigFile();
+	bool readConfigFile();
+	bool saveConfigFile();
+	string getDateAndTime();
 };
 
 

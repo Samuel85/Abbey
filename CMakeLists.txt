@@ -6,6 +6,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${abbey_SOURCE_DIR}/cmake")
 set(BIN_DIR ${abbey_SOURCE_DIR}/bin)
 
 SET(CMAKE_SYSTEM_NAME Linux)
+
+
 option(RG350 "Switching to MIPS compiler" OFF)
 if(RG350)
 	SET(CMAKE_C_COMPILER   "/opt/gcw0-toolchain/usr/bin/mipsel-gcw0-linux-uclibc-gcc")
@@ -19,6 +21,11 @@ if(RG350)
 	add_compile_definitions(RG350)
 endif(RG350)
 
+# require C++11
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 find_package(SDL2 REQUIRED)
 find_package(SDL2_Mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
@@ -29,9 +36,7 @@ file(GLOB_RECURSE vigasoco_core_SOURCES "vigasoco/*.cpp")
 include_directories ("vigasoco")
 file(GLOB_RECURSE vigasoco_SOURCES "src/*.cpp")
 
-
-
-add_executable (abbey ${vigasoco_SOURCES} ${vigasoco_core_SOURCES})
+add_executable (abbey ${vigasoco_SOURCES} ${vigasoco_core_SOURCES} ConfigReader/configreader.cpp)
 target_link_libraries(abbey ${SDL2_LIBRARY} ${SDL2_MIXER_LIBRARY} ${SDL2_TTF_LIBRARY})
 install(TARGETS abbey RUNTIME DESTINATION ${BIN_DIR} )
 

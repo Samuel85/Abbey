@@ -48,11 +48,25 @@
 
 #include "texts.h"
 #include <SDL_ttf.h>
+
+
+
+
 using namespace Abadia;
 
 
-
-const char *Juego::savefile[7] = {
+#ifdef RG350
+const char *Juego::savefile[7] = {	
+	 "/usr/local/home/Abbey/abadia0.save",
+	 "/usr/local/home/Abbey/abadia1.save",
+	 "/usr/local/home/Abbey/abadia2.save",
+	 "/usr/local/home/Abbey/abadia3.save",
+	 "/usr/local/home/Abbey/abadia4.save",
+	 "/usr/local/home/Abbey/abadia5.save",
+	 "/usr/local/home/Abbey/abadia6.save"
+};
+#else
+const char *Juego::savefile[7] = {	
 	 "abadia0.save",
 	 "abadia1.save",
 	 "abadia2.save",
@@ -61,6 +75,7 @@ const char *Juego::savefile[7] = {
 	 "abadia5.save",
 	 "abadia6.save"
 };
+#endif
 
 /////////////////////////////////////////////////////////////////////////////
 // inicializaci??n y limpieza
@@ -68,7 +83,7 @@ const char *Juego::savefile[7] = {
 
 Juego::Juego(UINT8 *romData, CPC6128 *cpc)
 {		
-	idioma=0; // 0 espa??ol
+	idioma=1; // Default english language
 	mute=false; 
 	slot=0;
 	GraficosCPC=false;
@@ -93,8 +108,7 @@ Juego::Juego(UINT8 *romData, CPC6128 *cpc)
 	}
 
 	// inicia los objetos del juego
-	for (int i = 0; i < numObjetos; i++)
-	{
+	for (int i = 0; i < numObjetos; i++){
 		objetos[i] = 0;
 	}
 
@@ -106,7 +120,6 @@ Juego::Juego(UINT8 *romData, CPC6128 *cpc)
 	logica = new Logica(roms, buffer, 8192); 
 	infoJuego = new InfoJuego();
 	
-
 	pausa = false;
 	modoInformacion = false;
 	seleccionado = 0;
@@ -114,6 +127,14 @@ Juego::Juego(UINT8 *romData, CPC6128 *cpc)
 	currentState = INTRO;
 	showingMenu = false;
 	firstTime = true;
+	
+	#ifdef RG350	
+	configReader = new ConfigReader("/usr/local/home/Abbey/config.txt");
+	#else
+	configReader = new ConfigReader("config.txt");
+	#endif
+
+	checkConfigFile();
 }
 
 Juego::~Juego()
@@ -190,12 +211,10 @@ bool Juego::menuCargar2()
 		sys->pad.down = false;
 	}				
 	seleccionado += i;
-	if (seleccionado > 7)
-	{
+	if (seleccionado > 7){
 		seleccionado = 0;
 	}
-	else if (seleccionado < 0)
-	{
+	else if (seleccionado < 0){
 		seleccionado = 7;
 	}	
 	pintaMenuCargar(seleccionado,true);
@@ -251,11 +270,32 @@ bool Juego::cargar(int slot)
 	else {return true;}
 }
 
+string Juego::getDateAndTime()
+{
+	time_t t = time(NULL);
+  	struct tm tm = *localtime(&t);
+  	char buff[100];
+  
+  	snprintf(buff, sizeof(buff), "%d.%02d.%02d-%02d:%02d\n", 
+	  tm.tm_mon + 1, tm.tm_mday, tm.tm_year + 1900, tm.tm_hour, tm.tm_min);
+	std::string buffAsStdStr = buff;
+  	return buffAsStdStr;
+}
+
 void Juego::save(int slot)
 {
+	
+	//Update config.txt
+	string d = getDateAndTime();
+	string token = "SAVEX";
+	token[4] = '0' + slot;		
+	configReader->setValue(token, d);
+	saveConfigFile();
+
+	// save "abadiaX.save"
 	std::ofstream out(savefile[slot],
 			std::ofstream::out|std::ofstream::trunc);
-
+	
 	out << logica; 
 
 	if (out.fail())
@@ -279,47 +319,20 @@ void Juego::pintaMenuGrabar(int seleccionado,bool efecto)
 	cpc6128->fillMode1Rect(8, 0, 88, 160, 0);
 	for (int i=0;i<7;i++)
 	{
-		//marcador->imprimeFrase(textSave[idioma][i], 88, 32+(i*16),4, 0);
-		if (saveFileExist[i])
-		{
-			if (i == seleccionado)
-			{
-				marcador->imprimeFrase(textSave[idioma][i], 88, 32+(i*16),0, 4);
-			}
-			else 
-			{
-				marcador->imprimeFrase(textSave[idioma][i], 88, 32+(i*16),4, 0);
-			}			
+		if (i == seleccionado){
+			marcador->imprimeFrase(saveFile[i], 88, 32+(i*16),0, 4);
 		}
-		else
-		{
-			if (i == seleccionado)
-			{
-				marcador->imprimeFrase("--", 88, 32+(i*16),0, 4);
-			}
-			else 
-			{
-				marcador->imprimeFrase("--", 88, 32+(i*16),4, 0);
-			}				
-		}
+		else{
+			marcador->imprimeFrase(saveFile[i], 88, 32+(i*16),4, 0);
+		}		
 	}
 	// Text for the option "Back"
-	if (seleccionado == 7)
-	{
+	if (seleccionado == 7){
 		marcador->imprimeFrase(textSave[idioma][7], 88, 32+(7*16),0, 4);
 	}
-	else
-	{
+	else{
 		marcador->imprimeFrase(textSave[idioma][7], 88, 32+(7*16),4, 0);
 	}
-	
-
-	// pinta la opci??n seleccionado con el color de fondo y el color
-	// de letra cambiado 
-
-	//marcador->imprimeFrase(textSave[idioma][seleccionado], 88, 
-	//	32+(seleccionado*16), 0, 4);
-	
 }
 bool Juego::menuGrabar2()
 {
@@ -336,12 +349,10 @@ bool Juego::menuGrabar2()
 		sys->pad.down = false;
 	}				
 	seleccionado += i;
-	if (seleccionado > 7)
-	{
+	if (seleccionado > 7){
 		seleccionado = 0;
 	}
-	else if (seleccionado < 0)
-	{
+	else if (seleccionado < 0){
 		seleccionado = 7;
 	}	
 	pintaMenuCargar(seleccionado,true);	
@@ -372,8 +383,7 @@ void Juego::pintaMenuMejoras(int seleccionado)
 	// limpia el ??rea que ocupa el marcador
 	limpiaAreaJuego(0); 
 
-	for (int i=0;i<9;i++)
-	{
+	for (int i=0;i<9;i++){
 		marcador->imprimeFrase(textEnhancements[idioma][i], 8, 16+(i*16),4, 0);
 	}
 
@@ -392,8 +402,7 @@ void Juego::pintaMenuCamaras(int seleccionado)
 	// limpia el ??rea que ocupa el marcador
 	limpiaAreaJuego(0); 
 
-	for (int i=0;i<9;i++)
-	{
+	for (int i=0;i<9;i++){
 		marcador->imprimeFrase(textCameras[idioma][i], 0, 16+(i*16),4, 0);
 	}
 
@@ -420,16 +429,14 @@ void Juego::pintaMenuIdioma(int seleccionado,bool efecto)
 	for(int x=efecto?8:88;x<88;x+=10)
 	{
 		cpc6128->fillMode1Rect(8, 0, x-1, 160, 0);
-		for (int i=0;i<8;i++)
-		{
+		for (int i=0;i<8;i++){
 			marcador->imprimeFrase(textLanguage[idioma][i], x, 
 				32+(i*16),4, 0);
 		}
 		//timer->sleep(50);
 	}
 	cpc6128->fillMode1Rect(8, 0, 88, 160, 0);
-	for (int i=0;i<8;i++)
-	{
+	for (int i=0;i<8;i++){
 		marcador->imprimeFrase(textLanguage[idioma][i], 88, 32+(i*16),4, 0);
 	}
 
@@ -474,6 +481,13 @@ bool Juego::menuIdioma()
 		pulsado=seleccionado;
 		idioma=seleccionado;
 
+		//Update config.txt
+		string d = getDateAndTime();
+		string token = "LANGUAGE";
+		token[4] = '0' + idioma;		
+		configReader->setValue(token, d);
+		saveConfigFile();
+
 		seleccionado = 8;
 		changeState(MENU);
 		return true;
@@ -501,8 +515,7 @@ void Juego::pintaMenuPrincipal(int seleccionado,bool efecto)
 	}
 
 	cpc6128->fillMode1Rect(8, 0, 88, 160, 0);
-	for (int i=0;i<9;i++)
-	{
+	for (int i=0;i<9;i++){
 		marcador->imprimeFrase(menuText[idioma][i], 88, 16+(i*16),4, 0);
 	}
 
@@ -528,12 +541,10 @@ bool Juego::menu2()
 		sys->pad.down = false;
 	}				
 	seleccionado += i;
-	if (seleccionado > 8)
-	{
+	if (seleccionado > 8){
 		seleccionado = 0;
 	}
-	else if (seleccionado < 0)
-	{
+	else if (seleccionado < 0){
 		seleccionado = 8;
 	}
 
@@ -667,35 +678,98 @@ void Juego::stateMachine()
 // check for save files correct the menu options
 void Juego::checkForSaveFiles()
 {
-	FILE *f;
-	
-	#ifdef RG350
-	char filename[] = "/usr/local/home/Abbey/abadiaX.save";
-	#else
-	char filename[] = "abadiaX.save";
-	#endif 
-
+	/*
+	FILE *f;	
 	for (int i=0;i<7;i++)
 	{
-		#ifdef RG350
-		filename[28] = i + '0';
-		#else
-		filename[6] = i + '0';
-		#endif		
-
-		if (f = fopen(&filename[0],"r"))
+		if (f = fopen(savefile[i],"r"))
 		{
 			fclose(f);
-			saveFileExist[i] = true;
-			//std::cout << filename << ": True" << std::endl;
+			saveFileExist[i] = true;			
 		}
-		else
-		{
-			saveFileExist[i] = false;
-			//std::cout << filename << ": False" << std::endl;
+		else{
+			saveFileExist[i] = false;			
+		}
+	}
+	*/
+	checkConfigFile();
+	for (int i=0;i<7;i++)
+	{
+		string token = "SAVEX";
+		token[4] = '0' + i;		
+		saveFile[i] = configReader->getValue(token); 
+	}
+}
+
+void Juego::checkConfigFile()
+{
+	if (!readConfigFile())
+	{
+		if (saveConfigFile()){
+			// Success!, config file created.
 		}
 	}
 }
+
+bool Juego::readConfigFile()
+{
+	bool r = false;
+
+	if (!configReader->isEmpty()){
+		delete configReader;
+	}
+
+	#ifdef RG350	
+	configReader = new ConfigReader("/usr/local/home/Abbey/config.txt");
+	#else
+	configReader = new ConfigReader("config.txt");
+	#endif
+
+	if  (configReader->parse())
+	{
+
+		//idioma = stoi(configReader->getValue("LANGUAGE"));
+		string s = configReader->getValue("LANGUAGE");
+		idioma = atoi(s.c_str());
+		r = true;
+	}
+
+	return r;
+}
+
+bool Juego::saveConfigFile()
+{
+	bool r = false;
+	ofstream f;
+	
+	#ifdef RG350
+	f.open("/usr/local/home/Abbey/config.txt");
+	#else
+	f.open("config.txt");
+	#endif
+
+	// write current language
+	f << "LANGUAGE="<< idioma <<"\n";
+
+	for (int i=0;i<7;i++)
+	{
+		// Change token
+		string token = "SAVEX";
+		token[4] = '0' + i;
+
+		// If exist retrieve value from the linked list
+		if (!configReader->isEmpty()){			
+			f << "SAVE" << i << "=" << configReader->getValue(token) <<"\n";
+		}
+		else{ // default			
+			f << "SAVE" << i << "=" <<"--" <<"\n";
+		}
+	}
+
+	f.close();
+	return r;
+}
+
 
 void Juego::run()
 {	
@@ -722,8 +796,7 @@ void Juego::run()
 
 		logica->compruebaAbrirCerrarPuertas();
 				
-		for (int i = 0; i < numPersonajes; i++)
-		{
+		for (int i = 0; i < numPersonajes; i++){
 			personajes[i]->run();
 		}
 		
@@ -747,8 +820,7 @@ void Juego::run()
 			cambioModoInformacion=false;			
 		}
 
-		if (modoInformacion)
-		{
+		if (modoInformacion){
 			infoJuego->muestraInfo();
 		} 
 		else
@@ -757,8 +829,7 @@ void Juego::run()
 			motor->dibujaSprites();				
 		}
 	
-		if (laLogica->guillermo->contadorAnimacion==1)
-		{			
+		if (laLogica->guillermo->contadorAnimacion==1){			
 			sys->playSound(STEPS);
 		}
 	
@@ -938,8 +1009,7 @@ void Juego::actualizaLuz()
 	{
 		for (int i = 0; i < numSprites; i++)
 		{
-			if (sprites[i]->esVisible)
-			{
+			if (sprites[i]->esVisible){
 				sprites[i]->haCambiado = false;
 			}
 		}
@@ -1042,25 +1112,20 @@ void Juego::muestraFinal()
 	
 	// muestra el texto del final
 	pergamino->muestraTexto(Pergamino::pergaminoFinal[idioma]);
-	
-	//if (pergamino->finished){
-	//	sys->minimumFrameTime = GAME_FRAME_TIME;
-	//}
-
 }
 
 // muestra la parte de misi??n completada. Si se ha completado el juego, muestra el final
 bool Juego::muestraPantallaFinInvestigacion()
 {
 	std::string porcentaje[8] = {
-	"  XX POR CIENTO DE", // 0 castellano
-	"  XX  PER  CENT", // 1 ingles
-	"  XX POR CENTO DA", // 2 portugues brasil
-	"  XX PER CENT DE", // 3 CATAL??N
-	"  XX POR CENTO DA", // 4 GALLEGO
-	"  XX PER CENTO", // 5 ITALIANO
-	"  XX  PER  CENT", // 6 fines
-	"  XX POR CENTO DA" // 7 PORTUGUES
+	"XX POR CIENTO DE", // 0 castellano
+	"XX  PER  CENT", // 1 ingles
+	"XX POR CENTO DA", // 2 portugues brasil
+	"XX PER CENT DE", // 3 CATAL??N
+	"XX POR CENTO DA", // 4 GALLEGO
+	"XX PER CENTO", // 5 ITALIANO
+	"XX  PER  CENT", // 6 fines
+	"XX POR CENTO DA" // 7 PORTUGUES
 	};
 
 	// si guillermo est?? vivo, sale
@@ -1079,32 +1144,29 @@ bool Juego::muestraPantallaFinInvestigacion()
 	// calcula el porcentaje de misi??n completada. Si se ha completado el juego, muestra el final
 	int porc = logica->calculaPorcentajeMision();
 
-	porcentaje[idioma][2] = ((porc/10) % 10) + 0x30;
-	porcentaje[idioma][3] = (porc % 10) + 0x30;
+	porcentaje[idioma][0] = ((porc/10) % 10) + 0x30;
+	porcentaje[idioma][1] = (porc % 10) + 0x30;
 	
 	// VGA con idiomas
-	marcador->imprimeFrase(frase1[idioma], 96, 32, 4, 0);
-	marcador->imprimeFrase(porcentaje[idioma], 88, 48, 4, 0);
-	marcador->imprimeFrase(frase3[idioma], 90, 64, 4, 0);
-	marcador->imprimeFrase(frase4[idioma], 56, 128, 4, 0);
+	int x = 0;
+	x = (320 - frase1[idioma].length()*8)>>1;
+	marcador->imprimeFrase(frase1[idioma], x, 32, 4, 0);
+	x = (320 - porcentaje[idioma].length()*8)>>1;
+	marcador->imprimeFrase(porcentaje[idioma], x, 48, 4, 0);
+	x = (320 - frase3[idioma].length()*8)>>1;
+	marcador->imprimeFrase(frase3[idioma], x, 64, 4, 0);
+	x = (320 - frase4[idioma].length()*8)>>1;
+	marcador->imprimeFrase(frase4[idioma], x, 128, 4, 0);
 
-	// espera a que se pulse y se suelte el bot??n
-	bool espera = true;
+	if (sys->pad.button1 ||sys->pad.button2 ||sys->pad.button3 ||sys->pad.button4)
+	{
+		paleta->setIntroPalette();
+		//VGA
+		UINT8 *romsVGA = &roms[0x24000-1-0x4000];
+		cpc6128->showVGAScreen(romsVGA + 0x1ADF0);
 
-	//while (espera)
-	//{
-	//	controles->actualizaEstado();		
-	//	espera = !(controles->estaSiendoPulsado(P1_BUTTON1) || controles->estaSiendoPulsado(KEYBOARD_SPACE));
-	//}
-
-	espera = true;
-
-	// TODO Revisar por que esta esto duplicado
-	//while (espera)
-	//{
-	//	controles->actualizaEstado();		
-	//	espera = controles->estaSiendoPulsado(P1_BUTTON1) || controles->estaSiendoPulsado(KEYBOARD_SPACE);
-	//}
+		currentState = INTRO;
+	}
 
 	return true;
 }
@@ -1125,8 +1187,7 @@ void Juego::creaEntidadesJuego()
 	sprites[1] = new Sprite();
 
 	// sprite de los monjes
-	for (int i = 2; i < 8; i++)
-	{
+	for (int i = 2; i < 8; i++){
 		sprites[i] = new SpriteMonje();
 	}
 
@@ -1216,13 +1277,13 @@ void Juego::creaEntidadesJuego()
 	personajes[1]->despY = -32;
 	
 	// crea las puertas del juego
-	for (int i = 0; i < numPuertas; i++)
-	{
+	for (int i = 0; i < numPuertas; i++){
 		puertas[i] = new Puerta(sprites[primerSpritePuertas + i]);
 	}
 
 	// crea los objetos del juego
-	for (int i = 0; i < numObjetos; i++)
+	for (int i = 0; i < numObjetos; i++){
 		objetos[i] = new Objeto(sprites[primerSpriteObjetos + i]);
+	}
 	
 }

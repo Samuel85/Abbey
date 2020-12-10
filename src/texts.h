@@ -9,11 +9,29 @@ enum LANGUAGE
 	ENGLISH,
 	
 	TOTAL_LANGUAGES
-};	
+};
+
+const char * menu[2][5] =
+{
+	{	// Castellano
+		"NUEVA PARTIDA",
+		"CARGAR",
+		"GUARDAR",
+		"IDIOMA",
+		"CONTINUAR"
+	},
+	{	// English
+		"NEW GAME",
+		"LOAD",
+		"SAVE",
+		"LANGUAGE",
+		"CONTINUE"
+	}
+};
 
 const char * menuText[8][9] = 
 { 
-	{ // 0 Castellano jejeje
+	{ // 0 Castellano
 		"IDIOMA",
 		"CARGAR PARTIDA" ,
 		"GRABAR PARTIDA" ,
@@ -36,70 +54,70 @@ const char * menuText[8][9] =
 		"PLAY"
 	},
 	{ // 2 PORTUGUES BRASIL
-		"IDIOMA" , 
-		"CARGAR PARTIDA" ,
-		"GRABAR PARTIDA" ,
-		"GR??FICOS VGA-CPC" ,
-		"AYUDA" ,
+		"L?NGUA" ,
+		"CARREGAR JOGO" ,
+		"SALVAR JOGO",
+		"GRAPHICS VGA-CPC",
+		"SOCORRO" ,
 		"TUTORIAL",
 		"REINICIAR",
-		"SONIDO", 
-		"JUGAR"
+		"SOM",
+		"JOGAR"
 	},
 	{ // 3 CATALAN
-		"IDIOMA" , 
-		"CARGAR PARTIDA" ,
-		"GRABAR PARTIDA" ,
-		"GR??FICOS VGA-CPC" ,
-		"AYUDA" ,
+		"LLENGUATGE" ,
+		"CARREGAR EL JOC" ,
+		"GUARDAR LA PARTIDA" ,
+		"GRAPHICS VGA-CPC",
+		"AJUDA",
 		"TUTORIAL",
-		"REINICIAR",
-		"SONIDO", 
+		"REINICIA",
+		"SO",
 		"JUGAR"
 	},
 	{ // 4 GALLEGO
-		"IDIOMA" , 
-		"CARGAR PARTIDA" ,
-		"GRABAR PARTIDA" ,
-		"GR??FICOS VGA-CPC" ,
-		"AYUDA" ,
-		"TUTORIAL",
-		"REINICIAR",
-		"SONIDO", 
-		"JUGAR"
+		"LINGUA" ,
+		"XOGO DE CARGA",
+		"GARDAR XOGO",
+		"GRAPHICS VGA-CPC",
+		"AXUDA",
+		"TITOR?A",
+		"REINICIA",
+		"SON",
+		"XOGAR"
 	},
 	{ // 5 ITALIANO
-		"IDIOMA" , 
-		"CARGAR PARTIDA" ,
-		"GRABAR PARTIDA" ,
-		"GR??FICOS VGA-CPC" ,
-		"AYUDA" ,
+		"LINGUAGGIO" ,
+		"CARICA GIOCO",
+		"SALVA IL GIOCO" ,
+		"GRAPHICS VGA-CPC",
+		"AIUTO" ,
 		"TUTORIAL",
-		"REINICIAR",
-		"SONIDO", 
-		"JUGAR"
+		"RICOMINCIA",
+		"SUONO",
+		"GIOCARE"
 	},
 	{ // 6 FINES
-		"IDIOMA" , 
-		"CARGAR PARTIDA" ,
-		"GRABAR PARTIDA" ,
-		"GR??FICOS VGA-CPC" ,
-		"AYUDA" ,
+		"KIELI" ,
+		"LATAA PELI" ,
+		"TALLENTAA PELIN" ,
+		"GRAPHICS VGA-CPC",
+		"AUTA" ,
 		"TUTORIAL",
-		"REINICIAR",
-		"SONIDO", 
-		"JUGAR"
+		"UUDELLEENK?YNNIST??",
+		"??I",
+		"PELATA"
 	},
 	{ // 7 PORTUGUES
-		"IDIOMA" , 
-		"CARGAR PARTIDA" ,
-		"GRABAR PARTIDA" ,
-		"GR??FICOS VGA-CPC" ,
-		"AYUDA" ,
+		"LÍNGUA" ,
+		"CARREGAR JOGO" ,
+		"SALVAR JOGO",
+		"GRAPHICS VGA-CPC",
+		"SOCORRO" ,
 		"TUTORIAL",
 		"REINICIAR",
-		"SONIDO", 
-		"JUGAR"
+		"SOM",
+		"JOGAR"
 	}
 };
 
@@ -107,7 +125,7 @@ const char * menuText[8][9] =
 const char * textSave[8][8] = 
 { 
 	{ // 0 Castellano
-		"SLOT 0 AUTOGUARDADO", 
+		"SLOT 0", 
 		"SLOT 1", 
 		"SLOT 2", 
 		"SLOT 3", 
@@ -117,7 +135,7 @@ const char * textSave[8][8] =
 		"VOLVER"
 	},
 	{ // 1 INGLES
-		"0 SLOT 0 AUTOSAVE",
+		"0 SLOT 0",
 		"1 SLOT 1", 
 		"2 SLOT 2", 
 		"3 SLOT 3", 
@@ -127,7 +145,7 @@ const char * textSave[8][8] =
 		"7 RETURN TO PREVIOUS MENU"
 	},
 	{ // 2 PORTUGUES BRASIL
-		"0 SLOT 0 AUTOGUARDADO", 
+		"0 SLOT 0", 
 		"1 SLOT 1", 
 		"2 SLOT 2", 
 		"3 SLOT 3", 
@@ -137,7 +155,7 @@ const char * textSave[8][8] =
 		"7 VOLVER AL MENU ANTERIOR"
 	},
 	{ // 3 CATALAN
-		"0 SLOT 0 AUTOGUARDADO", 
+		"0 SLOT 0", 
 		"1 SLOT 1", 
 		"2 SLOT 2", 
 		"3 SLOT 3", 
@@ -147,7 +165,7 @@ const char * textSave[8][8] =
 		"7 VOLVER AL MENU ANTERIOR"
 	},
 	{ // 4 GALLEGO
-		"0 SLOT 0 AUTOGUARDADO", 
+		"0 SLOT 0", 
 		"1 SLOT 1", 
 		"2 SLOT 2", 
 		"3 SLOT 3", 
@@ -157,7 +175,7 @@ const char * textSave[8][8] =
 		"7 VOLVER AL MENU ANTERIOR"
 	},
 	{ // 5 ITALIANO
-		"0 SLOT 0 AUTOGUARDADO", 
+		"0 SLOT 0", 
 		"1 SLOT 1", 
 		"2 SLOT 2", 
 		"3 SLOT 3", 
@@ -167,7 +185,7 @@ const char * textSave[8][8] =
 		"7 VOLVER AL MENU ANTERIOR"
 	},
 	{ // 6 FINES
-		"0 SLOT 0 AUTOSAVE",
+		"0 SLOT 0",
 		"1 SLOT 1", 
 		"2 SLOT 2", 
 		"3 SLOT 3", 
@@ -177,7 +195,7 @@ const char * textSave[8][8] =
 		"7 RETURN TO PREVIOUS MENU"
 	},
 	{ // 7 PORTUGUES
-		"0 SLOT 0 AUTOGUARDADO", 
+		"0 SLOT 0", 
 		"1 SLOT 1", 
 		"2 SLOT 2", 
 		"3 SLOT 3", 
@@ -458,14 +476,14 @@ const char * textSave[8][8] =
 	};
 
 const std::string frase1[8] = {
-	"  HAS RESUELTO EL", // 0 castellano
+	"HAS RESUELTO EL", // 0 castellano
 	"YOU HAVE SOLVED", // 1 INGLES
-	"  VOC?? RESOLVEU", // 2 PORTUGUES BRASIL
-	" HAS  RESOLT EL", // 3 CATAL??N
-	"  RESOLVICHELO", // 4 GALLEGO
+	"VOC?? RESOLVEU", // 2 PORTUGUES BRASIL
+	"HAS  RESOLT EL", // 3 CATAL??N
+	"RESOLVICHELO", // 4 GALLEGO
 	"HAI RISOLTO IL", // 5 ITALIANO
 	"YOU HAVE SOLVED", // 6 FINES
-	"   RESOLVESTE " // 7 PORTUGUES
+	"RESOLVESTE " // 7 PORTUGUES
 };
 /*
 const std::string porcentaje[8] = {
@@ -480,24 +498,25 @@ const std::string porcentaje[8] = {
 };
 */
 const std::string frase3[8] = {
-	"  LA INVESTIGACI??N", // 0 castellano
-	" OF THE RESEARCH", // 1 INGLES
-	"   INVESTIGA????O", // 2 PORTUGUES BRASIL
-	" LA INVESTIGACI??", // 3 CATAL??N
-	"  INVESTIGACI??N", // 4 GALLEGO
-	" DELL'INDAGINE", // 5 italiano
-	" OF THE RESEARCH", // 6 FINES
-	"   INVESTIGA????O" // 7 PORTUGUES
+	"LA INVESTIGACI??N", // 0 castellano
+	"OF THE RESEARCH", // 1 INGLES
+	"INVESTIGA????O", // 2 PORTUGUES BRASIL
+	"LA INVESTIGACI??", // 3 CATAL??N
+	"INVESTIGACI??N", // 4 GALLEGO
+	"DELL'INDAGINE", // 5 italiano
+	"OF THE RESEARCH", // 6 FINES
+	"INVESTIGA????O" // 7 PORTUGUES
 };
 const std::string frase4[8] = {
-	"PULSA ESPACIO PARA EMPEZAR", // 0 castellano
-	"PULSA ESPACIO PARA EMPEZAR", // 1 ingles
-	"PULSA ESPACIO PARA EMPEZAR", // 2 portugues brasil
-	"PULSA ESPACIO PARA EMPEZAR", // 3 catal??n
-	"PULSA ESPACIO PARA EMPEZAR", // 4 gallego
-	"PULSA ESPACIO PARA EMPEZAR", // 5 italiano
-	"PULSA ESPACIO PARA EMPEZAR", // 6 fines
-	"PULSA ESPACIO PARA EMPEZAR" // 7 portugues
+	"PRESIONA CUALQUIER BOT?N PARA REINICIAR", // 0 castellano
+	"PRESS ANY BUTTON TO RESTART", // 1 ingles
+	"PRESSIONE QUALQUER BOT?O PARA REINICIAR", // 2 portugues brasil
+	"PREMEU QUALSEVOL BOT? PER REINICIAR", // 3 catal??n
+	"PRESSA CALQUERA BOT?N PARA REINICIAR", // 4 gallego
+	"PREMERE UN TASTO QUALSIASI PER RIAVVIARE", // 5 italiano
+	"PAINA KAIKKI PAINIKET UUDELLEEN", // 6 fines
+	"PRESSIONE QUALQUER BOT?O PARA REINICIAR" // 7 portugues
+	
 };
 
 #endif
