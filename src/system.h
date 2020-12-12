@@ -50,6 +50,8 @@ enum STATES{
 	LOAD,
 	SAVE,	
 	PLAY,
+	ASKFORNEWGAME,
+	ASKTOCONTINUE,
 	ENDING
 };
 
@@ -72,12 +74,15 @@ struct PlayerInput
 	bool start;
 };
 
+#define BUTTON_YES sys->pad.button3
+#define BUTTON_NO sys->pad.button2
+
 struct System
 {	
 	PlayerInput pad;
 	bool exit = false;
 	bool informationMode = false;	
-	bool enableJoystick = false;
+	bool enableJoystick = true;
 	bool fullscreen = false;
 	int w = WINDOW_WIDTH;
 	int h = WINDOW_HEIGHT;
@@ -87,6 +92,10 @@ struct System
 	SDL_Renderer *renderer;
 	SDL_Texture *texture;
 	SDL_Window *window;
+	SDL_GameController *gamepad;
+	SDL_Haptic *hapticDevice;
+
+
 	TTF_Font *font;	
 	std::vector<Mix_Chunk*>sounds;
 	std::vector<Mix_Music*>music;
@@ -98,6 +107,8 @@ struct System
 	void playSound(int i);
 	void updateScreen();
 	void handleEvents();
+	void hapticFeedback();
+
 	void setFastSpeed()
 	{
 		minimumFrameTime = SCROLL_FRAME_TIME;

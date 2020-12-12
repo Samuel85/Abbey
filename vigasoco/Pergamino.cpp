@@ -261,8 +261,7 @@ void Pergamino::muestraTexto(const unsigned char *mensaje)
 void Pergamino::dibujaTexto()
 {
 	// si se puls� el bot�n 1 o espacio, termina	
-	if (sys->pad.button1)
-	{		
+	if (BUTTON_YES){		
 		finished = true;
 	} 
 	else 

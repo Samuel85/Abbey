@@ -17,6 +17,7 @@
 #include <string>
 #include <iostream>
 #include <cstdlib>
+#include <csignal>
 
 class CPC6128;					// definido en CPC6128.h
 
@@ -70,8 +71,8 @@ public:
 	Paleta *paleta;							// paleta del juego
 	UINT8 buffer[8192];						// buffer para mezclar los sprites y para buscar las rutas
 	UINT8 *roms;							// puntero a las roms originales
-
 	Logica *logica;							// objeto que se encarga de gestionar la l??gica del juego
+	
 	Pergamino *pergamino;					// pergamino para la presentaci??n y el final
 	Marcador *marcador;						// marcador del juego
 	MotorGrafico *motor;					// motor gr??fico
@@ -91,6 +92,7 @@ public:
 	int firstTime;	
 	int seleccionado;
 	ConfigReader *configReader;
+	int numberOfSlotToLoad;
 
 private:
 	bool cargar(int slot);
@@ -138,6 +140,7 @@ public:
 	Juego(UINT8 *romData, CPC6128 *cpc);
 	~Juego();
 	bool showingMenu;
+	bool activeGame;
 
 protected:
 	void muestraPresentacion();
@@ -159,6 +162,14 @@ protected:
 	bool readConfigFile();
 	bool saveConfigFile();
 	string getDateAndTime();
+	
+	void menuAsk();	
+	void askForNewGame();
+	void askForNewGameLogic();
+
+	void askToContinue();
+	void askToContinueLogic();
+
 };
 
 

@@ -11,7 +11,7 @@ enum LANGUAGE
 	TOTAL_LANGUAGES
 };
 
-const char * menu[2][5] =
+const string  principalMenuText[8][5] =
 {
 	{	// Castellano
 		"NUEVA PARTIDA",
@@ -26,10 +26,52 @@ const char * menu[2][5] =
 		"SAVE",
 		"LANGUAGE",
 		"CONTINUE"
+	},
+	{	// Portuges Brasil
+		"NOVO JOGO",
+		"CARGA",
+		"SALVE",
+		"L?NGUA", //"LÍNGUA",
+		"CONTINUAR"
+	},
+	{	// Catalan
+		"NOU JOC",
+		"CARGA",
+		"DESA",
+		"LLENGUATGE",
+		"CONTINUA"
+	},
+	{	//Gallego
+		"NOVO XOGO",//"NOVO XOGO",
+		"CARGA",
+		"GARDAR",
+		"LINGUA",
+		"CONTINUAR"
+	},
+	{	//Italian
+		"NUOVO GIOCO",
+		"CARICARE",
+		"SALVA",
+		"LINGUAGGIO",
+		"CONTINUA"
+	},	
+	{	// Finlandes
+		"UUSI PELI",
+		"LADATA",
+		"TALLENTAA",
+		"KIELI",
+		"JATKAA"
+	},
+	{	// Portuges
+		"NOVO JOGO",
+		"CARGA",
+		"SALVE",
+		"L?NGUA", //"LÍNGUA",
+		"CONTINUAR"
 	}
 };
 
-const char * menuText[8][9] = 
+const string menuText[8][9] = 
 { 
 	{ // 0 Castellano
 		"IDIOMA",
@@ -122,175 +164,81 @@ const char * menuText[8][9] =
 };
 
 
-const char * textSave[8][8] = 
-{ 
-	{ // 0 Castellano
-		"SLOT 0", 
-		"SLOT 1", 
-		"SLOT 2", 
-		"SLOT 3", 
-		"SLOT 4", 
-		"SLOT 5", 
-		"SLOT 6",
-		"VOLVER"
-	},
-	{ // 1 INGLES
-		"0 SLOT 0",
-		"1 SLOT 1", 
-		"2 SLOT 2", 
-		"3 SLOT 3", 
-		"4 SLOT 4", 
-		"5 SLOT 5", 
-		"6 SLOT 6",
-		"7 RETURN TO PREVIOUS MENU"
-	},
-	{ // 2 PORTUGUES BRASIL
-		"0 SLOT 0", 
-		"1 SLOT 1", 
-		"2 SLOT 2", 
-		"3 SLOT 3", 
-		"4 SLOT 4", 
-		"5 SLOT 5", 
-		"6 SLOT 6",
-		"7 VOLVER AL MENU ANTERIOR"
-	},
-	{ // 3 CATALAN
-		"0 SLOT 0", 
-		"1 SLOT 1", 
-		"2 SLOT 2", 
-		"3 SLOT 3", 
-		"4 SLOT 4", 
-		"5 SLOT 5", 
-		"6 SLOT 6",
-		"7 VOLVER AL MENU ANTERIOR"
-	},
-	{ // 4 GALLEGO
-		"0 SLOT 0", 
-		"1 SLOT 1", 
-		"2 SLOT 2", 
-		"3 SLOT 3", 
-		"4 SLOT 4", 
-		"5 SLOT 5", 
-		"6 SLOT 6",
-		"7 VOLVER AL MENU ANTERIOR"
-	},
-	{ // 5 ITALIANO
-		"0 SLOT 0", 
-		"1 SLOT 1", 
-		"2 SLOT 2", 
-		"3 SLOT 3", 
-		"4 SLOT 4", 
-		"5 SLOT 5", 
-		"6 SLOT 6",
-		"7 VOLVER AL MENU ANTERIOR"
-	},
-	{ // 6 FINES
-		"0 SLOT 0",
-		"1 SLOT 1", 
-		"2 SLOT 2", 
-		"3 SLOT 3", 
-		"4 SLOT 4", 
-		"5 SLOT 5", 
-		"6 SLOT 6",
-		"7 RETURN TO PREVIOUS MENU"
-	},
-	{ // 7 PORTUGUES
-		"0 SLOT 0", 
-		"1 SLOT 1", 
-		"2 SLOT 2", 
-		"3 SLOT 3", 
-		"4 SLOT 4", 
-		"5 SLOT 5", 
-		"6 SLOT 6",
-		"7 VOLVER AL MENU ANTERIOR"
-	}
+const string textSave[8] = 
+{
+	 
+	"VOLVER", // Castellano		
+	"BACK",   // English
+	"RETORNA",//
+	"TORNAR", // Catalan
+	"REGRESO",
+	"RITORNO",// Italiano
+	"PALATA", //
+	"RETORNA",//
 };
 
- const char * textLanguage[8][8] = 
+ const string textLanguage[8] = 
 	{ 
-		{ // 0 Castellano
-			"CASTELLANO" , 
-			"ENGLISH" ,
-			"PORTUGU??S BRASIL" ,
-			"CATAL??N" ,
-			"GALLEGO" ,
-			"ITALIANO",
-			"FINES",
-			"PORTUGU??S"
-		},
-		{ // 1 INGLES
-			"CASTELLANO" , 
-			"ENGLISH" ,
-			"PORTUGU??S BRASIL" ,
-			"CATAL??N" ,
-			"GALLEGO" ,
-			"ITALIANO",
-			"FINES",
-			"PORTUGU??S"
-		},
-		{ // 2 PORTUGUES BRASIL
-			"CASTELLANO" , 
-			"ENGLISH" ,
-			"PORTUGU??S BRASIL" ,
-			"CATAL??N" ,
-			"GALLEGO" ,
-			"ITALIANO",
-			"FINES",
-			"PORTUGU??S"
-		},
-		{ // 3 CATALAN
-			"CASTELLANO" , 
-			"ENGLISH" ,
-			"PORTUGU??S BRASIL" ,
-			"CATAL??N" ,
-			"GALLEGO" ,
-			"ITALIANO",
-			"FINES",
-			"PORTUGU??S"
-		},
-		{ // 4 GALLEGO
-			"CASTELLANO" , 
-			"ENGLISH" ,
-			"PORTUGU??S BRASIL" ,
-			"CATAL??N" ,
-			"GALLEGO" ,
-			"ITALIANO",
-			"FINES",
-			"PORTUGU??S"
-		},
-		{ // 5 ITALIANO
-			"CASTELLANO" , 
-			"ENGLISH" ,
-			"PORTUGU??S BRASIL" ,
-			"CATAL??N" ,
-			"GALLEGO" ,
-			"ITALIANO",
-			"FINES",
-			"PORTUGU??S"
-		},
-		{ // 6 FINES
-			"CASTELLANO" , 
-			"ENGLISH" ,
-			"PORTUGU??S BRASIL" ,
-			"CATAL??N" ,
-			"GALLEGO" ,
-			"ITALIANO",
-			"FINES",
-			"PORTUGU??S"
-		},
-		{ // 7 PORTUGUES
-			"CASTELLANO" , 
-			"ENGLISH" ,
-			"PORTUGU??S BRASIL" ,
-			"CATAL??N" ,
-			"GALLEGO" ,
-			"ITALIANO",
-			"FINES",
-			"PORTUGU??S"
-		}
+		// 0 Castellano
+		"CASTELLANO" , 
+		"ENGLISH" ,
+		"PORTUGU??S (BRASIL)" ,
+		"CATAL?" ,
+		"GALEGO" ,
+		"ITALIANO",
+		"SUOMALAINEN",
+		"PORTUGU??S"		
 	};
 
-	static const char * textCameras[8][9] = 
+	const string newGameQuestionText[8] =
+	{
+		"?DESEAS INICIAR\nUNA NUEVA PARTIDA?", //Castellano
+		"ARE YOU  SURE YOU WANT\nTO START A NEW GAME?", //English
+		"TEM A CERTEZA QUE DESEJA\nCOME?AR UM NOVO JOGO?", //Portugues Brasil
+		"EST?S SEGUR QUE VOLS\nCOMEN?AR UN NOU JOC?", // Catalan
+		"EST? SEGURO DE QUE QUERE\nCOMEZAR UN XOGO NOVO?",//GALLEGO
+		"SEI SICURO DI VOLER\nINIZIARE UNA NUOVA PARTITA?", //Italiano
+		"OLETKO VARMA, ETT? HALUAT\nALOITTAA UUDEN PELIN?", //Fines
+		"TEM A CERTEZA QUE DESEJA\nCOME?AR UM NOVO JOGO?" //Portugues Brasil
+	};
+
+	const string continueQuestionText[8]=
+	{
+		"DESEAS CONTINUAR?\nPERDERAS TODO PROGRESO",
+		"DO YOU WANT TO CONTINUE?\nYOU WILL LOSE ALL PROGRESS",
+		"VOC? QUER CONTINUAR?\nVOC? PERDER? TODO O PROGRESSO",
+		"VOLS CONTINUAR?\nPERDRAS TOT PROGR?S",//CATALA
+		"QUERES CONTINUAR?\nPERDER? TODOS OS PROGRESOS",//GALEGO
+		"VUOI CONTINUARE?\nPERDERAI TUTTI I PROGRESSI", //IT
+		"HALUATKO JATKAA?\nMENET?T KAIKEN EDISTYKSEN", //FIN
+		"VOC? QUER CONTINUAR?\nVOC? PERDER? TODO O PROGRESSO" // PORTUG
+	};
+
+	const string yesText[] = 
+	{
+		"SI", // CASTELLANO
+		"YES", //INGLES
+		"SIM", //PORTUGUES
+		"SI", // CATALAN
+		"SI", // GALLEGO
+		"SI", // ITALIANO
+		"JOO" // FINES
+		"SIM" // PORTUGUES
+	};
+
+	const string noText[] = 
+	{
+		"NO",
+		"NO",
+		"N?0",
+		"NO",
+		"NO",
+		"NO",
+		"EL",
+		"N?0"	
+	};
+
+	static const string textCameras[8][9] = 
 	{ 
 		{ // 0 Castellano
 			"   USA ESTAS TECLAS DURANTE EL JUEGO   " , 
@@ -383,7 +331,7 @@ const char * textSave[8][8] =
 		}
 	};
 
-	static const char * textEnhancements[8][9] = 
+	static const string textEnhancements[8][9] = 
 	{ 
 		{ // 0 Castellano
 			"   USA ESTAS TECLAS DURANTE EL JUEGO   " , 

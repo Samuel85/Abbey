@@ -703,6 +703,7 @@ void Abad::recriminaAGuillermo()
 		// muestra la frase OS ORDENO QUE VENGAIS y le decrementa la vida
 		elGestorFrases->muestraFraseYa(0x08);
 		elMarcador->decrementaObsequium(2);
+		sys->hapticFeedback();
 
 		// indica que le acaba de llamar la atenci?n
 		estado = estado + 0x80;
