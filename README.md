@@ -9,8 +9,5 @@ Based on the great work of Manuel Abadía for the VIGASOCO project, this new ver
 
 * There is a need to redesign some of the classes inherited from the VIGASOCO project, as while the latter was designed to create a framework for the design of games, most of these features are beyond the scope of this project that only focuses in only one game.
 
-# Screenshots
-
-![Screenshot](https://imgur.com/a/GViT5Q2 "Abbey of Crime")
-
-
+# OPK file
+The RG350's opk file is located inside of the build_rg350 directory.
