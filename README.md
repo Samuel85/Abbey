@@ -10,7 +10,7 @@ Based on the great work of Manuel Abadía for the VIGASOCO project, this new ver
 * There is a need to redesign some of the classes inherited from the VIGASOCO project, as while the latter was designed to create a framework for the design of games, most of these features are beyond the scope of this project that only focuses in only one game.
 
 # Screenshots
-# <img alt="RG350" src="https://imgur.com/a/GViT5Q2.jpg">
+# <a href="https://ibb.co/8PGLLFJ"><img src="https://i.ibb.co/sscddLh/20201212-140648.jpg" alt="20201212-140648" border="0"></a>
 
 # OPK file
 The opk file is located inside of the build_rg350 directory.
