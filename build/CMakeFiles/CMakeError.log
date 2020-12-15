@@ -1,0 +1,51 @@
+Determining if the pthread_create exist failed with the following output:
+Change Dir: /home/samuel/github_projects/Abbey/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f354b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_f354b.dir/build.make CMakeFiles/cmTC_f354b.dir/build
+make[1]: Entering directory '/home/samuel/github_projects/Abbey/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_f354b.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_f354b.dir/CheckSymbolExists.c.o   -c /home/samuel/github_projects/Abbey/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_f354b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f354b.dir/link.txt --verbose=1
+/usr/bin/cc      CMakeFiles/cmTC_f354b.dir/CheckSymbolExists.c.o  -o cmTC_f354b 
+/usr/bin/ld: CMakeFiles/cmTC_f354b.dir/CheckSymbolExists.c.o: in function `main':
+CheckSymbolExists.c:(.text+0x1f): undefined reference to `pthread_create'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_f354b.dir/build.make:87: cmTC_f354b] Error 1
+make[1]: Leaving directory '/home/samuel/github_projects/Abbey/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_f354b/fast] Error 2
+
+File /home/samuel/github_projects/Abbey/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function pthread_create exists in the pthreads failed with the following output:
+Change Dir: /home/samuel/github_projects/Abbey/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_69601/fast"
+/usr/bin/make -f CMakeFiles/cmTC_69601.dir/build.make CMakeFiles/cmTC_69601.dir/build
+make[1]: Entering directory '/home/samuel/github_projects/Abbey/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_69601.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_69601.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.13/Modules/CheckFunctionExists.c
+Linking C executable cmTC_69601
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_69601.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_69601.dir/CheckFunctionExists.c.o  -o cmTC_69601 -lpthreads 
+/usr/bin/ld: cannot find -lpthreads
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_69601.dir/build.make:87: cmTC_69601] Error 1
+make[1]: Leaving directory '/home/samuel/github_projects/Abbey/build/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_69601/fast] Error 2
+
+

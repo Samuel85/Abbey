@@ -135,7 +135,7 @@ Juego::Juego(UINT8 *romData, CPC6128 *cpc)
 	configReader = new ConfigReader("config.txt");
 	#endif
 
-	numberOfSlotToLoad = -1;
+	selectedSlot = -1;
 
 	checkConfigFile();
 }
@@ -227,13 +227,12 @@ bool Juego::menuCargar2()
 		BUTTON_YES = false;
 		if (seleccionado != 7)
 		{
-			numberOfSlotToLoad = seleccionado;
+			selectedSlot = seleccionado;
 
 			// Ask to continue and loose all progress
 			if (activeGame)
 			{
-				seleccionado = 1;
-				changeState(ASKTOCONTINUE);
+				changeState(ASK_CONTINUE);
 				ReiniciaPantalla();
 				marcador->limpiaAreaMarcador();	
 				return false;
@@ -295,6 +294,91 @@ string Juego::getDateAndTime()
 	  tm.tm_mon + 1, tm.tm_mday, tm.tm_year + 1900, tm.tm_hour, tm.tm_min);
 	std::string buffAsStdStr = buff;
   	return buffAsStdStr;
+}
+
+void Juego::askExitLogic()
+{
+	int i = 0;
+	
+	if (sys->pad.left)
+	{
+		i++;
+		sys->pad.left = false;
+		
+	}		
+	else if (sys->pad.right)
+	{
+		i--;
+		sys->pad.right = false;
+	}				
+	seleccionado += i;
+	if (seleccionado > 1){
+		seleccionado = 0;
+	}
+	else if (seleccionado < 0){
+		seleccionado = 1;
+	}	
+
+	if (BUTTON_YES)
+	{
+		BUTTON_YES = false;
+
+		// exit
+		if (seleccionado == 0){				
+			sys->exitGame();
+		}
+		else if (seleccionado==1)
+		{
+			// Back to the game
+			changeState(PLAY);
+			ReiniciaPantalla();
+			paleta->setGamePalette(2);
+			marcador->limpiaAreaMarcador();	
+			ReiniciaPantalla();
+			BUTTON_YES = false;
+			contadorInterrupcion = 0;
+			sys->setNormalSpeed();
+			//sys->playMusic(START);
+			activeGame = true;
+		}
+	}	
+}
+
+void Juego::askExit()
+{
+	int x = 0;	
+
+	askExitLogic();
+
+	// clear screen
+	limpiaAreaJuego(0); 
+	
+	x = 32;
+
+	// find the delimiter
+	int delimiterPosition = continueQuestionText[idioma].find("\n");
+	
+	// get token and value
+	string line1 = continueQuestionText[idioma].substr(0, delimiterPosition);
+	string line2 = continueQuestionText[idioma].substr(delimiterPosition+1,
+		continueQuestionText[idioma].length());
+
+	x = (320 - line1.length()*8)>>1;
+	marcador->imprimeFrase(line1, x, 32, 4, 0);
+	x = (320 - line2.length()*8)>>1;
+	marcador->imprimeFrase(line2, x, 43, 4, 0);
+
+	const int x1 = 140;
+	marcador->imprimeFrase(yesText[idioma], x1, 64, 4, 0);
+	const int x2 = 170;
+	marcador->imprimeFrase(noText[idioma], x2, 64, 4, 0);
+
+	if (seleccionado == 0){
+		marcador->imprimeFrase(yesText[idioma], x1, 64, 0, 4);
+	}
+	else{		
+		marcador->imprimeFrase(noText[idioma], x2, 64, 0, 4);
+	}
 }
 
 void Juego::askForNewGameLogic()
@@ -423,7 +507,7 @@ void Juego::askToContinueLogic()
 		else //YES
 		{	
 			laLogica->inicia();
-			cargar(numberOfSlotToLoad);						
+			cargar(selectedSlot);						
 			changeState(PLAY);
 			ReiniciaPantalla();
 			firstTime = false;
@@ -636,10 +720,13 @@ void Juego::pintaMenuPrincipal(int seleccionado,bool efecto)
 	int x = 0;
 	const int y = 32;
 
-	for (int i=0;i<5;i++)
-	{
-		if ((i!=4) || activeGame )
-		{			
+	for (int i=0;i<6;i++)
+	{						
+		if ((i==4 || i==2) && !activeGame){
+			x = (320 - principalMenuText[idioma][i].length()*8)>>1;
+			marcador->imprimeFrase(principalMenuText[idioma][i], x, y+(i*16),5, 0);
+		}
+		else{
 			x = (320 - principalMenuText[idioma][i].length()*8)>>1;
 			marcador->imprimeFrase(principalMenuText[idioma][i], x, y+(i*16),4, 0);
 		}
@@ -650,7 +737,7 @@ void Juego::pintaMenuPrincipal(int seleccionado,bool efecto)
 		y+(seleccionado*16), 0, 4);	
 }
 
-bool Juego::menu2()
+bool Juego::menu()
 {	
 	if (BUTTON_YES)
 	{
@@ -677,7 +764,7 @@ bool Juego::menu2()
 					// Ask player to continue and loose game
 					
 					seleccionado = 1;
-					changeState(ASKFORNEWGAME);
+					changeState(ASK_NEW_GAME);
 					ReiniciaPantalla();
 					paleta->setGamePalette(2);		
 					marcador->limpiaAreaMarcador();					
@@ -725,10 +812,22 @@ bool Juego::menu2()
 				return true;
 				break;					
 			case 4: //Continue
-				changeState(PLAY);
-				ReiniciaPantalla();
-				activeGame = true;	
-				return true;
+				if (activeGame)
+				{
+					changeState(PLAY);
+					ReiniciaPantalla();
+					activeGame = true;	
+					return true;
+				}
+				break;
+			case 5: //EXIT
+				seleccionado = 1;
+				changeState(ASK_EXIT);
+				ReiniciaPantalla();				
+				paleta->setGamePalette(2);		
+				marcador->limpiaAreaMarcador();						
+				BUTTON_YES = false;
+				contadorInterrupcion = 0;				
 				break;
 		}
 	}
@@ -746,17 +845,11 @@ bool Juego::menu2()
 		sys->pad.down = false;
 	}					
 
-	if (((seleccionado >= 4) && !activeGame)||
-		((seleccionado > 4) && activeGame)){
+	if (seleccionado > 5){
 		seleccionado = 0;
 	}	
 	else if (seleccionado < 0){
-		if (activeGame){
-			seleccionado = 4; // Continue
-		}
-		else {
-			seleccionado = 3; // Language
-		}
+		seleccionado = 5; // EXIT
 	}	
 
 	return false;
@@ -800,7 +893,7 @@ void Juego::stateMachine()
 			menuIdioma();
 			break;
 		case MENU:
-			menu2();
+			menu();
 			break;
 		case LOAD:
 			menuCargar2();
@@ -814,11 +907,14 @@ void Juego::stateMachine()
 		case PLAY:
 			run();
 			break;
-		case ASKFORNEWGAME:
+		case ASK_NEW_GAME:
 			askForNewGame();
 			break;
-		case ASKTOCONTINUE:
+		case ASK_CONTINUE:
 			askToContinue();
+			break;
+		case ASK_EXIT:
+			askExit();
 			break;
 		case ENDING:
 			muestraFinal();

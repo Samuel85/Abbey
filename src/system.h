@@ -50,8 +50,9 @@ enum STATES{
 	LOAD,
 	SAVE,	
 	PLAY,
-	ASKFORNEWGAME,
-	ASKTOCONTINUE,
+	ASK_NEW_GAME,
+	ASK_CONTINUE,
+	ASK_EXIT,
 	ENDING
 };
 
@@ -124,6 +125,10 @@ struct System
 	inline void updateTexture()
 	{
 		SDL_UpdateTexture(texture, NULL, surface->pixels, surface->pitch);
+	}
+	void exitGame()
+	{
+		exit = true;
 	}
 };
 extern System *const sys;

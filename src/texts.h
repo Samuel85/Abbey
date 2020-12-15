@@ -11,21 +11,23 @@ enum LANGUAGE
 	TOTAL_LANGUAGES
 };
 
-const string  principalMenuText[8][5] =
+const string  principalMenuText[8][6] =
 {
 	{	// Castellano
 		"NUEVA PARTIDA",
 		"CARGAR",
 		"GUARDAR",
 		"IDIOMA",
-		"CONTINUAR"
+		"CONTINUAR",
+		"SALIR"
 	},
 	{	// English
 		"NEW GAME",
 		"LOAD",
 		"SAVE",
 		"LANGUAGE",
-		"CONTINUE"
+		"CONTINUE",
+		"EXIT"
 	},
 	{	// Portuges Brasil
 		"NOVO JOGO",
@@ -33,41 +35,47 @@ const string  principalMenuText[8][5] =
 		"SALVE",
 		"L?NGUA", //"LÍNGUA",
 		"CONTINUAR"
+		"SA?DA"
 	},
 	{	// Catalan
 		"NOU JOC",
 		"CARGA",
 		"DESA",
-		"LLENGUATGE",
-		"CONTINUA"
+		"IDIOMA",
+		"CONTINUA",
+		"SORTIR",
 	},
 	{	//Gallego
 		"NOVO XOGO",//"NOVO XOGO",
 		"CARGA",
 		"GARDAR",
 		"LINGUA",
-		"CONTINUAR"
+		"CONTINUAR",
+		"SAIR"
 	},
 	{	//Italian
 		"NUOVO GIOCO",
 		"CARICARE",
 		"SALVA",
 		"LINGUAGGIO",
-		"CONTINUA"
+		"CONTINUA",
+		"USCITA"
 	},	
 	{	// Finlandes
 		"UUSI PELI",
 		"LADATA",
 		"TALLENTAA",
 		"KIELI",
-		"JATKAA"
+		"JATKAA",
+		"POISTUA"
 	},
 	{	// Portuges
 		"NOVO JOGO",
 		"CARGA",
 		"SALVE",
 		"L?NGUA", //"LÍNGUA",
-		"CONTINUAR"
+		"CONTINUAR",
+		"SA?DA"
 	}
 };
 

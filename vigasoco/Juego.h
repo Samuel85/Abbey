@@ -92,7 +92,8 @@ public:
 	int firstTime;	
 	int seleccionado;
 	ConfigReader *configReader;
-	int numberOfSlotToLoad;
+	int selectedSlot;
+
 
 private:
 	bool cargar(int slot);
@@ -119,8 +120,7 @@ private:
 	void pintaMenuIdioma(int seleccionado,bool efecto=false);
 	bool menuIdioma(void);
 	void pintaMenuPrincipal(int seleccionado,bool efecto=false);
-	bool menu(void);
-	bool menu2(void);
+	bool menu(void);	
 	void cambioCPC_VGA(void);
 	void compruebaCambioCPC_VGA(void);
 	bool compruebaMenu(void);
@@ -169,6 +169,9 @@ protected:
 
 	void askToContinue();
 	void askToContinueLogic();
+
+	void askExit();
+	void askExitLogic();
 
 };
 
