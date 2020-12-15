@@ -1,8 +1,0 @@
-LANGUAGE=1
-SAVE0=--
-SAVE1=--
-SAVE2=--
-SAVE3=--
-SAVE4=--
-SAVE5=--
-SAVE6=--
