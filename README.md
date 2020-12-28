@@ -8,7 +8,7 @@ Based on the great work of Manuel Abadía for the VIGASOCO project, this new ver
 * New android port. 
 
 # Status
-* At this point the game is stable, can run smoothly on the RG350 and Linux, and includes new features in the menu system, support of Forcefeedback for the RG350 and pc (using a PS4 controller), but more work needs to be done testing the game and fixing new bugs.
+* At this point the game is stable, can run smoothly, and includes new features in the menu system, support of Forcefeedback, but more work needs to be done testing the game and fixing new bugs.
 
 * There is a need to redesign some of the classes inherited from the VIGASOCO project, as while the latter was designed to create a framework for the design of games, most of these features are beyond the scope of this project and makes the maintenance of the code more difficult.
 
