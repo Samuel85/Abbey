@@ -14,13 +14,14 @@ Based on the great work of Manuel Abadía for the VIGASOCO project, this new ver
 
 
 # Screenshots
+# <a href="https://ibb.co/2KYmxMj"><img src="https://i.ibb.co/2KYmxMj/Abbey-Android.png" alt="Abbey-Android" border="0"></a>
 # <a href="https://ibb.co/8PGLLFJ"><img src="https://i.ibb.co/sscddLh/20201212-140648.jpg" alt="20201212-140648" border="0"></a>
 
 # Note for Android users
 * It's necessary to use a PS4 controller.
 * The android package (apk) of the game is located inside of app/build/outputs/apk/debug
 * If the program don't save yor progress, it is necessary to manually assign storage permisions on the game. Holding in the game icon->App info->Permissions.
-* To compile for android, see Readme.md inside of the build_directory folder.
+* To compile the game for android, see the Readme.md file located inside of the build_directory folder.
 
 # RG350 users
 The opk file is located inside of the build_rg350 directory.
