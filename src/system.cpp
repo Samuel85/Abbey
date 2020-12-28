@@ -25,70 +25,79 @@ void System::init()
 	Uint32 initFlags = SDL_INIT_VIDEO  | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;  
 
 	SDL_Init(SDL_INIT_VIDEO | initFlags | SDL_INIT_AUDIO);    
-	if (fullscreen) {
-		windowFlags = windowFlags | SDL_WINDOW_FULLSCREEN;
-	}
+	
+	#ifdef ANDROID
+	windowFlags = windowFlags | SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE;
+	#endif
 
 	// Joypad
-	if( SDL_NumJoysticks() < 1 ){
-        std::cout << "Warning: No joysticks connected!\n";
-    }
+	if( SDL_NumJoysticks() < 1 ){		
+		print("Warning: No joysticks connected!\n");		
+	}
 	else
 	{
 		gamepad = SDL_GameControllerOpen(0);
 		if (gamepad == NULL){
-			std::cout << "Warning: No joysticks connected!\n";
+			print("Warning: No joysticks connected!\n");
 		}
 		SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
 	}
-	if (SDL_InitSubSystem(SDL_INIT_HAPTIC) < 0){
-		std::cout << "SDL force feedback initialisation failed (non-fatal): %s\n" << SDL_GetError() << std::endl;
+	if (SDL_InitSubSystem(SDL_INIT_HAPTIC) < 0){        
+		print ("SDL force feedback initialisation failed (non-fatal)\n");
 	}
   	else if (SDL_NumHaptics() > 0){
 		hapticDevice = SDL_HapticOpen(0);
 		if (hapticDevice == NULL){
-			std::cout << "SDL_HapticOpen(0) failed (non-fatal): %s\n" << SDL_GetError() << std::endl;
+			print("SDL_HapticOpen(0) failed (non-fatal)\n");
 		}
-		else if (SDL_HapticRumbleInit(hapticDevice) != 0){
-			std::cout << "SDL_HapticRumbleInit failed (non-fatal): %s\n"<< SDL_GetError() << std::endl;
+		else if (SDL_HapticRumbleInit(hapticDevice) != 0)
+        {			
+            print("SDL_HapticRumbleInit failed (non-fatal)\n");
 			SDL_HapticClose(hapticDevice);
 			hapticDevice = NULL;
 		}
 	}
 	#ifdef RG350
 	// soft haptic response
-	if (SDL_HapticRumblePlay(hapticDevice, 0.30f /* Strength */, 10 /* Time */) < 0){
-		std::cout <<  "SDL_HapticRumbleStop failed: %s\n"<< SDL_GetError() << std::endl;
+	if (SDL_HapticRumblePlay(hapticDevice, 0.30f /* Strength */, 10 /* Time */) < 0){		
+        print("SDL_HapticRumbleStop failed\n");
 	}
 	#endif
 	//
-
-	window = SDL_CreateWindow(WINDOW_TITLE, 0, 0, w, h, windowFlags);                            
-	if (window == NULL){
-		std::cout << "ERROR: Could not create window: " << SDL_GetError() << std::endl;    
+	
+	#ifdef ANDROID
+	window = SDL_CreateWindow(WINDOW_TITLE, 0, 0, 0, 0, windowFlags);
+	SDL_GetWindowSize(window, &w, &h);
+	#else
+	window = SDL_CreateWindow(WINDOW_TITLE, 0, 0, w, h, windowFlags);
+	#endif
+	
+	if (window == NULL){		
+        print("ERROR: Could not create window");
 	}
 
 	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
 	if( renderer == NULL ){
-		std::cout << "ERROR: Could not create renderer: " << SDL_GetError() << std::endl;    
+        print("ERROR: Could not create renderer");		
 	}
 
 	if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 ){
-		std::cout << "ERROR: Mix_OpenAudio" << std::endl;
+		print("ERROR: Mix_OpenAudio\n");
 	}
 	for (int i=0;i<TOTAL_SOUND_FILES;i++)
 	{
 		sounds.push_back(Mix_LoadWAV(soundsPathList[i]));
 		if (sounds[i] == NULL){
-			std::cout << "Error: can't read " << soundsPathList[i] <<std::endl;	
+            print("Error: can't read sound file\n");			
 		}
 	}
 
 	for (int i=0;i<TOTAL_MUSIC_FILES;i++)
 	{
-		music.push_back(Mix_LoadMUS(musicPathList[i]));
+		music.push_back(Mix_LoadWAV(musicPathList[i]));
 		if (music[i] == NULL){
-			std::cout << "Error: can't read " << musicPathList[i] <<std::endl;
+            print("Error: can't read music file\n");
+			//std::cout << "Error: can't read " << musicPathList[i] <<std::endl;            
 		}
 	}
 
@@ -107,25 +116,28 @@ void System::init()
 	//surface = SDL_CreateRGBSurface(0, TEXTURE_WIDTH,TEXTURE_HEIGHT>>1,32, rmask, gmask,bmask, amask);
 	surface = SDL_CreateRGBSurface(0, TEXTURE_WIDTH,TEXTURE_HEIGHT,32, rmask, gmask,bmask, amask);
 	if (surface == NULL){
-		std::cout << "Surface Error:" << SDL_GetError() << std::endl;
+		//std::cout << "Surface Error:" << SDL_GetError() << std::endl;
+        print ("Can't create surface\n");
 	}
 	texture = SDL_CreateTextureFromSurface(renderer, surface);	
 	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 	
 	// Init Fonts
+	#ifndef ANDROID
 	if (TTF_Init() < 0){
-		std::cout << "Error initializing TTF library" << std::endl;
+		print("Error initializing TTF library\n");
 	}
 	font = TTF_OpenFont("fonts/arial.ttf", 10);
 	if (font == NULL){
-		std::cout << "Error loading fonts" << std::endl;
+		print("Error loading fonts\n");
 	}
+	#endif
 }
 
 void System::hapticFeedback()
 {
 	if (SDL_HapticRumblePlay(hapticDevice, 0.80f /* Strength */, 200 /* Time */) < 0){
-		std::cout <<  "SDL_HapticRumbleStop failed: %s\n"<< SDL_GetError() << std::endl;
+		print("SDL_HapticRumbleStop failed");
 	}
 }
 
@@ -137,16 +149,19 @@ void System::quit()
 	SDL_DestroyWindow(window);	
 
 	for (int i=0;i<TOTAL_MUSIC_FILES;i++){
-		Mix_FreeMusic(music[i]);
+		//Mix_FreeMusic(music[i]);
+        Mix_FreeChunk(music[i]);
 	}
 	music.clear();
 
 	for (int i=0;i<TOTAL_SOUND_FILES;i++){
 		Mix_FreeChunk(sounds[i]);
 	}
-	sounds.clear();  
+	sounds.clear(); 
+	#ifndef ANDROID
 	TTF_CloseFont(font);
 	TTF_Quit();
+	#endif
 	SDL_Quit();	
 }
 
@@ -163,11 +178,13 @@ void System::updateScreen()
 }
 void System::playMusic(int i)
 {
-	Mix_PlayMusic( music[i], -1);
+	//Mix_PlayMusic( music[i], -1);
+    Mix_PlayChannel( -1, music[i], -1);
 }
 void System::stopMusic()
 {
-	Mix_HaltMusic();
+	//Mix_HaltMusic();
+    Mix_HaltChannel(-1);
 }
 void System::playSound(int i)
 {
@@ -330,23 +347,6 @@ void System::handleEvents()
 				default:
 					break;
 			}
-		}
-		/*		
-		else if( event.type == SDL_JOYBUTTONUP)
-		{ 
-	        switch(event.jbutton.button)
-			{
-
-				
-			}
-    	}
-		else if(event.type == SDL_JOYBUTTONDOWN)
-		{
-			switch(event.jbutton.button)
-			{
-				
-			}
-		}
-		*/
+		}		
 	}
 }

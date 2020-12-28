@@ -1,0 +1,123 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:5:1-92:12
+INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:5:1-92:12
+INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:5:1-92:12
+INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:5:1-92:12
+INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:5:1-92:12
+INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:5:1-92:12
+INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:5:1-92:12
+	package
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:6:5-28
+		INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+	android:versionName
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:8:5-30
+		INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:5:11-69
+	android:versionCode
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:7:5-28
+		INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+	android:installLocation
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:9:5-35
+uses-feature#0x00020000
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:12:5-54
+	android:glEsVersion
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:12:19-51
+uses-feature#android.hardware.touchscreen
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:15:5-17:36
+	android:required
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:17:9-33
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:16:9-52
+uses-feature#android.hardware.bluetooth
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:20:5-22:36
+	android:required
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:22:9-33
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:21:9-50
+uses-feature#android.hardware.gamepad
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:23:5-25:36
+	android:required
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:25:9-33
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:24:9-48
+uses-feature#android.hardware.usb.host
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:26:5-28:36
+	android:required
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:28:9-33
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:27:9-49
+uses-feature#android.hardware.type.pc
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:31:5-33:36
+	android:required
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:33:9-33
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:32:9-48
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:42:5-80
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:42:22-77
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:44:5-81
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:44:22-78
+uses-permission#android.permission.BLUETOOTH
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:46:5-68
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:46:22-65
+uses-permission#android.permission.VIBRATE
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:48:5-66
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:48:22-63
+application
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:61:5-90:19
+	android:label
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:61:18-39
+	android:hardwareAccelerated
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:65:9-43
+	android:icon
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:62:9-43
+	android:allowBackup
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:63:9-35
+	android:theme
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:64:9-67
+activity#org.abbey.app.Abbey
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:71:9-89:20
+	android:label
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:72:13-34
+	android:launchMode
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:74:13-48
+	android:configChanges
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:75:13-133
+	android:alwaysRetainTaskState
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:73:13-49
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:71:19-39
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:77:13-80:29
+action#android.intent.action.MAIN
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:78:17-69
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:78:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:79:17-77
+	android:name
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml:79:27-74
+uses-sdk
+INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+		ADDED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/samuel/github_projects/Release/Abbey/build_android/app/src/main/AndroidManifest.xml

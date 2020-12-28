@@ -13,11 +13,17 @@
 #include "Types.h"
 #include "Paleta.h"
 
+#ifdef ANDROID
+#include "configreader.h"
+#else 
 #include "../ConfigReader/configreader.h"
+#endif
+
 #include <string>
 #include <iostream>
 #include <cstdlib>
 #include <csignal>
+#include <sys/stat.h> 
 
 class CPC6128;					// definido en CPC6128.h
 

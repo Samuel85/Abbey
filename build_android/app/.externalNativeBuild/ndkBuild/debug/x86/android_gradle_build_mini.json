@@ -1,0 +1,83 @@
+{
+  "buildFiles": [
+    "/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk",
+    "/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk"
+  ],
+  "cleanCommands": [
+    "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 clean"
+  ],
+  "libraries": {
+    "SDL2-debug-x86": {
+      "artifactName": "SDL2",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libSDL2.so",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libSDL2.so"
+    },
+    "hidapi-debug-x86": {
+      "artifactName": "hidapi",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libhidapi.so",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libhidapi.so"
+    },
+    "main-debug-x86": {
+      "artifactName": "main",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libmain.so",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libmain.so"
+    },
+    "webpdecoder_static-debug-x86": {
+      "artifactName": "webpdecoder_static",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libwebpdecoder_static.a",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libwebpdecoder_static.a"
+    },
+    "SDL2_image-debug-x86": {
+      "artifactName": "SDL2_image",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libSDL2_image.so",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libSDL2_image.so"
+    },
+    "SDL2_ttf-debug-x86": {
+      "artifactName": "SDL2_ttf",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libSDL2_ttf.so",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libSDL2_ttf.so"
+    },
+    "png-debug-x86": {
+      "artifactName": "png",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libpng.a",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libpng.a"
+    },
+    "SDL2_mixer-debug-x86": {
+      "artifactName": "SDL2_mixer",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libSDL2_mixer.so",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libSDL2_mixer.so"
+    },
+    "webp-debug-x86": {
+      "artifactName": "webp",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libwebp.a",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libwebp.a"
+    },
+    "cpufeatures-debug-x86": {
+      "artifactName": "cpufeatures",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libcpufeatures.a",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libcpufeatures.a"
+    },
+    "freetype-debug-x86": {
+      "artifactName": "freetype",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libfreetype.a",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libfreetype.a"
+    },
+    "jpeg-debug-x86": {
+      "artifactName": "jpeg",
+      "buildCommand": "/home/samuel/Android/Sdk/ndk/21.3.6528147/ndk-build NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Android.mk NDK_APPLICATION_MK\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/jni/Application.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003d/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/lib APP_PLATFORM\u003dandroid-16 /home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libjpeg.a",
+      "abi": "x86",
+      "output": "/home/samuel/github_projects/Release/Abbey/build_android/app/build/intermediates/ndkBuild/debug/obj/local/x86/libjpeg.a"
+    }
+  }
+}

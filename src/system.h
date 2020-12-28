@@ -3,7 +3,15 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
+#include <string>
+#include <iostream>
+
+#ifdef ANDROID
+#include <android/log.h>
+#else
 #include <SDL_ttf.h>
+#endif
+
 #include <vector>
 
 #define WINDOW_WIDTH 1280  
@@ -21,12 +29,21 @@ enum MUSICFILES{
 
   TOTAL_MUSIC_FILES
 };
+#ifdef ANDROID
+static const char* const
+musicPathList[] = {
+	"roms/abadia/inicio.wav",
+	"roms/abadia/final.wav",
+	"roms/abadia/fondo.wav",
+};
+#else
 static const char* const
 musicPathList[] = {
 	"./roms/abadia/inicio.wav",
 	"./roms/abadia/final.wav",
 	"./roms/abadia/fondo.wav",
 };
+#endif
 
 enum SOUNDFILES{
   OPEN,
@@ -56,6 +73,20 @@ enum STATES{
 	ENDING
 };
 
+#ifdef ANDROID
+static const char* const
+soundsPathList[] = {
+	"roms/abadia/abrir.wav",
+	"roms/abadia/aporrear.wav",
+	"roms/abadia/campanas.wav",
+	"roms/abadia/cerrar.wav",
+	"roms/abadia/coger.wav",
+	"roms/abadia/dejar.wav",
+	"roms/abadia/espejo.wav",		
+	"roms/abadia/pasos.wav",
+	"roms/abadia/tintineo.wav",
+	};
+#else
 static const char* const
 soundsPathList[] = {
 	"./roms/abadia/abrir.wav",
@@ -68,6 +99,7 @@ soundsPathList[] = {
 	"./roms/abadia/pasos.wav",
 	"./roms/abadia/tintineo.wav",
 	};
+#endif
 
 struct PlayerInput
 {
@@ -96,10 +128,12 @@ struct System
 	SDL_GameController *gamepad;
 	SDL_Haptic *hapticDevice;
 
-
-	TTF_Font *font;	
+	#ifndef ANDROID
+	TTF_Font *font;
+	#endif
 	std::vector<Mix_Chunk*>sounds;
-	std::vector<Mix_Music*>music;
+	//std::vector<Mix_Music*>music;
+    std::vector<Mix_Chunk*>music;
 	
 	void init();
 	void quit();
@@ -130,6 +164,14 @@ struct System
 	{
 		exit = true;
 	}
+	void print(const std::string message)
+    {
+        #ifdef ANDROID
+		 __android_log_print(ANDROID_LOG_DEBUG, "ABBEY", "%s\n", message.c_str());
+		#else
+         std::cout << message;
+        #endif
+    }
 };
 extern System *const sys;
 

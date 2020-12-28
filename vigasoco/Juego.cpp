@@ -47,25 +47,13 @@
 #include "system.h"
 
 #include "texts.h"
-#include <SDL_ttf.h>
+
 
 
 
 
 using namespace Abadia;
 
-
-#ifdef RG350
-const char *Juego::savefile[7] = {	
-	 "/usr/local/home/Abbey/abadia0.save",
-	 "/usr/local/home/Abbey/abadia1.save",
-	 "/usr/local/home/Abbey/abadia2.save",
-	 "/usr/local/home/Abbey/abadia3.save",
-	 "/usr/local/home/Abbey/abadia4.save",
-	 "/usr/local/home/Abbey/abadia5.save",
-	 "/usr/local/home/Abbey/abadia6.save"
-};
-#else
 const char *Juego::savefile[7] = {	
 	 "abadia0.save",
 	 "abadia1.save",
@@ -75,7 +63,7 @@ const char *Juego::savefile[7] = {
 	 "abadia5.save",
 	 "abadia6.save"
 };
-#endif
+
 
 /////////////////////////////////////////////////////////////////////////////
 // inicializaci??n y limpieza
@@ -255,7 +243,20 @@ bool Juego::menuCargar2()
 
 bool Juego::cargar(int slot)
 {	
-	std::ifstream in(savefile[slot]);
+	std::string path = "";
+
+	#ifdef RG350
+	path = "/usr/local/home/Abbey/";
+	#endif
+
+	#ifdef ANDROID
+	if (SDL_AndroidGetExternalStorageState() != 0){
+		path = SDL_AndroidGetExternalStoragePath();
+		path += "/";
+	}
+	#endif
+
+	std::ifstream in((path + savefile[slot]).c_str());
 	in >> logica;
 	if (in.fail())
 	{
@@ -562,7 +563,21 @@ void Juego::save(int slot)
 	saveConfigFile();
 
 	// save "abadiaX.save"
-	std::ofstream out(savefile[slot],
+
+	std::string path = "";
+
+	#ifdef RG350
+	path = "/usr/local/home/Abbey/";
+	#endif
+
+	#ifdef ANDROID
+	if (SDL_AndroidGetExternalStorageState() != 0){
+		path = SDL_AndroidGetExternalStoragePath();
+		path += "/";
+	}
+	#endif	
+
+	std::ofstream out((path + savefile[slot]).c_str(),
 			std::ofstream::out|std::ofstream::trunc);
 	
 	out << logica; 
@@ -952,11 +967,20 @@ bool Juego::readConfigFile()
 		delete configReader;
 	}
 
-	#ifdef RG350	
-	configReader = new ConfigReader("/usr/local/home/Abbey/config.txt");
-	#else
-	configReader = new ConfigReader("config.txt");
+	std::string path = "";
+
+	#ifdef RG350
+	path = "/usr/local/home/Abbey/";
 	#endif
+
+	#ifdef ANDROID
+	if (SDL_AndroidGetExternalStorageState() != 0){
+		path = SDL_AndroidGetExternalStoragePath();
+		path += "/";
+	}
+	#endif
+
+	configReader = new ConfigReader((path + "config.txt").c_str());
 
 	if  (configReader->parse())
 	{
@@ -973,12 +997,21 @@ bool Juego::saveConfigFile()
 {
 	bool r = false;
 	ofstream f;
-	
+
+	std::string path = "";
+
 	#ifdef RG350
-	f.open("/usr/local/home/Abbey/config.txt");
-	#else
-	f.open("config.txt");
+	path = "/usr/local/home/Abbey/";
 	#endif
+
+	#ifdef ANDROID
+	if (SDL_AndroidGetExternalStorageState() != 0){
+		path = SDL_AndroidGetExternalStoragePath();
+		path += "/";	
+	}
+	#endif
+	
+	f.open((path + "config.txt").c_str());
 
 	// write current language
 	f << "LANGUAGE="<< idioma <<"\n";

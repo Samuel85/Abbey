@@ -4,7 +4,12 @@
 
 #include <fstream>
 #include "UncompressedLoader.h"
+#include "system.h"
 
+#ifdef ANDROID
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
+#endif
 /////////////////////////////////////////////////////////////////////////////
 // initialization and cleanup
 /////////////////////////////////////////////////////////////////////////////
@@ -23,28 +28,22 @@ UncompressedLoader::~UncompressedLoader()
 
 void UncompressedLoader::open(std::string path, std::string name)
 {
-	_path = path + "/" + name + "/";
+	_path = path + "/" + name + "/";    
 }
 
 UINT8 *UncompressedLoader::load(std::string fileName, UINT32 fileSize, UINT32 CRC32)
 {
-	std::ifstream in((_path + fileName).c_str(), std::ios::binary);
-
-	// try to open the file and exits if there was an error
-	if (in.fail()){
-		return 0;
-	}
-
-	// allocates memory and tries to read the file
-	UINT8 *ptr = new UINT8[fileSize];
-	in.read((char *)ptr, fileSize);
-	if (in.fail()){
-		delete[] ptr;
-		return 0;
-	}
-
-	// file succesfully read. Close it and return the data
-	in.close();
+    UINT8 *ptr = new UINT8[fileSize];
+    std::string fname = _path + fileName;
+    SDL_RWops *rw = SDL_RWFromFile(fname.c_str(),"r");
+    if (rw == NULL) {
+        sys->print("Unable to load file\n");
+    }
+    else
+    {               
+        SDL_RWread(rw, ptr, fileSize, 1);
+        SDL_RWclose(rw);
+    }
 
 	return ptr;
 }

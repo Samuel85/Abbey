@@ -91,7 +91,13 @@ const unsigned char * Pergamino::pergaminoInicio[8] =
 	"    Juan Delcan\x0d\x0d"
 	"reingenieria inversa: \x0d"
 	"    Manuel Abadia\x0d\x0d"
-	"version SDL: Luzbel\x1a",
+	"version SDL: Luzbel\x0d"
+    "\x0d"
+    " Graficos VGA:\x0d\x0d"
+    "    Antonio Giner\x0d\x0d"
+    " version Abbey:\x0d\x0d"
+    "   Samuel Salinas\x1a",
+
 // TODO añadir creditos graficos VGA a Antonio Giner
 		// fin textos 0 castellano
 		// 1 inglés
@@ -167,7 +173,9 @@ const unsigned char * Pergamino::pergaminoInicio[8] =
 	"version SDL: Luzbel\x0d"
 	"VGA Graphs and\x0d"
 	"english translation:\x0d"
-	"     Antonio Giner\x1a",
+	"     Antonio Giner\x0d\x0d"
+    " Abbey port:\x0d\x0d"
+    "   Samuel Salinas\x1a",
 
 		// fin textos 1 inglés
 		// textos 2 portugues brasil
@@ -254,8 +262,9 @@ const unsigned char * Pergamino::pergaminoInicio[8] =
 	"    Manuel Abadia,\x0d"
 	"    Antonio Giner\x0d"
 	"tradução:\x0d"
-	"    Antonio Pimentel\x1a"
-		,
+	"    Antonio Pimentel\x0d"
+    " Abbey port:\x0d\x0d"
+    "   Samuel Salinas\x1a",		
 		// fin textos 2 portugues brasil
 		// textos 3 CATALAN
 
@@ -335,8 +344,9 @@ const unsigned char * Pergamino::pergaminoInicio[8] =
 	"adaptació: Luzbel,\x0d"
 	"    Manuel Abadia,\x0d"
 	"    Antonio Giner\x0d"
-	"traducció:Efren Garcia\x1a"
-	,
+	"traducció:Efren Garcia\x0d"
+    " Abbey port:\x0d\x0d"
+    "   Samuel Salinas\x1a",
 		// fin textos 3 CATALAN
 		// textos 4 gallego
 
@@ -412,9 +422,10 @@ const unsigned char * Pergamino::pergaminoInicio[8] =
 	"    Manuel Abadia,\x0d"
 	"    Antonio Giner\x0d"
 	"tradución:\x0d"
-	"    Marcos Maceda\x1a"
-
-		,
+	"    Marcos Maceda\x0d"
+    " Abbey port:\x0d\x0d"
+    "   Samuel Salinas\x1a",
+    
 		// fin textos 4 gallego
 		// textos 5 italiano
 
@@ -494,8 +505,9 @@ const unsigned char * Pergamino::pergaminoInicio[8] =
 	"    Manuel Abadia,\x0d"
 	"    Antonio Giner\x0d"
 	"traduzione:\x0d"
-	"    Chiara Bagnoli\x1a"
-	,
+	"    Chiara Bagnoli\x0d"
+    " Abbey port:\x0d\x0d"
+    "   Samuel Salinas\x1a",	
 		// fin textos 5 italiano
 		// textos 6 fines
 
@@ -587,8 +599,10 @@ const unsigned char * Pergamino::pergaminoInicio[8] =
 	"    Manuel Abadia,\x0d"
 	"    Antonio Giner\x0d"
 	"suomennos:\x0d"
-	"    Riikka Halonen\x1a"
-		,
+	"    Riikka Halonen\x0d"
+    " Abbey port:\x0d\x0d"
+    "   Samuel Salinas\x1a",
+    
 		// fin textos 6 fines
 		// textos 7 portugues
 
@@ -662,8 +676,9 @@ const unsigned char * Pergamino::pergaminoInicio[8] =
 	"    Manuel Abadia,\x0d"
 	"    Antonio Giner\x0d"
 	"tradução:\x0d"
-	"    Filipe Silva\x1a"
-
+	"    Filipe Silva\x0d"
+    " Abbey port:\x0d\x0d"
+    "   Samuel Salinas\x1a"
 		// fin textos 7 portugues
 	};
 

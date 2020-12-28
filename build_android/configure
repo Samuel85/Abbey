@@ -1,0 +1,8 @@
+echo "Copying source code..."
+cp ../src/* ./app/jni/src/ 
+cp ../vigasoco/* ./app/jni/src/ 
+cp -R ../build/roms ./app/src/main/assets/
+cp ../ConfigReader/*.h ./app/jni/src/
+cp ../ConfigReader/*.cpp ./app/jni/src/
+
+echo "Done!"
