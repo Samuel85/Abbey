@@ -20,7 +20,7 @@ Based on the great work of Manuel Abadía for the VIGASOCO project, this new ver
 # Note for Android users
 * It's necessary to use a PS4 controller.
 * The apk file (app-debug.apk) of the game is located inside of app/build/outputs/apk/debug
-* If the program don't save the progress, it is necessary to manually assign storage permisions on the game. Hold the game icon->App info->Permissions.
+* If the program don't save the progress, it is necessary to manually assign storage permisions on the game. Hold on the game icon->App info->Permissions.
 * To compile the game for android, see the Readme.md file located inside of the build_directory folder.
 
 # RG350 users
