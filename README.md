@@ -8,7 +8,7 @@ Based on the great work of Manuel Abadía for the VIGASOCO project, this new ver
 * New Android port. 
 
 # Status
-* At this point, the game is stable, can run smoothly, and includes new features in the menu system, supports Forcefeedback, but more work needs to be done testing the game and fixing new bugs.
+* At this point, the game is stable, can run smoothly, includes new features in the menu system, and supports Forcefeedback, but more work needs to be done testing the game and fixing new bugs.
 
 * There is a need to redesign some of the classes inherited from the VIGASOCO project. While the latter was designed to create a framework for the design of games, most of these features are beyond this project's scope, making the maintenance of the code more difficult.
 
