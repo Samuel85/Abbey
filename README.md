@@ -5,7 +5,7 @@ This repository contains a new implementation of the classic video game "La abad
 Based on the great work of Manuel Abadía for the VIGASOCO project, this new version reduces the computational power necessary for the emulation of the inner behavior of the Amstrad CPC on which the original video game was designed, and replace it with modern programming patterns and data structures. While the original VIGASOCO project needed four threads to emulate video, inputs, sound, and the main game, this new version reduces the need to use threads, making it easy to port to low specs machines like the RG350, the Nintendo 3ds, or Android.
 
 # Updates
-* New android port. 
+* New Android port. 
 
 # Status
 * At this point, the game is stable, can run smoothly, and includes new features in the menu system, supports Forcefeedback, but more work needs to be done testing the game and fixing new bugs.
