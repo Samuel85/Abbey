@@ -8,17 +8,16 @@ Based on the great work of Manuel Abadía for the VIGASOCO project, this new ver
 * New android port. 
 
 # Status
-* At this point the game is stable, can run smoothly, and includes new features in the menu system, support of Forcefeedback, but more work needs to be done testing the game and fixing new bugs.
+* At this point, the game is stable, can run smoothly, and includes new features in the menu system, supports Forcefeedback, but more work needs to be done testing the game and fixing new bugs.
 
-* There is a need to redesign some of the classes inherited from the VIGASOCO project, as while the latter was designed to create a framework for the design of games, most of these features are beyond the scope of this project and makes the maintenance of the code more difficult.
-
+* There is a need to redesign some of the classes inherited from the VIGASOCO project. While the latter was designed to create a framework for the design of games, most of these features are beyond this project's scope, making the maintenance of the code more difficult.
 
 # Screenshots
 # <a href="https://ibb.co/2KYmxMj"><img src="https://i.ibb.co/nk8Z91D/Abbey-Android.png" alt="Abbey-Android" border="0" /></a>
 # <a href="https://ibb.co/8PGLLFJ"><img src="https://i.ibb.co/sscddLh/20201212-140648.jpg" alt="20201212-140648" border="0"></a>
 
 # Note for Android users
-* It's necessary to use a PS4 controller.
+* It's necessary to use a controller.
 * The apk file (app-debug.apk) of the game is located inside of app/build/outputs/apk/debug
 * If the program don't save the progress, it is necessary to manually assign storage permisions on the game. Hold on the game icon->App info->Permissions.
 * To compile the game for android, see the Readme.md file located inside of the build_directory folder.
