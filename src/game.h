@@ -1,12 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "AbadiaDriver.h"
-#include "GameDriver.h"
-#include "IPalette.h"
-#include "FontManager.h"
-#include "cpc6128.h"
-#include "VigasocoSDL.h"
+#include "Vigasoco.h"
 
 class Game{
 public:	
@@ -17,7 +12,7 @@ public:
 	void logic();
 	void render();
 	
-	VigasocoSDL *vigasocosdl;
+	Vigasoco *vigasocosdl;
 };
 
 #endif

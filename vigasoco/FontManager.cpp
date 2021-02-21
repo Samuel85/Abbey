@@ -2,8 +2,8 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-#include "IDrawPlugin.h"
-#include "IPalette.h"
+
+#include "SDLPalette.h"
 #include "FontManager.h"
 #include "GfxData.h"
 
@@ -11,7 +11,7 @@
 // initialization and cleanup
 /////////////////////////////////////////////////////////////////////////////
 
-FontManager::FontManager(IPalette *palette, int entry)
+FontManager::FontManager(SDLPalette *palette, int entry)
 {
 	_palette = palette;
 	_fontColorEntry = entry;

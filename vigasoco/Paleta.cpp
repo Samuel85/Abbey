@@ -53,15 +53,6 @@ Paleta::~Paleta()
 // coloca la paleta de la introducci?n
 void Paleta::setIntroPalette()
 {
-/* CPC
-	for (int i = 0; i < 16; i++){
-		cpc6128->setHardwareColor(paleta, i, introPalette[i]);
-	}
-
-
-	cpc6128->markAllPixelsDirty();
-*/
-
 // VGA
 	
 	//init(256);
@@ -72,14 +63,6 @@ void Paleta::setIntroPalette()
 // coloca una paleta
 void Paleta::setGamePalette(int pal)
 {
-/* CPC
-	for (int i = 0; i < 4; i++){
-		cpc6128->setHardwareColor(paleta, i, palettes[pal][i]);
-	}
-
-	cpc6128->markAllPixelsDirty();
-*/
-
 	// VGA
 	if ( pal==0 ){
 		for (int i = 0; i < 256; i++){

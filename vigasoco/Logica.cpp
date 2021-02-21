@@ -939,6 +939,7 @@ void Logica::iniciaPersonajes()
 	adso->oldEstado = 0;
 	adso->movimientosFrustados = 0;
 	adso->cntParaDormir = 0;
+	adso->objetos = 0;
 	
 	// malaqu?as
 	malaquias->posX = 0x26;

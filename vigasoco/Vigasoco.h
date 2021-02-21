@@ -16,96 +16,37 @@
 #ifndef _VIGASOCO_H_
 #define _VIGASOCO_H_
 
-
 #include <string>
 
 #include "Singleton.h"
-#include "Types.h"
-
-class IDrawPlugin;		// defined in IDrawPlugin.h
-class GameDriver;		// defined in GameDriver.h
-class FileLoader;		// defined in FileLoader.h
-class FontManager;		// defined in FontManager.h
-class InputHandler;		// defined in InputHandler.h
-class ICriticalSection;	// defined in ICriticalSection.h
-class IPalette;			// defined in IPalette.h
-class IThread;			// defined in IThread.h
-class ITimer;			// defined in Timer.h
-class TimingHandler;	// defined in TimingHandler.h
+#include "SDLPalette.h"
+#include "GameDriver.h"
 
 #define VigasocoMain Vigasoco::getSingletonPtr()
 
 class Vigasoco : public Singleton<Vigasoco>
 {
 // fields
-protected:
-	int _numFrames;
-	bool _speedThrottle;
-
-	std::string _game;
-	std::string _errorMsg;
+protected:	
 	GameDriver *_driver;
-	IPalette *_palette;
-	IDrawPlugin *_drawPlugin;	
-	InputHandler *_inputHandler;
-	ITimer *_timer;
-	IThread *_asyncThread;
-	TimingHandler *_timingHandler;
-
-	FontManager *_fontManager;
+	SDLPalette *_palette;
 
 // methods
 public:
 	// initialization and cleanup
 	Vigasoco();
 	virtual ~Vigasoco();
-	virtual bool init(std::string name);
+	virtual bool init();
 	virtual void end();
-
 	virtual void mainLoop();
 
-	// getters
 	GameDriver *getDriver() const { return _driver; }
-	IPalette *getPalette() const { return _palette; }
-	IDrawPlugin *getDrawPlugin() const { return _drawPlugin; }	
-	InputHandler *getInputHandler() const { return _inputHandler; }
-	ITimer *getTimer() const { return _timer; }
-	TimingHandler *getTimingHandler() const { return _timingHandler; }
-	FontManager *getFontManager() const { return _fontManager; }
-	const std::string getError() const { return _errorMsg; }
+	SDLPalette *getPalette() const { return _palette; }
 
-	// platform services	
 	void toggleInformationMode();
 	void showMenu();
 	void changeState(int newState);
 
-protected:
-	// template methods
-
-	// construction
-	virtual bool platformSpecificInit() = 0;
-	virtual void createPalette() = 0;
-	virtual void addCustomLoaders(FileLoader *fl) = 0;
-	virtual void createDrawPlugin() = 0;
-	virtual void createAudioPlugin() = 0;
-	virtual void addCustomInputPlugins() = 0;
-	virtual void createTimer() = 0;
-	virtual void createAsyncThread() = 0;
-	virtual void initCompleted(){}
-
-	// destruction
-	virtual void destroyAsyncThread() = 0;
-	virtual void destroyTimer() = 0;
-	virtual void removeCustomInputPlugins() = 0;
-	virtual void destroyDrawPlugin() = 0;
-	virtual void destroyAudioPlugin() = 0;
-	virtual void removeCustomLoaders(FileLoader *fl) = 0;
-	virtual void destroyPalette() = 0;
-	virtual void platformSpecificEnd() = 0;
-
-	virtual bool processEvents() = 0;
-
-	// helper methods
 	GameDriver *createGameDriver(std::string game);		
 };
 

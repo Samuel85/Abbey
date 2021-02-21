@@ -3,17 +3,9 @@
 /////////////////////////////////////////////////////////////////////////////
 
 #include <cmath>
-#include "IDrawPlugin.h"
-#include "FileLoader.h"
-#include "FontManager.h"
 
-#include "IPalette.h"
-#include "ITimer.h"
 #include "Vigasoco.h"
 #include "AbadiaDriver.h"
-
-//para sprintf
-#include <stdio.h>
 
 /////////////////////////////////////////////////////////////////////////////
 // initialization and cleanup
@@ -21,21 +13,8 @@
 
 Vigasoco::Vigasoco()
 {
-	_speedThrottle = true;
-
-	_game = "abadia";
-	_errorMsg = "";
-
 	_driver = 0;
 	_palette = 0;
-	_drawPlugin = 0;	
-	_inputHandler = 0;
-	_timingHandler = 0;
-	_timer = 0;
-	_asyncThread = 0;
-	_fontManager = 0;
-
-	_numFrames = 0;
 }
 
 Vigasoco::~Vigasoco()
@@ -45,10 +24,12 @@ Vigasoco::~Vigasoco()
 /////////////////////////////////////////////////////////////////////////////
 // init
 /////////////////////////////////////////////////////////////////////////////
-bool Vigasoco::init(std::string name)
+bool Vigasoco::init()
 {
+	_palette = new SDLPalette();
+	
 	// creates the game driver
-	_driver = createGameDriver(name);
+	_driver = createGameDriver("abadia");
 
 	if (!_driver) return false;
 
@@ -56,7 +37,6 @@ bool Vigasoco::init(std::string name)
 	if (!_driver->init(_palette)) return false;	
 
 	// calls template method to perform specific actions after initialization has been completed
-	initCompleted();
 	_driver->preRun();
 
 	return true;    
@@ -64,7 +44,8 @@ bool Vigasoco::init(std::string name)
 
 void Vigasoco::end()
 {
-	destroyPalette();
+	delete _palette;
+	_palette = 0;
 }
 
 void Vigasoco::mainLoop()

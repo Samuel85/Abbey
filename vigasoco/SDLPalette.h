@@ -8,7 +8,7 @@
 #define _SDL_PALETTE_H_
 
 
-#include "IPalette.h"
+//#include "IPalette.h"
 #include "Types.h"
 
 // Esto solo vale para la version de Vigasoco para Windows
@@ -39,7 +39,7 @@ __attribute__((packed))
 
 
 // the palette is a Singleton and a Notification Provider
-class SDLPalette: public IPalette
+class SDLPalette //: public IPalette
 {
 // fields
 public:

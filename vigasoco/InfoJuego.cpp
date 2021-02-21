@@ -8,7 +8,6 @@
 
 #include "cpc6128.h"
 #include "IDrawPlugin.h"
-#include "IPalette.h"
 #include "FontManager.h"
 
 

@@ -1,13 +1,11 @@
 #include "game.h"
 #include "system.h"
 
-//#define MINIMUM_FRAME_TIME 10
 Game::Game()
 {
-	std::string g_game("abadia");
-	vigasocosdl = new VigasocoSDL();
-	if (!vigasocosdl->init(g_game))
-	{
+	vigasocosdl = new Vigasoco();
+	
+	if (!vigasocosdl->init()){
 		vigasocosdl->end();				
 		return;
 	}	
@@ -38,8 +36,7 @@ void Game::handleEvents()
 {
 	sys->handleEvents();
 		
-	if (sys->pad.start)
-	{	
+	if (sys->pad.start){	
 		vigasocosdl->changeState(MENU);
 		sys->pad.start = false;
 	}
@@ -47,8 +44,7 @@ void Game::handleEvents()
 
 void Game::logic()
 {
-	if (sys->informationMode)
-	{
+	if (sys->informationMode){
 		vigasocosdl->toggleInformationMode();
 		sys->informationMode = false;
 	}

@@ -8,10 +8,41 @@
 #define _CPC_6128_H_
 
 #include <cassert>
-//#include "ICriticalSection.h"
-#include "IPalette.h"
 #include "Types.h"
 #include "system.h"
+#include "SDLPalette.h"
+
+// friendly color names
+enum Inks {
+	BLACK,
+	BLUE,
+	BRIGHT_BLUE,
+	RED,
+	MAGENTA,
+	MAUVE,
+	BRIGHT_RED,
+	PURPLE,
+	BRIGHT_MAGENTA,
+	GREEN,
+	CYAN,
+	SKY_BLUE,
+	YELLOW,
+	WHITE,
+	PASTEL_BLUE,
+	ORANGE,
+	PINK,
+	PASTEL_MAGENTA,
+	BRIGHT_GREEN,
+	SEA_GREEN,
+	BRIGHT_CYAN,
+	LIME,
+	PASTEL_GREEN,
+	PASTEL_CYAN,
+	BRIGHT_YELLOW,
+	PASTEL_YELLOW,
+	BRIGHT_WHITE
+};
+
 class CPC6128
 {
 // tables
@@ -22,60 +53,19 @@ protected:
 	// ink to hardware color conversion
 	static int inkColors[27];
 
-// enumerations
-public:
-	// friendly color names
-	enum Inks {
-		BLACK,
-		BLUE,
-		BRIGHT_BLUE,
-		RED,
-		MAGENTA,
-		MAUVE,
-		BRIGHT_RED,
-		PURPLE,
-		BRIGHT_MAGENTA,
-		GREEN,
-		CYAN,
-		SKY_BLUE,
-		YELLOW,
-		WHITE,
-		PASTEL_BLUE,
-		ORANGE,
-		PINK,
-		PASTEL_MAGENTA,
-		BRIGHT_GREEN,
-		SEA_GREEN,
-		BRIGHT_CYAN,
-		LIME,
-		PASTEL_GREEN,
-		PASTEL_CYAN,
-		BRIGHT_YELLOW,
-		PASTEL_YELLOW,
-		BRIGHT_WHITE
-	};
-
-// fields
 public:
 	UINT8 screenBuffer[640*200];	// CPC6128 video RAM
 	//TODO VGA hay que usar esto ya que no se puede usar un bit como marcador
 	//al igual que en CPC
-	//UINT8 DirtyPixels[sizeof(screenBuffer)/8]; // pixeles modificados en la CPC6128 video RAM
 	UINT8 DirtyPixels[(640*200)/8]; // pixeles modificados en la CPC6128 video RAM
 
-//protected:
-//	ICriticalSection *cs;			// critical section to sync drawing between threads
-
-// methods
-public:
 	// initialization and cleanup
-	//CPC6128(ICriticalSection *criticalSection);
 	CPC6128();
 	~CPC6128();
 
 	// palette related
-	void setHardwareColor(IPalette *pal, int color, int value);
-	void setInkColor(IPalette *pal, int color, int value);
+	void setHardwareColor(SDLPalette *pal, int color, int value);
+	void setInkColor(SDLPalette *pal, int color, int value);
 
 	// pixel drawing/retrieving
 	void setMode0Pixel(int x, int y, int color);
@@ -178,28 +168,19 @@ public:
 	// pixel get/set
 	inline void setPixel(int x, int y, int color)
 	{
-		/* CPC
-		// sets pixel and marks the pixel as dirty
-		cs->enter();
-		screenBuffer[y*640 + x] = color | 0x80;
-		cs->leave();
-		*/
-
 		// VGA
-		//cs->enter();
 		// set pixel
 		screenBuffer[y*640 + x] = color;
+		
 		// mark the pixel as dirty
 		UINT8 *p=&(DirtyPixels[(y*640 + x)/8]);
 		UINT8 bit = 1<<((y*640 + x)%8);
-		*p = *p|bit;
-		//cs->leave();					
+		*p = *p|bit;		
 		
 	}
 
 	inline int getPixel(int x, int y)
 	{
-		// CPC return screenBuffer[y*640 + x] & 0x0f;
 		// VGA
 		return screenBuffer[y*640 + x];
 	}

@@ -242,9 +242,6 @@ void AccionesDia::dibujaEfectoEspiral()
 // dibuja una espiral cuadrada del color que se le pasa
 void AccionesDia::dibujaEspiral(int color)
 {
-	// obtiene acceso al temporizador
-	//TimingHandler *timer = elJuego->timer;
-
 	// fija la posici?n inicial
 	int posX = 0;
 	int posY = 0;

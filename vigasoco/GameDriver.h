@@ -40,6 +40,7 @@
 
 #include "FileLoader.h"
 #include "GameDataEntity.h"
+#include "SDLPalette.h"
 #include <string>
 #include "Types.h"
 #include <vector>
@@ -47,7 +48,6 @@
 class IDrawPlugin;		// defined in video/IDrawPlugin.h
 struct GfxElement;		// defined in GfxData.h
 struct GfxEncoding;		// defined in GfxData.h
-class IPalette;			// defined in palette.h
 class InputPort;		// defined in InputPort.h
 
 
@@ -75,7 +75,7 @@ protected:
 	GfxElements _gfx;
 	InputPorts _inputs;
 
-	IPalette *_palette;
+	SDLPalette *_palette;
 
 	std::string _errorMsg;
 
@@ -96,7 +96,7 @@ public:
 	const std::string getError() const { return _errorMsg; }
 
 	// game driver initialization and cleanup
-	bool init(IPalette *pal);
+	bool init(SDLPalette *pal);
 	virtual void end() = 0;
 
 	virtual void preRun() = 0;

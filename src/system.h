@@ -3,16 +3,17 @@
 
 #include <SDL.h>
 #include <SDL_mixer.h>
+
 #include <string>
 #include <iostream>
+#include <cassert>
+#include <vector>
 
 #ifdef ANDROID
 #include <android/log.h>
 #else
 #include <SDL_ttf.h>
 #endif
-
-#include <vector>
 
 #define WINDOW_WIDTH 1280  
 #define WINDOW_HEIGHT 800
@@ -73,8 +74,16 @@ enum STATES{
 	ENDING
 };
 
+enum TILEMAP{
+	DAY,
+	NIGHT,
+	LAMP,
+
+	TOTAL_TILEMAP_FILES
+};
+
 #ifdef ANDROID
-static const char* const
+static const char* 
 soundsPathList[] = {
 	"roms/abadia/abrir.wav",
 	"roms/abadia/aporrear.wav",
@@ -87,7 +96,7 @@ soundsPathList[] = {
 	"roms/abadia/tintineo.wav",
 	};
 #else
-static const char* const
+static const char* 
 soundsPathList[] = {
 	"./roms/abadia/abrir.wav",
 	"./roms/abadia/aporrear.wav",
@@ -100,6 +109,13 @@ soundsPathList[] = {
 	"./roms/abadia/tintineo.wav",
 	};
 #endif
+
+static const char*
+tilemapList[] = {
+	"res/Mosaico.bmp",
+	"res/Noche.bmp",
+	"res/Lampara.bmp"
+};
 
 struct PlayerInput
 {
@@ -117,9 +133,22 @@ struct System
 	bool informationMode = false;	
 	bool enableJoystick = true;
 	bool fullscreen = false;
+	bool haveHapticDevice = false;
 	int w = WINDOW_WIDTH;
 	int h = WINDOW_HEIGHT;
 	int minimumFrameTime = GAME_FRAME_TIME;
+
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+	const Uint32 rmask = 0xff000000;
+	const Uint32 gmask = 0x00ff0000;
+	const Uint32 bmask = 0x0000ff00;
+	const Uint32 amask = 0x000000ff;
+#else
+	const Uint32 rmask = 0x000000ff;
+	const Uint32 gmask = 0x0000ff00;
+	const Uint32 bmask = 0x00ff0000;
+	const Uint32 amask = 0xff000000;
+#endif
 
 	SDL_Surface *surface;
 	SDL_Renderer *renderer;
@@ -128,11 +157,12 @@ struct System
 	SDL_GameController *gamepad;
 	SDL_Haptic *hapticDevice;
 
+	SDL_Surface *tilemap[TOTAL_TILEMAP_FILES];
+
 	#ifndef ANDROID
 	TTF_Font *font;
 	#endif
 	std::vector<Mix_Chunk*>sounds;
-	//std::vector<Mix_Music*>music;
     std::vector<Mix_Chunk*>music;
 	
 	void init();
@@ -144,34 +174,14 @@ struct System
 	void handleEvents();
 	void hapticFeedback();
 
-	void setFastSpeed()
-	{
-		minimumFrameTime = SCROLL_FRAME_TIME;
-	}	
-	void setNormalSpeed()
-	{
-		minimumFrameTime = GAME_FRAME_TIME;
-	}
-	inline Uint32 RGBA(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-	{
-		return SDL_MapRGBA(surface->format, r,g,b,a);
-	}
-	inline void updateTexture()
-	{
-		SDL_UpdateTexture(texture, NULL, surface->pixels, surface->pitch);
-	}
-	void exitGame()
-	{
-		exit = true;
-	}
-	void print(const std::string message)
-    {
-        #ifdef ANDROID
-		 __android_log_print(ANDROID_LOG_DEBUG, "ABBEY", "%s\n", message.c_str());
-		#else
-         std::cout << message;
-        #endif
-    }
+	SDL_Surface* flipSurfaceHorizontally(SDL_Surface *src);
+
+	void setFastSpeed();
+	void setNormalSpeed();
+	Uint32 RGBA(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+	void updateTexture();
+	void exitGame();
+	void print(const std::string message);
 };
 extern System *const sys;
 

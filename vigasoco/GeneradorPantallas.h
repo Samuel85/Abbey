@@ -79,8 +79,8 @@ public:
 	void grabaTile(int tile);
 	void actualizaTile(int tile, TileInfo *tileDesc);
 	void limpiaPantalla(int color);
-	//void dibujaBufferTiles();
-	bool dibujaBufferTiles();
+	void dibujaBufferTiles();
+	
 	bool dibujaBufferTiles2();
 
 	// operaciones sobre registros y expresiones del generador de bloques

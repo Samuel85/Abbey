@@ -12,18 +12,18 @@ namespace Abadia {
 
 enum Orientacion {
 	DERECHA = 0,			// hacia +x
-	ABAJO = 1,				// hacia -y
+	ABAJO = 1,			// hacia -y
 	IZQUIERDA = 2,			// hacia -x
-	ARRIBA = 3				// hacia +y
+	ARRIBA = 3			// hacia +y
 };
 
 class PosicionJuego
 {
 public:
-	int orientacion;		// orientación de la posición en el mundo
-	int posX;				// posición x en coordenadas de mundo
-	int posY;				// posición y en coordenadas de mundo
-	int altura;				// altura en coordenadas de mundo
+	int orientacion;		// orientaciï¿½n de la posiciï¿½n en el mundo
+	int posX;			// posiciï¿½n x en coordenadas de mundo
+	int posY;			// posiciï¿½n y en coordenadas de mundo
+	int altura;			// altura en coordenadas de mundo
 
 	PosicionJuego();
 	PosicionJuego(int ori, int pX, int pY, int alt);
@@ -38,12 +38,12 @@ class EntidadJuego : public PosicionJuego
 public:
 	Sprite *sprite;			// sprite asociado a la entidad
 
-// métodos:
+// mï¿½todos:
 public:
 	virtual void cambioPantalla(){}
 	virtual void notificaVisibleEnPantalla(int posXPant, int posYPant, int profundidad) = 0;
 
-	// inicialización y limpieza
+	// inicializaciï¿½n y limpieza
 	EntidadJuego(Sprite *spr);
 	virtual ~EntidadJuego();
 };

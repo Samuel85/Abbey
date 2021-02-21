@@ -5,7 +5,7 @@
 #include "AbadiaDriver.h"
 #include "cpc6128.h"
 #include "DskReader.h"
-#include "ICriticalSection.h"
+
 #include "IDrawPlugin.h"
 #include "GameDataEntity.h"
 #include "GameDriver.h"
@@ -31,19 +31,19 @@ using namespace Abadia;
 
 AbadiaDriver::AbadiaDriver() : GameDriver("abadia", "La abadia del crimen", 300)
 {
+	/*
 	_videoInfo.width = 640;
 	_videoInfo.height = 400;
 	_videoInfo.visibleArea = Rect(_videoInfo.width, _videoInfo.height);
 	_videoInfo.colors = 32;			// 16 del juego + 16 para mostrar informaci?n interna del juego
 	_videoInfo.colors = 256;		// TODO: PRUEBAS VGA
 	_videoInfo.refreshRate = 50;
-
 	_numInterruptsPerVideoUpdate = 6;
 	_numInterruptsPerLogicUpdate = 1;
-
+	*/
+	
 	_abadiaGame = 0;
 	cpc6128 = 0;
-	cs = 0;
 	romsPtr = 0;
 
 	createGameDataEntities();
@@ -220,12 +220,6 @@ void AbadiaDriver::videoFinalizing(IDrawPlugin *dp)
 
 void AbadiaDriver::end()
 {
-	// destruye la secci?n cr?tica
-	if (cs != 0){
-		cs->destroy();
-		delete cs;
-	}
-
 	// borra el objeto de ayuda para los gr?ficos
 	delete cpc6128;
 
@@ -244,7 +238,7 @@ void AbadiaDriver::runSync()
 {
 	if (!_abadiaGame->pausa){
 		// incrementa el contador de la interrupci?n
-		_abadiaGame->contadorInterrupcion++;
+		//_abadiaGame->contadorInterrupcion++;
 
 		// si se est? mostrando alguna frase en el marcador, contin?a mostr?ndola
 		elGestorFrases->procesaFraseActual();
@@ -256,12 +250,10 @@ void AbadiaDriver::preRun()
 }
 void AbadiaDriver::runAsync()
 {	
-	//_abadiaGame->run();
 	_abadiaGame->stateMachine();	
 }
 void AbadiaDriver::showMenu()
 {
-	//_abadiaGame->currentState = MENU;
 	_abadiaGame->changeState(MENU);
 }
 void AbadiaDriver::changeState(int newState)
@@ -347,9 +339,7 @@ void AbadiaDriver::render(IDrawPlugin *dp)
 
 void AbadiaDriver::showGameLogic(IDrawPlugin *dp)
 {
-	// actualiza el modo de informaci?n
-	//if (theInputHandler->hasBeenPressed(FUNCTION_5)){
-		_abadiaGame->modoInformacion = !_abadiaGame->modoInformacion;
-		_abadiaGame->cambioModoInformacion = true;
-	//}
+	_abadiaGame->modoInformacion = !_abadiaGame->modoInformacion;
+	_abadiaGame->cambioModoInformacion = true;
+
 }

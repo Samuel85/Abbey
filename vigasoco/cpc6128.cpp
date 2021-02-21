@@ -6,18 +6,11 @@
 
 #include "cpc6128.h"
 
-// para memset
-#include <string.h>
-
 /////////////////////////////////////////////////////////////////////////////
 // initialization and cleanup
 /////////////////////////////////////////////////////////////////////////////
-
-//CPC6128::CPC6128(ICriticalSection *criticalSection)
 CPC6128::CPC6128()
 {
-	//cs = criticalSection;
-
 	// cleans the screen buffer
 	// CPC memset(screenBuffer, 0x80, 640*200);
 	// TODO: VGA
@@ -100,14 +93,14 @@ int CPC6128::inkColors[27] = {
 	11		// 26 bright white
 };
 
-void CPC6128::setHardwareColor(IPalette *pal, int numInk, int color)
+void CPC6128::setHardwareColor(SDLPalette *pal, int numInk, int color)
 {
 	assert((numInk >= 0) && (numInk < 16));
 	assert((color >= 0) && (color < 32));
 	pal->setColor(numInk, CPC6128::hardwarePalette[color][0], CPC6128::hardwarePalette[color][1], CPC6128::hardwarePalette[color][2]);
 }
 
-void CPC6128::setInkColor(IPalette *pal, int numInk, int color)
+void CPC6128::setInkColor(SDLPalette *pal, int numInk, int color)
 {
 	assert((numInk >= 0) && (numInk < 16));
 	assert((color >= 0) && (color < 27));
@@ -137,7 +130,6 @@ void CPC6128::setMode1Pixel(int x, int y, int color)
 {
 	assert((x >= 0) && (x < 320));
 	assert((y >= 0) && (y < 200));
-//CPC	assert((color >= 0) && (color < 4));
 	assert((color >= 0) && (color < 256)); //TODO VGA
 
 	setPixel(2*x, y, color);
@@ -260,9 +252,6 @@ void CPC6128::showVGAScreen(const UINT8 *data)
 			setVGAPixel(i,j,*data++);
 		}
 	}
-// TODO: como en la pantalla de presentacion se usan mas de 127
-// colores, no se puede usar el ultimo bit para marcar
-// un pixel como cambiado
 }
 
 
@@ -270,17 +259,6 @@ void CPC6128::showVGAScreen(const UINT8 *data)
 // marks all pixels as dirty
 void CPC6128::markAllPixelsDirty()
 {
-/* CPC
-	UINT8 *buf = screenBuffer;
-
-	for (int j = 0; j < 200; j++){
-		for (int i = 0; i < 640; i++){
-			*buf = *buf | 0x80;
-			buf++;
-		}
-	}
-	*/
-
 	//TODO VGA
 	UINT8 *buf = DirtyPixels;
 	memset(DirtyPixels,0xFF,sizeof(DirtyPixels));

@@ -2,7 +2,9 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
+#include <SDL.h>
 
+#include "system.h"
 
 #include "Comandos.h"
 #include "cpc6128.h"
@@ -830,8 +832,7 @@ int GeneradorPantallas::evaluaExpresion(int rdo)
 /////////////////////////////////////////////////////////////////////////////
 
 // dibuja en pantalla el contenido del buffer de tiles desde el centro hacia fuera
-//void GeneradorPantallas::dibujaBufferTiles()
-bool GeneradorPantallas::dibujaBufferTiles()
+void GeneradorPantallas::dibujaBufferTiles()
 {
 	// posici�n inicial en el buffer de tiles
 	int x = 7;
@@ -842,48 +843,11 @@ bool GeneradorPantallas::dibujaBufferTiles()
 	int derecha = 1;
 	int arriba = abajo + 1;
 	int izquierda = derecha + 1;
-	
-	// milisegundos que esperar entre iteraciones para ver el efecto
-	//const int retardo = 100;
 
 	// repite mientras no se complete toda la pantalla visible
 	while (abajo < 20){	
 	//if (abajo < 20){	
-		// guarda el instante actual de tiempo
-		//INT64 tIni = timer->getTime();
 
-		// dibuja 4 tiras: una hacia abajo, otra a la derecha, otra hacia arriba y la otra a la izquierda
-		dibujaTira(x, y, 0, 1,  abajo);
-		dibujaTira(x, y, 1, 0,  derecha);
-		dibujaTira(x, y, 0, -1,  arriba);
-		dibujaTira(x, y, -1, 0, izquierda); 
-
-		// aumenta el tama�o del rect�ngulo que dibuja
-		abajo += 2;
-		derecha += 2;
-		arriba += 2;
-		izquierda += 2;
-
-		// espera un poco para que se vea el resultado
-		//timer->sleep(retardo);		
-	}
-	return false;
-}
-
-bool GeneradorPantallas::dibujaBufferTiles2()
-{
-	// posici�n inicial en el buffer de tiles	
-	bool ret = false;
-
-	//int abajo, derecha, arriba, izquierda;		
-	
-
-	// milisegundos que esperar entre iteraciones para ver el efecto
-	//const int retardo = 100;
-
-	// repite mientras no se complete toda la pantalla visible
-	if (abajo < 20)
-	{
 		// dibuja 4 tiras: una hacia abajo, otra a la derecha, otra hacia arriba y la otra a la izquierda
 		dibujaTira(x, y, 0, 1,  abajo);
 		dibujaTira(x, y, 1, 0,  derecha);
@@ -895,102 +859,80 @@ bool GeneradorPantallas::dibujaBufferTiles2()
 		derecha += 2;
 		arriba += 2;
 		izquierda += 2;		
-		ret = false;
 	}
-	else
-	{				
-		x = 7;
-		y = 8;
-
-		abajo   = 4;
-		derecha = 1;
-		arriba  = 5;
-		izquierda=2;
-		ret = true;
-	}
-	return ret;
 }
-
-
 
 // dibuja una tira de tiles
 void GeneradorPantallas::dibujaTira(int &x, int &y, int deltaX, int deltaY, int veces)
 {
+	/*
 	// para cada tile de la tira
 	for (int i = 0; i < veces; i++){
 		// por cada capa de profundidad
 		for (int k = 0; k < nivelesProfTiles; k++){
 			// obtiene el n�mero de tile asociado a esta profundidad del buffer de tiles
-			int tile = bufferTiles[y][x].tile[k];
-
+			int tile = bufferTiles[x][y].tile[k];
 			// si hay alg�n tile, lo dibuja
-			/* CPC
-			if (tile != 0){
-				dibujaTile(32 + x*16, y*8, tile);
-			}
-			EN CPC el tile 0 es totalmente transparente, o todo del color del fondo
-			y por eso creo que no se pinta
-			*/
+			// CPC
+			//if (tile != 0){
+			//	dibujaTile(32 + x*16, y*8, tile);
+			//}
+			//EN CPC el tile 0 es totalmente transparente, o todo del color del fondo
+			//y por eso creo que no se pinta
+			
 			// En VGA si pintamos todos los tiles, incluidos el 0
-			dibujaTile(32 + x*16, y*8, tile);
+			dibujaTile(x*16, y*8, tile);			
 		}
 
 		// pasa a la siguiente posici�n
 		x = x + deltaX;
 		y = y + deltaY;
 	}
+	*/
+
+	// Draw all the tiles from the current scene.
+	for (int m=0;m<20;m++){
+		for (int n=0;n<16;n++){
+			// Layers in the current scene.
+			for (int k = 0; k < nivelesProfTiles; k++){				
+				dibujaTile(32+n*16, m*8,bufferTiles[m][n].tile[k]);
+			}
+		}
+	}
+
 }
-/* codigo original 
-// dibuja un tile de 16x8 en la posici�n indicada
+
+// Draws tile based on the current tilemap of the moment of the day
+// x, y : Position in the screen
+// num: tile id
+/*
 void GeneradorPantallas::dibujaTile(int x, int y, int num)
 {
 	assert((num >= 0x00) && (num < 0x100));
 
-	// halla el desplazamiento del tile (cada tile ocupa 32 bytes)
-	UINT8 *tileData = &roms[0x8300 + num*32];
+	const int tileWidth = 16;
+	const int tileHeight = 8; 
+	const int elemetsPerColumn = 16;
 
-	int numTabla = (num & 0x80) ? 2 : 0;
+	// Fixes transposed matrix in Antonio Giner's tilemap.
+	SDL_Rect src;
+	src.x = floor(num/elemetsPerColumn)*tileWidth;
+	src.y = (num%elemetsPerColumn)*tileHeight;
+	src.w = tileWidth;
+	src.h = tileHeight;	
 
-	// dibuja cada linea del tile
-	for (int j = 0; j < 8; j++){
-		// repite para 4 bytes (16 pixels)
-		for (int i = 0; i < 4; i++){
-			// lee un byte del gr�fico (4 pixels)
-			int data = *tileData;
+	SDL_Rect dst;
+	dst.x = x;
+	dst.y = y;
+	dst.w = tileWidth;
+	dst.h = tileHeight;
 
-			// para cada pixel del byte leido
-			for (int k = 0; k < 4; k++){
-				// obtiene el color del pixel
-				int color = cpc6128->unpackPixelMode1(data, k);
+	int momentOfDay = 0;
 
-				// obtiene el color del pixel en pantalla
-				int oldColor = cpc6128->getMode1Pixel(x, y);
-
-				// combina el color del pixel de pantalla con el nuevo
-				color = (oldColor & mascaras[numTabla + 1][color]) | mascaras[numTabla][color];
-
-				// pinta el color resultante
-				cpc6128->setMode1Pixel(x, y, color);
-
-				// avanza al siguiente pixel
-				x++;
-			}
-
-			// avanza la posici�n del gr�fico
-			tileData++;
-		}
-		// pasa a la siguiente l�nea de pantalla
-		x -= 16;
-		y++;
-	}
+	// Copy tile to surface;
+	SDL_BlitSurface(sys->tilemap[momentOfDay], &src, sys->surface, &dst);
 }
 */
-/* la paleta de dia es 
- * 0 - 06 cyan
- * 1 - 14 orange
- * 2 - 03 pastel yellow
- * 3 - 20 black 
- */
 
 // dibuja un tile de 16x8 en la posici�n indicada
 void GeneradorPantallas::dibujaTile(int x, int y, int num)
@@ -1034,7 +976,6 @@ void GeneradorPantallas::dibujaTile(int x, int y, int num)
 		y++;
 	}
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // m�todos de ayuda

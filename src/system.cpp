@@ -22,67 +22,69 @@ void System::init()
 	gamepad = NULL;
 	hapticDevice = NULL;
 	Uint32 windowFlags = SDL_WINDOW_SHOWN;
-	Uint32 initFlags = SDL_INIT_VIDEO  | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;  
+	Uint32 initFlags = SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER;  
 
 	SDL_Init(SDL_INIT_VIDEO | initFlags | SDL_INIT_AUDIO);    
 	
-	#ifdef ANDROID
+#ifdef ANDROID
 	windowFlags = windowFlags | SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN | SDL_WINDOW_RESIZABLE;
-	#endif
+#endif
 
 	// Joypad
 	if( SDL_NumJoysticks() < 1 ){		
-		print("Warning: No joysticks connected!\n");		
+		print("Warning: controller not found.\n");		
 	}
 	else
 	{
 		gamepad = SDL_GameControllerOpen(0);
 		if (gamepad == NULL){
-			print("Warning: No joysticks connected!\n");
+			print("Warning: Can't open SDL_GameControllerOpen(0)\n");
 		}
 		SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
 	}
 	if (SDL_InitSubSystem(SDL_INIT_HAPTIC) < 0){        
-		print ("SDL force feedback initialisation failed (non-fatal)\n");
+		print ("Error: Can't init SDL_InitSubSystem(SDL_INIT_HAPTIC).\n");
 	}
   	else if (SDL_NumHaptics() > 0){
+		haveHapticDevice = true;
 		hapticDevice = SDL_HapticOpen(0);
 		if (hapticDevice == NULL){
-			print("SDL_HapticOpen(0) failed (non-fatal)\n");
+			print("Warning: SDL_HapticOpen(0) failed (non-fatal)\n");
 		}
 		else if (SDL_HapticRumbleInit(hapticDevice) != 0)
         {			
-            print("SDL_HapticRumbleInit failed (non-fatal)\n");
+            print("Warning: SDL_HapticRumbleInit failed (non-fatal)\n");
 			SDL_HapticClose(hapticDevice);
 			hapticDevice = NULL;
 		}
 	}
-	#ifdef RG350
+
+#ifdef RG350
 	// soft haptic response
 	if (SDL_HapticRumblePlay(hapticDevice, 0.30f /* Strength */, 10 /* Time */) < 0){		
-        print("SDL_HapticRumbleStop failed\n");
+        print("Warning: SDL_HapticRumbleStop failed\n");
 	}
-	#endif
+#endif
 	//
 	
-	#ifdef ANDROID
+#ifdef ANDROID
 	window = SDL_CreateWindow(WINDOW_TITLE, 0, 0, 0, 0, windowFlags);
 	SDL_GetWindowSize(window, &w, &h);
-	#else
+#else
 	window = SDL_CreateWindow(WINDOW_TITLE, 0, 0, w, h, windowFlags);
-	#endif
+#endif
 	
 	if (window == NULL){		
-        print("ERROR: Could not create window");
+        print("ERROR: Could not create window.\n");
 	}
 
 	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
 	if( renderer == NULL ){
-        print("ERROR: Could not create renderer");		
+        print("ERROR: Could not create renderer.\n");		
 	}
 
 	if( Mix_OpenAudio( 22050, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 ){
-		print("ERROR: Mix_OpenAudio\n");
+		print("ERROR: Mix_OpenAudio.\n");
 	}
 	for (int i=0;i<TOTAL_SOUND_FILES;i++)
 	{
@@ -92,38 +94,25 @@ void System::init()
 		}
 	}
 
-	for (int i=0;i<TOTAL_MUSIC_FILES;i++)
-	{
+	for (int i=0;i<TOTAL_MUSIC_FILES;i++){
 		music.push_back(Mix_LoadWAV(musicPathList[i]));
 		if (music[i] == NULL){
-            print("Error: can't read music file\n");
+            print("Error: can't read music file.\n");
 			//std::cout << "Error: can't read " << musicPathList[i] <<std::endl;            
 		}
 	}
-
-	#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-		const Uint32 rmask = 0xff000000;
-		const Uint32 gmask = 0x00ff0000;
-		const Uint32 bmask = 0x0000ff00;
-		const Uint32 amask = 0x000000ff;
-	#else
-		const Uint32 rmask = 0x000000ff;
-		const Uint32 gmask = 0x0000ff00;
-		const Uint32 bmask = 0x00ff0000;
-		const Uint32 amask = 0xff000000;
-	#endif
 
 	//surface = SDL_CreateRGBSurface(0, TEXTURE_WIDTH,TEXTURE_HEIGHT>>1,32, rmask, gmask,bmask, amask);
 	surface = SDL_CreateRGBSurface(0, TEXTURE_WIDTH,TEXTURE_HEIGHT,32, rmask, gmask,bmask, amask);
 	if (surface == NULL){
 		//std::cout << "Surface Error:" << SDL_GetError() << std::endl;
-        print ("Can't create surface\n");
+        print ("Error: Can't create surface.\n");
 	}
 	texture = SDL_CreateTextureFromSurface(renderer, surface);	
-	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	
 	// Init Fonts
-	#ifndef ANDROID
+#ifndef ANDROID
 	if (TTF_Init() < 0){
 		print("Error initializing TTF library\n");
 	}
@@ -131,13 +120,47 @@ void System::init()
 	if (font == NULL){
 		print("Error loading fonts\n");
 	}
-	#endif
+#endif
+
+	// Load tiles
+	for (int i=0;i<TOTAL_TILEMAP_FILES;i++){
+		tilemap[i] = SDL_LoadBMP(tilemapList[i]);
+		if (tilemap[i] == NULL){
+			std::cout << "Error: Can't load " << tilemapList[i] << std::endl;
+			break;
+		}
+		// transparency
+		SDL_SetColorKey(tilemap[i], SDL_TRUE, 0);
+	}
+}
+
+SDL_Surface* System::flipSurfaceHorizontally(SDL_Surface *src)
+{	
+	assert((src != NULL) && "Error: Can't flip a NULL SDL_Surface");
+	
+	// create dst with the same properties as src	
+	Uint32 colorkey;
+	SDL_Surface *dst = SDL_CreateRGBSurface(0, src->w, src->h, src->format->BytesPerPixel * 8,rmask,gmask,bmask,amask);
+	if (SDL_GetColorKey(src, &colorkey)==0){
+		SDL_SetColorKey(dst, SDL_TRUE, colorkey);
+	}
+
+	// copy fliped pixels to destiny
+	for (int j=0; j < src->h; j++){
+		Uint32 *pSrc = (Uint32 *)src->pixels + j*src->w;
+		Uint32 *pDst = (Uint32 *)dst->pixels + (j+1)*src->w - 1;
+		for (int i=0; i < src->w; i++){			
+			*(pDst--) = *(pSrc++);
+		}
+	}	
+	return dst;
 }
 
 void System::hapticFeedback()
 {
+	if (!haveHapticDevice) return;
 	if (SDL_HapticRumblePlay(hapticDevice, 0.80f /* Strength */, 200 /* Time */) < 0){
-		print("SDL_HapticRumbleStop failed");
+		print("Error: SDL_HapticRumblePlay failed\n");
 	}
 }
 
@@ -148,42 +171,39 @@ void System::quit()
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);	
 
+	// tilemaps
+	for (int i=0;i<TOTAL_TILEMAP_FILES;i++){
+		SDL_FreeSurface(tilemap[i]);
+	}
+	// music
 	for (int i=0;i<TOTAL_MUSIC_FILES;i++){
-		//Mix_FreeMusic(music[i]);
         Mix_FreeChunk(music[i]);
 	}
 	music.clear();
-
 	for (int i=0;i<TOTAL_SOUND_FILES;i++){
 		Mix_FreeChunk(sounds[i]);
 	}
 	sounds.clear(); 
+
 	#ifndef ANDROID
 	TTF_CloseFont(font);
 	TTF_Quit();
 	#endif
+
 	SDL_Quit();	
 }
 
 void System::updateScreen()
 {
-	//SDL_Rect src;
-	//src.x = 64;
-	//src.y = 0;
-	//src.w = 512;
-	//src.h = 160;
-	//SDL_RenderCopy(renderer, texture, &src, NULL);
 	SDL_RenderCopy(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
 void System::playMusic(int i)
-{
-	//Mix_PlayMusic( music[i], -1);
+{	
     Mix_PlayChannel( -1, music[i], -1);
 }
 void System::stopMusic()
 {
-	//Mix_HaltMusic();
     Mix_HaltChannel(-1);
 }
 void System::playSound(int i)
@@ -196,8 +216,7 @@ void System::handleEvents()
 	while(SDL_PollEvent(&event))
 	{
 		SDL_ControllerButtonEvent ev = event.cbutton;
-		if( event.type == SDL_QUIT )
-		{
+		if( event.type == SDL_QUIT ){
 			exit = true;
 		}
 		else if(event.type == SDL_KEYDOWN)
@@ -218,8 +237,8 @@ void System::handleEvents()
 					break;
 				case SDLK_DOWN:
 					pad.down = true;
-					break;
-				case SDLK_LSHIFT: //Y (S)
+					break;				
+				case SDLK_LSHIFT: //Y (S)			
 					pad.button3 = true;
 					break;
 				case SDLK_LALT: //B (N)
@@ -233,7 +252,7 @@ void System::handleEvents()
 					break;
 				case SDLK_RETURN:
 					pad.start = true;
-					break;				
+					break;									
 				default:
 					break;
 			}
@@ -349,4 +368,33 @@ void System::handleEvents()
 			}
 		}		
 	}
+}
+
+void System::setFastSpeed()
+{
+	minimumFrameTime = SCROLL_FRAME_TIME;
+}	
+void System::setNormalSpeed()
+{
+	minimumFrameTime = GAME_FRAME_TIME;
+}
+Uint32 System::RGBA(Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+	return SDL_MapRGBA(surface->format, r,g,b,a);
+}
+void System::updateTexture()
+{
+	SDL_UpdateTexture(texture, NULL, surface->pixels, surface->pitch);
+}
+void System::exitGame()
+{
+	exit = true;
+}
+void System::print(const std::string message)
+{
+	#ifdef ANDROID
+		__android_log_print(ANDROID_LOG_DEBUG, "ABBEY", "%s\n", message.c_str());
+	#else
+		std::cout << message;
+	#endif
 }

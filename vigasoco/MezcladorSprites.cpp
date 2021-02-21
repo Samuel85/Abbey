@@ -245,9 +245,6 @@ void MezcladorSprites::dibujaTilesEntreProfundidades(Sprite *spr, int profMinX, 
 							// combina el tile actual con lo que hay en el buffer de sprites
 							combinaTile(spr, ti->tile[k], despX);
 						}
-						//CPC
-						//}
-						// En VGA si usamos y pintamos el tile 0
 
 					if (ultimaPasada){
 						// limpia la marca de dibujado
@@ -264,76 +261,6 @@ void MezcladorSprites::dibujaTilesEntreProfundidades(Sprite *spr, int profMinX, 
 		desp = desp + spr->anchoFinal*4*8;
 	}
 }
-
-/* ORIGINAL CPC
-// combina un tile con lo que hay en la posici�n actual del buffer de sprites
-void MezcladorSprites::combinaTile(Sprite *spr, int tile, int despBufSprites)
-{
-	assert ((tile >= 0) && (tile < 0x100));
-
-	// halla el desplazamiento del tile (cada tile ocupa 32 bytes)
-	UINT8 *tileData = &roms[0x8300 + tile*32];
-
-	// halla el desplazamiento de destino
-	UINT8 *dest = &bufferMezclas[despBufSprites];
-
-	// calcula el desplazamiento a la siguiente l�nea del buffer de sprites
-	int despSgteLinea = spr->anchoFinal*4 - 16;
-
-	// los tiles < 0x0b no tienen ninguna transparencia
-	if (tile < 0x0b){
-		// dibuja cada linea del tile
-		for (int j = 0; j < 8; j++){
-			// repite para 4 bytes (16 pixels)
-			for (int i = 0; i < 4; i++){
-				// lee un byte del gr�fico (4 pixels)
-				int data = *tileData;
-
-				// para cada pixel del byte leido
-				for (int k = 0; k < 4; k++){
-					// obtiene el color del pixel
-					*dest = cpc6128->unpackPixelMode1(data, k);
-					dest++;
-				}
-	
-				// avanza la posici�n del gr�fico
-				tileData++;
-			}
-			// avanza a la siguiente l�nea del sprite en el buffer de sprites
-			dest += despSgteLinea;
-		}
-	} else {
-		int numTabla = (tile & 0x80) ? 2 : 0;
-
-		// dibuja cada linea del tile
-		for (int j = 0; j < 8; j++){
-			// repite para 4 bytes (16 pixels)
-			for (int i = 0; i < 4; i++){
-				// lee un byte del gr�fico (4 pixels)
-				int data = *tileData;
-
-				// para cada pixel del byte leido
-				for (int k = 0; k < 4; k++){
-					// obtiene el color del pixel
-					int color = cpc6128->unpackPixelMode1(data, k);
-
-					// obtiene el color del pixel en el buffer de sprites
-					int oldColor = *dest;
-
-					// combina el color del pixel del buffer de sprites con el nuevo
-					*dest = (oldColor & genPant->mascaras[numTabla + 1][color]) | genPant->mascaras[numTabla][color];
-					dest++;
-				}
-
-				// avanza la posici�n del gr�fico
-				tileData++;
-			}
-			// avanza a la siguiente l�nea del sprite en el buffer de sprites
-			dest += despSgteLinea;
-		}
-	}
-}
-*/
 
 // combina un tile con lo que hay en la posici�n actual del buffer de sprites
 void MezcladorSprites::combinaTile(Sprite *spr, int tile, int despBufSprites)

@@ -10,6 +10,8 @@
 
 #include <string>
 #include "Singleton.h"
+#include "SDLPalette.h"
+#include "IDrawPlugin.h"
 #include "Types.h"
 
 // font types (each font type encodes the font number in the font array and the size)
@@ -40,7 +42,7 @@ protected:
 // fields
 protected:
 	int _fontColorEntry;
-	IPalette *_palette;
+	SDLPalette *_palette;
 
 	int _fontWidth;
 	int _fontHeight;
@@ -83,7 +85,7 @@ public:
 	void printTrans(IDrawPlugin *dp, std::string str, int x, int y);
 
 	// initialization and cleanup
-	FontManager(IPalette *palette, int entry);
+	FontManager(SDLPalette *palette, int entry);
 	virtual ~FontManager();
 
 	void init();

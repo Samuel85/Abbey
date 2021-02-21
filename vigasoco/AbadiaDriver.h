@@ -49,15 +49,13 @@
 #include "Juego.h"
 
 class CPC6128;						// definido en CPC6128.h
-class ICriticalSection;				// definido en ICriticalSection.h
 
 class AbadiaDriver : public GameDriver
 {
 // campos
 protected:
 	Abadia::Juego *_abadiaGame;		// objeto principal del juego
-	CPC6128 *cpc6128;				// clase de ayuda para realizar operaciones gr�ficas
-	ICriticalSection *cs;			// secci�n cr�tica para sincronizar la escritura de gr�ficos
+	CPC6128 *cpc6128;				// clase de ayuda para realizar operaciones gr�ficas	
 	UINT8 *romsPtr;					// puntero a los datos del juego una vez extraidos del disco
 							// y de GraficosCPC y GraficosVGA
 							// los wav del sonido no van aqui

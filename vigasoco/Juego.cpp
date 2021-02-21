@@ -6,7 +6,7 @@
 
 #include "cpc6128.h"
 
-#include "IPalette.h"
+
 
 #include "Vigasoco.h"
 
@@ -112,7 +112,7 @@ Juego::Juego(UINT8 *romData, CPC6128 *cpc)
 	modoInformacion = false;
 	seleccionado = 0;
 	
-	currentState = INTRO;
+	currentState = INTRO;	
 	showingMenu = false;
 	firstTime = true;
 	activeGame = false;

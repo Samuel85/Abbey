@@ -4,6 +4,7 @@
 //	, quizas deberia usar las definiciones de paletas y colores de SDL
 /////////////////////////////////////////////////////////////////////////////
 
+#include <cassert>
 #include "SDLPalette.h"
 
 
@@ -46,7 +47,7 @@ void SDLPalette::setColor(int index, UINT8 r, UINT8 g, UINT8 b)
 	_palette[index].B = b;
 	_palette[index].alpha = 0xff;
 
-	notify(index);
+	//notify(index);
 }
 
 void SDLPalette::getColor(int index, UINT8 &r, UINT8 &g, UINT8 &b)
@@ -67,12 +68,12 @@ void SDLPalette::setColor(int index, PaletteEntry pe)
 	_palette[index].B = pe.B;
 	_palette[index].alpha = pe.alpha;
 
-	notify(index);
+	//notify(index);
 }
 
 PaletteEntry SDLPalette::getColor(int index) const
 {
-	assert((index >= 0) && (index < _colors));
+	//assert((index >= 0) && (index < _colors));
 
 	return _palette[index];
 }

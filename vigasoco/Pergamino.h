@@ -7,7 +7,6 @@
 #ifndef _PERGAMINO_H_
 #define _PERGAMINO_H_
 
-
 #include "Types.h"
 
 class CPC6128;						// definido en CPC6128.h
@@ -63,8 +62,6 @@ public:
 // m�todos de ayuda
 protected:
 	void dibuja();
-	//void dibujaTexto(const char *texto);
-	//void dibujaTexto(const unsigned char *texto);
 	void dibujaTexto();
 
 	void dibujaTiraHorizontal(int y, UINT8 *data);

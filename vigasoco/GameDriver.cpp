@@ -65,7 +65,7 @@ GameDriver::~GameDriver()
 // game driver initialization and cleanup
 /////////////////////////////////////////////////////////////////////////////
 
-bool GameDriver::init(IPalette *pal)
+bool GameDriver::init(SDLPalette *pal)
 {
 	_palette = pal;
 
