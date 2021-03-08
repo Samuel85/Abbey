@@ -1,18 +1,16 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include <SDL.h>
-#include <SDL_mixer.h>
-
 #include <string>
 #include <iostream>
 #include <cassert>
 #include <vector>
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
+
 #ifdef ANDROID
 #include <android/log.h>
-#else
-#include <SDL_ttf.h>
 #endif
 
 #define WINDOW_WIDTH 1280  
@@ -21,7 +19,7 @@
 #define TEXTURE_HEIGHT 400
 #define WINDOW_TITLE "Abbey"
 #define GAME_FRAME_TIME 130
-#define SCROLL_FRAME_TIME 10
+#define SCROLL_FRAME_TIME 60
 
 enum MUSICFILES{
   START,
@@ -159,11 +157,8 @@ struct System
 
 	SDL_Surface *tilemap[TOTAL_TILEMAP_FILES];
 
-	#ifndef ANDROID
-	TTF_Font *font;
-	#endif
 	std::vector<Mix_Chunk*>sounds;
-    std::vector<Mix_Chunk*>music;
+	std::vector<Mix_Chunk*>music;
 	
 	void init();
 	void quit();

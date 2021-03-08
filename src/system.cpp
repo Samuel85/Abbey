@@ -1,6 +1,4 @@
 #include <iostream>
-#include <SDL.h>
-#include <SDL_mixer.h>
 #include <vector>
 #include "system.h"
 
@@ -34,8 +32,7 @@ void System::init()
 	if( SDL_NumJoysticks() < 1 ){		
 		print("Warning: controller not found.\n");		
 	}
-	else
-	{
+	else{
 		gamepad = SDL_GameControllerOpen(0);
 		if (gamepad == NULL){
 			print("Warning: Can't open SDL_GameControllerOpen(0)\n");
@@ -51,9 +48,8 @@ void System::init()
 		if (hapticDevice == NULL){
 			print("Warning: SDL_HapticOpen(0) failed (non-fatal)\n");
 		}
-		else if (SDL_HapticRumbleInit(hapticDevice) != 0)
-        {			
-            print("Warning: SDL_HapticRumbleInit failed (non-fatal)\n");
+		else if (SDL_HapticRumbleInit(hapticDevice) != 0){			
+			print("Warning: SDL_HapticRumbleInit failed (non-fatal)\n");
 			SDL_HapticClose(hapticDevice);
 			hapticDevice = NULL;
 		}
@@ -65,7 +61,6 @@ void System::init()
         print("Warning: SDL_HapticRumbleStop failed\n");
 	}
 #endif
-	//
 	
 #ifdef ANDROID
 	window = SDL_CreateWindow(WINDOW_TITLE, 0, 0, 0, 0, windowFlags);
@@ -90,14 +85,14 @@ void System::init()
 	{
 		sounds.push_back(Mix_LoadWAV(soundsPathList[i]));
 		if (sounds[i] == NULL){
-            print("Error: can't read sound file\n");			
+			print("Error: can't read sound file\n");			
 		}
 	}
 
 	for (int i=0;i<TOTAL_MUSIC_FILES;i++){
 		music.push_back(Mix_LoadWAV(musicPathList[i]));
 		if (music[i] == NULL){
-            print("Error: can't read music file.\n");
+			print("Error: can't read music file.\n");
 			//std::cout << "Error: can't read " << musicPathList[i] <<std::endl;            
 		}
 	}
@@ -111,17 +106,6 @@ void System::init()
 	texture = SDL_CreateTextureFromSurface(renderer, surface);	
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	
-	// Init Fonts
-#ifndef ANDROID
-	if (TTF_Init() < 0){
-		print("Error initializing TTF library\n");
-	}
-	font = TTF_OpenFont("fonts/arial.ttf", 10);
-	if (font == NULL){
-		print("Error loading fonts\n");
-	}
-#endif
-
 	// Load tiles
 	for (int i=0;i<TOTAL_TILEMAP_FILES;i++){
 		tilemap[i] = SDL_LoadBMP(tilemapList[i]);
@@ -184,11 +168,6 @@ void System::quit()
 		Mix_FreeChunk(sounds[i]);
 	}
 	sounds.clear(); 
-
-	#ifndef ANDROID
-	TTF_CloseFont(font);
-	TTF_Quit();
-	#endif
 
 	SDL_Quit();	
 }

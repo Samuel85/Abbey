@@ -2,8 +2,8 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-#include <SDL.h>
 
+#include <SDL2/SDL.h>
 #include "system.h"
 
 #include "Comandos.h"
@@ -834,6 +834,7 @@ int GeneradorPantallas::evaluaExpresion(int rdo)
 // dibuja en pantalla el contenido del buffer de tiles desde el centro hacia fuera
 void GeneradorPantallas::dibujaBufferTiles()
 {
+	/*
 	// posici�n inicial en el buffer de tiles
 	int x = 7;
 	int y = 8;
@@ -860,6 +861,18 @@ void GeneradorPantallas::dibujaBufferTiles()
 		arriba += 2;
 		izquierda += 2;		
 	}
+	*/
+	
+	// Draw all the tiles from the current scene.
+	for (int m=0;m<20;m++){
+		for (int n=0;n<16;n++){
+			// Layers in the current scene.
+			for (int k = 0; k < nivelesProfTiles; k++){				
+				dibujaTile(32+n*16, m*8,bufferTiles[m][n].tile[k]);
+			}
+		}
+	}
+	
 }
 
 // dibuja una tira de tiles

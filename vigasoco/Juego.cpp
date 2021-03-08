@@ -49,7 +49,7 @@
 #include "texts.h"
 
 
-
+#define VITA_SAVE_DIR "ux0:data/Abbey/"
 
 
 using namespace Abadia;
@@ -254,6 +254,10 @@ bool Juego::cargar(int slot)
 		path = SDL_AndroidGetExternalStoragePath();
 		path += "/";
 	}
+	#endif
+	
+	#ifdef VITA
+	path = VITA_SAVE_DIR;
 	#endif
 
 	std::ifstream in((path + savefile[slot]).c_str());
@@ -575,7 +579,11 @@ void Juego::save(int slot)
 		path = SDL_AndroidGetExternalStoragePath();
 		path += "/";
 	}
-	#endif	
+	#endif
+	
+	#ifdef VITA
+	path = VITA_SAVE_DIR;
+	#endif
 
 	std::ofstream out((path + savefile[slot]).c_str(),
 			std::ofstream::out|std::ofstream::trunc);
@@ -979,6 +987,10 @@ bool Juego::readConfigFile()
 		path += "/";
 	}
 	#endif
+	
+	#ifdef VITA
+	path = VITA_SAVE_DIR;
+	#endif
 
 	configReader = new ConfigReader((path + "config.txt").c_str());
 
@@ -1009,6 +1021,10 @@ bool Juego::saveConfigFile()
 		path = SDL_AndroidGetExternalStoragePath();
 		path += "/";	
 	}
+	#endif
+	
+	#ifdef VITA
+	path = VITA_SAVE_DIR;
 	#endif
 	
 	f.open((path + "config.txt").c_str());
