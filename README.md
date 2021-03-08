@@ -14,7 +14,7 @@ Based on the great work of Manuel Abadía for the VIGASOCO project, this new ver
 * There is a need to redesign some of the classes inherited from the VIGASOCO project. While the latter was designed to create a framework for the design of games, most of these features are beyond this project's scope, making the maintenance of the code more difficult.
 
 # Screenshots
-# <a href="https://ibb.co/Lkr9N8f"><img src="https://i.ibb.co/Lkr9N8f/Abbey-vita.jpg" alt="Abbey-vita" border="0"></a>
+# <a href="https://ibb.co/Lkr9N8f"><img src="https://i.ibb.co/qyCmJdw/Abbey-vita.jpg" alt="Abbey-vita" border="0"></a>
 # <a href="https://ibb.co/2KYmxMj"><img src="https://i.ibb.co/nk8Z91D/Abbey-Android.png" alt="Abbey-Android" border="0" /></a>
 # <a href="https://ibb.co/8PGLLFJ"><img src="https://i.ibb.co/sscddLh/20201212-140648.jpg" alt="20201212-140648" border="0"></a>
 
