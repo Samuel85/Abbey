@@ -23,3 +23,13 @@ Based on the great work of Manuel Abadía for the VIGASOCO project, this new ver
 * The apk file (app-debug.apk) of the game will be located inside of app/build/outputs/apk/debug
 * If the program doesn't save the progress, it is necessary to assign storage permisions manually. Hold on the game icon->App info->Permissions.
 * To compile the game for android, see the Readme.md file located inside of the build_directory folder.
+
+# Keys for PC users
+| Function      | Keyboard      |
+| ------------- |:-------------:|
+| Move          | Arrow keys    |
+| Map           | Key 1         |
+| Menu          | Key 2         |
+| Accept/Yes    | Enter         |
+| No            | Key n         |
+| Drop Item     | Space         |

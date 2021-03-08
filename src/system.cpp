@@ -106,6 +106,7 @@ void System::init()
 	texture = SDL_CreateTextureFromSurface(renderer, surface);	
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 	
+    /*
 	// Load tiles
 	for (int i=0;i<TOTAL_TILEMAP_FILES;i++){
 		tilemap[i] = SDL_LoadBMP(tilemapList[i]);
@@ -116,8 +117,9 @@ void System::init()
 		// transparency
 		SDL_SetColorKey(tilemap[i], SDL_TRUE, 0);
 	}
+	*/
 }
-
+/*
 SDL_Surface* System::flipSurfaceHorizontally(SDL_Surface *src)
 {	
 	assert((src != NULL) && "Error: Can't flip a NULL SDL_Surface");
@@ -139,7 +141,7 @@ SDL_Surface* System::flipSurfaceHorizontally(SDL_Surface *src)
 	}	
 	return dst;
 }
-
+*/
 void System::hapticFeedback()
 {
 	if (!haveHapticDevice) return;
@@ -174,6 +176,9 @@ void System::quit()
 
 void System::updateScreen()
 {
+	// Test this line with all the supported platforms. Fixes video problems with 
+	// the raspberry pi with KMSDRM
+	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, texture, NULL, NULL);
 	SDL_RenderPresent(renderer);
 }
@@ -202,7 +207,11 @@ void System::handleEvents()
 		{
 			switch(event.key.keysym.sym)
 			{
-				case SDLK_ESCAPE:					
+#if RG350                
+				case SDLK_ESCAPE:
+#else
+                case SDLK_1:
+#endif                    
 					informationMode = !informationMode;
 					break;
 				case SDLK_LEFT:
@@ -217,10 +226,18 @@ void System::handleEvents()
 				case SDLK_DOWN:
 					pad.down = true;
 					break;				
-				case SDLK_LSHIFT: //Y (S)			
+#if RG350                    
+				case SDLK_LSHIFT: //Y (S)
+#else
+                case SDLK_RETURN:
+#endif		
 					pad.button3 = true;
 					break;
+#if RG350                    
 				case SDLK_LALT: //B (N)
+#else
+                case SDLK_n:
+#endif                    
 					pad.button4 = true;
 					break;	
 				case SDLK_SPACE: //X (Drop)
@@ -229,7 +246,11 @@ void System::handleEvents()
 				case SDLK_LCTRL: //A (?)
 					pad.button2 = true;
 					break;
+#if RG350
 				case SDLK_RETURN:
+#else
+                case SDLK_2:
+#endif 
 					pad.start = true;
 					break;									
 				default:
@@ -252,10 +273,18 @@ void System::handleEvents()
 				case SDLK_DOWN:
 					pad.down = false;
 					break;
+#if RG350                    
 				case SDLK_LSHIFT: //Y (S)
+#else
+                case SDLK_RETURN:
+#endif                    
 					pad.button3 = false;
 					break;
+#if RG350                    
 				case SDLK_LALT: //B (N)
+#else
+                case SDLK_n:
+#endif 
 					pad.button4 = false;
 					break;	
 				case SDLK_SPACE: //X (Drop)
@@ -264,7 +293,11 @@ void System::handleEvents()
 				case SDLK_LCTRL: //A (?)
 					pad.button2 = false;
 					break;
+#if RG350
 				case SDLK_RETURN:
+#else
+                case SDLK_2:
+#endif                    
 					pad.start = true;
 					break;		
 				default:
