@@ -31,5 +31,5 @@ Based on the great work of Manuel Abadía for the VIGASOCO project, this new ver
 | Map           | 1             |
 | Menu          | 2             |
 | Accept/Yes    | Enter         |
-| No            | Key n         |
+| No            | N             |
 | Drop Item     | Space         |
