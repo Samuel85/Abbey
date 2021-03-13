@@ -28,8 +28,8 @@ Based on the great work of Manuel Abadía for the VIGASOCO project, this new ver
 | Function      | Keyboard      |
 | ------------- |:-------------:|
 | Move          | Arrow keys    |
-| Map           | Key 1         |
-| Menu          | Key 2         |
+| Map           | 1             |
+| Menu          | 2             |
 | Accept/Yes    | Enter         |
 | No            | Key n         |
 | Drop Item     | Space         |
