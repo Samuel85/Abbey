@@ -48,8 +48,6 @@
 class IDrawPlugin;		// defined in video/IDrawPlugin.h
 struct GfxElement;		// defined in GfxData.h
 struct GfxEncoding;		// defined in GfxData.h
-class InputPort;		// defined in InputPort.h
-
 
 class GameDriver
 {
@@ -58,7 +56,7 @@ public:
 	typedef std::vector<GameDataEntity *> GameDataEntities;
 	typedef std::vector<GfxEncoding *> GfxEncodings;
 	typedef std::vector<GfxElement *> GfxElements;
-	typedef std::vector<InputPort *> InputPorts;
+// 	typedef std::vector<InputPort *> InputPorts;
 
 // fields
 protected:
@@ -73,7 +71,6 @@ protected:
 	GameDataEntities _gameFiles;
 	GfxEncodings _gfxEncoding;
 	GfxElements _gfx;
-	InputPorts _inputs;
 
 	SDLPalette *_palette;
 
@@ -89,7 +86,6 @@ public:
 	const GameDataEntities* getGameFiles() const { return &_gameFiles; }
 	const GfxEncodings* getGameGfxEncoding() const { return &_gfxEncoding; }
 	const GfxElements* getGameGfx() const { return &_gfx; }
-	InputPorts *getInputs() { return &_inputs; }
 	int getNumInterruptsPerSecond() const { return _numInterruptsPerSecond; }
 	int getNumInterruptsPerVideoUpdate() const { return _numInterruptsPerVideoUpdate; }
 	int getnumInterruptsPerLogicUpdate() const { return _numInterruptsPerLogicUpdate; }

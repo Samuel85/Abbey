@@ -6,7 +6,6 @@
 #include "GameDataEntity.h"
 #include "GameDriver.h"
 #include "GfxData.h"
-#include "InputPort.h"
 #include <iomanip>
 #include <sstream>
 
@@ -52,13 +51,6 @@ GameDriver::~GameDriver()
 		_gameFiles[k]->free();
 		delete _gameFiles[k];
 	}
-
-	// delete input ports
-	InputPorts::size_type l;
-
-	for (l = 0; l < _inputs.size(); l++){
-		delete _inputs[l];
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -93,11 +85,6 @@ bool GameDriver::init(SDLPalette *pal)
 
 	// deallocate memory used by the files
 	deallocateFilesMemory();
-
-	// init input port values
-	for (InputPorts::size_type i = 0; i < _inputs.size(); i++){
-		_inputs[i]->reset();
-	}
 
 	// call template method to inform that the initialization process has finished
 	finishInit();

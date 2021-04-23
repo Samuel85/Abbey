@@ -4,26 +4,20 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-#ifndef _ABADIA_JUEGO_H_
-#define _ABADIA_JUEGO_H_
+#ifndef __ABADIA_JUEGO_H__
+#define __ABADIA_JUEGO_H__
 
 #include <stdio.h>
-
-#include "Singleton.h"
-#include "Types.h"
-#include "Paleta.h"
-
-#ifdef ANDROID
-#include "configreader.h"
-#else 
-#include "../ConfigReader/configreader.h"
-#endif
-
 #include <string>
 #include <iostream>
 #include <cstdlib>
 #include <csignal>
 #include <sys/stat.h> 
+
+#include "Singleton.h"
+#include "Types.h"
+#include "Paleta.h"
+#include "configreader.h"
 
 class CPC6128;					// definido en CPC6128.h
 
@@ -104,8 +98,8 @@ public:
 private:
 	bool cargar(int slot);
 	void save(int slot);
-	// TODO sacar todo lo relativo a menus
-	// a una clase para menu y no ensuciar la clase Juego
+	
+    /////////////////////////////////////////////////////////
 	void pintaMenuCargar(int seleccionado,bool efecto=false);
 	bool menuCargar(void);
 	bool menuCargar2(void);
@@ -126,7 +120,9 @@ private:
 	void pintaMenuIdioma(int seleccionado,bool efecto=false);
 	bool menuIdioma(void);
 	void pintaMenuPrincipal(int seleccionado,bool efecto=false);
-	bool menu(void);	
+	bool menu(void);
+    ////////////////////////////////////////////////////////////
+    
 	void cambioCPC_VGA(void);
 	void compruebaCambioCPC_VGA(void);
 	bool compruebaMenu(void);

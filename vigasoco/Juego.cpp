@@ -156,6 +156,7 @@ Juego::~Juego()
 	delete motor;
 	delete pergamino;
 	delete paleta;	
+    delete configReader;
 }
 
 void Juego::ReiniciaPantalla(void)

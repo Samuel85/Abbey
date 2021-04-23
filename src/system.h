@@ -108,13 +108,6 @@ soundsPathList[] = {
 	};
 #endif
 
-static const char*
-tilemapList[] = {
-	"res/Mosaico.bmp",
-	"res/Noche.bmp",
-	"res/Lampara.bmp"
-};
-
 struct PlayerInput
 {
 	bool up, down, left, right, button1, button2, button3, button4;

@@ -49,8 +49,7 @@ include_directories(
 
 add_executable(${PROJECT_NAME} 
  ${vigasoco_SOURCES} 
- ${vigasoco_core_SOURCES}  
- ConfigReader/configreader.cpp
+ ${vigasoco_core_SOURCES}
  )
 
 if (VITA)
