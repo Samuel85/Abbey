@@ -1,3 +1,0 @@
-/home/samuel/Projects/Abbey/build/CMakeFiles/rebuild_cache.dir
-/home/samuel/Projects/Abbey/build/CMakeFiles/edit_cache.dir
-/home/samuel/Projects/Abbey/build/CMakeFiles/abbey.dir
