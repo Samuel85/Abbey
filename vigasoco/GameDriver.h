@@ -98,18 +98,19 @@ public:
 	virtual void preRun() = 0;
 	virtual void runSync() = 0;
 	virtual void runAsync() = 0;
-	virtual void render(IDrawPlugin *dp) = 0;
-	virtual void showGameLogic(IDrawPlugin *dp){}
+	virtual void render() = 0;
+
 	virtual void showMenu() = 0;
 	virtual void changeState(int newState) = 0;
+        virtual void showGameLogic() = 0;
 
 
 	// initialization and cleanup
 	GameDriver(std::string driverName, std::string fullName, int intsPerSecond);
 	virtual ~GameDriver();
 
-	virtual void videoInitialized(IDrawPlugin *dp){}
-	virtual void videoFinalizing(IDrawPlugin *dp){}
+
+
 
 
 

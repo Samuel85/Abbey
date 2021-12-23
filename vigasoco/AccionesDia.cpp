@@ -199,14 +199,11 @@ void AccionesNona::ejecuta(AccionesDia *ad)
 		laLogica->jorge->estaActivo = false;
 		laLogica->jorge->posX = laLogica->jorge->posY = laLogica->jorge->altura = 0; 
 	}
-	
-	//VigasocoMain->getAudioPlugin()->Play(SONIDOS::Tintineo);
 	sys->playSound(JINGLE);
 }
 
-void AccionesVisperas::ejecuta(AccionesDia *ad)
+void AccionesVisperas::ejecuta([[maybe_unused]] AccionesDia *ad)
 {
-	//VigasocoMain->getAudioPlugin()->Play(SONIDOS::Campanas);
 	sys->playSound(BELLS);
 }
 
@@ -220,8 +217,7 @@ void AccionesCompletas::ejecuta(AccionesDia *ad)
 
 	// modifica las puertas que pueden abrirse
 	laLogica->mascaraPuertas = 0xdf;
-	
-	//VigasocoMain->getAudioPlugin()->Play(SONIDOS::Tintineo);
+
 	sys->playSound(JINGLE);
 }
 

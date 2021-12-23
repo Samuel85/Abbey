@@ -52,7 +52,7 @@ void Vigasoco::mainLoop()
 {
 	_driver->runAsync();
 	_driver->runSync();
-	_driver->render(NULL);
+	_driver->render();
 }
 
 GameDriver * Vigasoco::createGameDriver(std::string game)
@@ -63,7 +63,7 @@ GameDriver * Vigasoco::createGameDriver(std::string game)
 
 void Vigasoco::toggleInformationMode()
 {
-	_driver->showGameLogic(NULL);
+	_driver->showGameLogic();
 }
 
 void Vigasoco::showMenu()

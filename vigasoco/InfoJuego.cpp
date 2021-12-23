@@ -81,34 +81,7 @@ void InfoJuego::inicia()
 	//IPalette *paleta = VigasocoMain->getPalette();
 
 	// tabla con los colores asignados a cada personaje en los mapas
-	int colores[8][3] = {
-		{ 0xff, 0x00, 0x00 },	// guillermo (rojo)
-		{ 0xff, 0x00, 0x00 },	// adso (rojo)
-		{ 0x00, 0xff, 0x00 },	// malaqu?as (verde)
-		{ 0x00, 0x00, 0x00 },	// el abad (negro)
-		{ 0x00, 0xff, 0xff },	// berengario (azul celeste)
-		{ 0x00, 0x00, 0xff },	// severino (azul)
-		{ 0x80, 0x00, 0xff },	// jorge (morado)
-		{ 0xff, 0x00, 0xff }	// bernardo gui (rosa)
-	};
 
-	// fija el color de los personajes en los mapas
-	for (int i = 0; i < 8; i++){
-		// CPC paleta->setColor(4 + i, colores[i][0], colores[i][1], colores[i][2]);
-		//paleta->setColor(200 + 4 + i, colores[i][0], colores[i][1], colores[i][2]);
-	}
-
-	// fija el color de los personajes en el mapa de alturas
-	// CPC paleta->setColor(15, 0xff, 0x00, 0x00);
-	//paleta->setColor(200+15, 0xff, 0x00, 0x00);
-
-	int paso = 0x80/16;
-
-	// crea un degradado de grises para mostrar el mapa de alturas
-	for (int i = 0; i < 16; i++){
-		//paleta->setColor(16 + i, 0x80 + paso*i, 0x80 + paso*i, 0x80 + paso*i);
-		//paleta->setColor(200+16 + i, 0x80 + paso*i, 0x80 + paso*i, 0x80 + paso*i);
-	}
 
 	// guarda la altura de las pantallas de cada planta
 	generaAlturasPlanta();

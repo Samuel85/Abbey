@@ -82,7 +82,7 @@ public:
 	Objeto *objetos[numObjetos];			// objetos del juego
 	Personaje *personajes[numPersonajes];	// personajes del juego
 
-	volatile int contadorInterrupcion;		// contador incrementado en la interrupci??n para sincronizar el juego
+
 
 	bool pausa;								// indica si el juego est?? pausado
 	bool modoInformacion;					// modo de informaci??n del juego
@@ -101,11 +101,10 @@ private:
 	
     /////////////////////////////////////////////////////////
 	void pintaMenuCargar(int seleccionado,bool efecto=false);
-	bool menuCargar(void);
-	bool menuCargar2(void);
+
+	bool menuCargar2();
 	void pintaMenuGrabar(int seleccionado,bool efecto=false);
-	bool menuGrabar(void);
-	bool menuGrabar2(void);
+	bool menuGrabar2();
 	bool menuIntroduccion(void);
 	void pintaMenuTeclado(int seleccionado);
 	bool menuTeclado(void);

@@ -94,7 +94,7 @@ soundsPathList[] = {
 	"roms/abadia/tintineo.wav",
 	};
 #else
-static const char* 
+[[maybe_unused]] static const char*
 soundsPathList[] = {
 	"./roms/abadia/abrir.wav",
 	"./roms/abadia/aporrear.wav",
@@ -127,7 +127,7 @@ struct System
 	bool haveHapticDevice = false;
 	int w = WINDOW_WIDTH;
 	int h = WINDOW_HEIGHT;
-	int minimumFrameTime = GAME_FRAME_TIME;
+        Uint32 minimumFrameTime = GAME_FRAME_TIME;
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
 	const Uint32 rmask = 0xff000000;

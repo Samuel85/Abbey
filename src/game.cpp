@@ -19,7 +19,7 @@ void Game::mainLoop()
 {
 	while(!sys->exit)
 	{
-		unsigned int frameTime = SDL_GetTicks();
+		auto frameTime = SDL_GetTicks();
 		
 		handleEvents();
 		logic();

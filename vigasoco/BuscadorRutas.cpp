@@ -402,7 +402,7 @@ int BuscadorRutas::buscaCamino(PersonajeConIA *origen, PosicionJuego *destino)
 
 				// ajusta la posici?n de destino a las coordenadas de rejilla
 				bool noHayError = rejilla->ajustaAPosRejilla(destino->posX, destino->posY, posXDest, posYDest);
-				//assert(noHayError);
+				assert(noHayError);
 
 				return generaCaminoAPosicionSiAlcanzable(origen, posXDest, posYDest);
 			}
@@ -447,7 +447,7 @@ int BuscadorRutas::generaCaminoAPosicion(PersonajeConIA *pers, int posXDest, int
 {
 	// ajusta la posici?n del personaje a la rejilla
 	bool noHayError = rejilla->ajustaAPosRejilla(pers->posX, pers->posY, posXIni, posYIni);
-	//assert(noHayError);
+	assert(noHayError);
 
 	// busca una ruta dentro de una pantalla desde la posici?n de origen a la de destino
 	bool encontrado = buscaEnPantalla(posXDest, posYDest);
@@ -461,7 +461,7 @@ int BuscadorRutas::generaCaminoAPosicionSiAlcanzable(PersonajeConIA *pers, int p
 {
 	// ajusta la posici?n del personaje a la rejilla
 	bool noHayError = rejilla->ajustaAPosRejilla(pers->posX, pers->posY, posXIni, posYIni);
-	//assert(noHayError);
+	assert(noHayError);
 
 	// busca una ruta dentro de una pantalla desde la posici?n de origen a la de destino
 	bool encontrado = buscaEnPantallaSiAlcanzable(posXDest, posYDest);
@@ -512,7 +512,7 @@ int BuscadorRutas::compruebaFinCamino(PersonajeConIA *pers, bool encontrado)
 
 			// ajusta la posici?n de la siguiente alternativa a la rejilla
 			bool noHayError = rejilla->ajustaAPosRejilla(destino->posX, destino->posY, posXDest, posYDest);
-			//assert(noHayError);
+			assert(noHayError);
 
 			// vuelve a probar a ver si encuentra el camino a esa posici?n
 			return generaCaminoAPosicionSiAlcanzable(pers, posXDest, posYDest);
@@ -1107,7 +1107,7 @@ void BuscadorRutas::reconstruyeCamino(PersonajeConIA *pers)
 
 		// obtiene la posici?n del personaje con respecto a las 20x20 posiciones centrales de la rejilla
 		bool noHayError = rejilla->ajustaAPosRejilla(pers->posX, pers->posY, posXRejilla, posYRejilla);
-		//assert(noHayError);
+		assert(noHayError);
 
 		// comprueba si ha llegado a la posici?n de destino antes de sacar m?s valores de la pila
 		llegoADestino = ((posXRejilla == posXDest) && (posYRejilla == posYDest));

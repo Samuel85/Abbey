@@ -168,9 +168,6 @@ void Juego::ReiniciaPantalla(void)
 
 	marcador->dibujaMarcador();
 
-	// inicia el contador de la interrupci??n
-	contadorInterrupcion = 0;
-
 	// pone una posici??n de pantalla inv??lida para que se redibuje la pantalla
 	motor->posXPantalla = motor->posYPantalla = -1;
 
@@ -342,7 +339,7 @@ void Juego::askExitLogic()
 			marcador->limpiaAreaMarcador();	
 			ReiniciaPantalla();
 			BUTTON_YES = false;
-			contadorInterrupcion = 0;
+
 			sys->setNormalSpeed();
 			//sys->playMusic(START);
 			activeGame = true;
@@ -426,7 +423,7 @@ void Juego::askForNewGameLogic()
 		marcador->limpiaAreaMarcador();	
 		ReiniciaPantalla();
 		BUTTON_YES = false;
-		contadorInterrupcion = 0;
+
 		sys->setNormalSpeed();
 		//sys->playMusic(START);
 		activeGame = true;
@@ -504,7 +501,7 @@ void Juego::askToContinueLogic()
 			marcador->limpiaAreaMarcador();	
 			ReiniciaPantalla();
 			BUTTON_YES = false;
-			contadorInterrupcion = 0;
+
 			sys->setNormalSpeed();
 			//sys->playMusic(START);
 			activeGame = true;		
@@ -681,7 +678,6 @@ void Juego::pintaMenuIdioma(int seleccionado,bool efecto)
 	limpiaAreaJuego(0); 
 
 	int x = 0;
-	const int y = 32;
 	
 	for (int i=0;i<8;i++){
 		x = (320 - textLanguage[i].length()*8)>>1;
@@ -699,8 +695,6 @@ bool Juego::menuIdioma()
 	limpiaAreaJuego(0);
 
 	pintaMenuIdioma(seleccionado,true);
-	
-	bool salir=false;
 				
 	if (sys->pad.down) {
 		seleccionado++;		
@@ -777,7 +771,7 @@ bool Juego::menu()
 					marcador->limpiaAreaMarcador();	
 					ReiniciaPantalla();
 					BUTTON_YES = false;
-					contadorInterrupcion = 0;
+
 					sys->minimumFrameTime = SCROLL_FRAME_TIME;
 					sys->playMusic(START);
 					activeGame = true;						
@@ -793,7 +787,7 @@ bool Juego::menu()
 					paleta->setGamePalette(2);		
 					marcador->limpiaAreaMarcador();					
 					BUTTON_YES = false;
-					contadorInterrupcion = 0;
+
 					activeGame = true;	
 					return true;
 				}
@@ -806,7 +800,7 @@ bool Juego::menu()
 				paleta->setGamePalette(2);		
 				marcador->limpiaAreaMarcador();					
 				BUTTON_YES = false;
-				contadorInterrupcion = 0;
+
 				activeGame = true;
 				
 				return true;
@@ -820,7 +814,7 @@ bool Juego::menu()
 					paleta->setGamePalette(2);		
 					marcador->limpiaAreaMarcador();						
 					BUTTON_YES = false;
-					contadorInterrupcion = 0;
+
 					activeGame = true;	
 				}
 				return true;
@@ -832,7 +826,7 @@ bool Juego::menu()
 				paleta->setGamePalette(2);		
 				marcador->limpiaAreaMarcador();					
 				BUTTON_YES = false;
-				contadorInterrupcion = 0;
+
 				return true;
 				break;					
 			case 4: //Continue
@@ -851,7 +845,7 @@ bool Juego::menu()
 				paleta->setGamePalette(2);		
 				marcador->limpiaAreaMarcador();						
 				BUTTON_YES = false;
-				contadorInterrupcion = 0;				
+
 				break;
 		}
 	}
@@ -1342,22 +1336,16 @@ void Juego::cambioCPC_VGA()
 // muestra la imagen de presentaci??n del juego
 void Juego::muestraPresentacion()
 {
-	if (contadorInterrupcion < 1)
-	{
-		paleta->setIntroPalette();
-		//VGA
-		UINT8 *romsVGA = &roms[0x24000-1-0x4000];
-		cpc6128->showVGAScreen(romsVGA + 0x1ADF0);
-	}
-	else
-	{				
-		if (BUTTON_YES)
-		{
-			currentState = MENU;
-			ReiniciaPantalla();
-			marcador->limpiaAreaMarcador();	
-		}
-	}
+        paleta->setIntroPalette();
+        UINT8 *romsVGA = &roms[0x24000-1-0x4000];
+        cpc6128->showVGAScreen(romsVGA + 0x1ADF0);
+
+        if (BUTTON_YES)
+        {
+                currentState = MENU;
+                ReiniciaPantalla();
+                marcador->limpiaAreaMarcador();
+        }
 }
 
 // muestra el pergamino de presentaci??n
@@ -1379,7 +1367,6 @@ void Juego::muestraIntroduccion()
 
 		ReiniciaPantalla();
 		BUTTON_YES = false;
-		contadorInterrupcion = 0;
 		
 		sys->setNormalSpeed();
 		firstTime = false;
@@ -1391,7 +1378,7 @@ void Juego::muestraIntroduccion()
 void Juego::muestraFinal()
 {
 	//audio_plugin->Play(SONIDOS::Final,true);
-	
+        sys->playMusic(END);
 	// muestra el texto del final
 	pergamino->muestraTexto(Pergamino::pergaminoFinal[idioma]);
 }
@@ -1553,8 +1540,7 @@ void Juego::creaEntidadesJuego()
 	personajes[7] = new Bernardo((SpriteMonje *)sprites[7]);
 
 	// inicia los valores comunes
-	for (int i = 0; i < 8; i++)
-	{
+	for (int i = 0; i < 8; i++){
 		personajes[i]->despX = -2;
 		personajes[i]->despY = -34;
 	}
