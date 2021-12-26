@@ -74,15 +74,6 @@ int InfoJuego::alturaBasePlanta[3] = {
 // inicia los datos necesarios para poder mostrar la informaci?n sobre el comportamiento del juego m?s tarde
 void InfoJuego::inicia()
 {
-	// inicia la paleta (los colores colores 0-3 no pueden usarse ya que los usa el juego)
-// PARA VGA, usamos para infojuego a partir del 200
-// ojo , el 253 y 254 se usan para otra cosa. ver vigasoco.cpp
-// asi que sumo 200 a todos los indices que me encuentro
-	//IPalette *paleta = VigasocoMain->getPalette();
-
-	// tabla con los colores asignados a cada personaje en los mapas
-
-
 	// guarda la altura de las pantallas de cada planta
 	generaAlturasPlanta();
 }

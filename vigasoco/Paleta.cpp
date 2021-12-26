@@ -76,7 +76,7 @@ void Paleta::setGamePalette(int pal)
 			UINT8 r=*p++;
 			UINT8 g=*p++;
 			UINT8 b=*p++;
-			UINT8 a=*p++;
+			[[maybe_unused]]UINT8 a=*p++;
 			paleta2->setColor(i,r,g,b);
 		}
 	}

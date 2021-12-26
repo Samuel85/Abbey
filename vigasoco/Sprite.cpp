@@ -192,7 +192,6 @@ void Sprite::dibujaVGA(Sprite *spr, UINT8 *bufferMezclas, int lgtudClipX, int lg
 
 	// obtiene los objetos que se usan luego
 	UINT8 *roms = elJuego->roms+0x20000-1; // pasamos de la rom del CPC a GraficosVGA
-	CPC6128 *cpc6128 = elJuego->cpc6128;
 
 	// calcula la direcci�n de inicio de los gr�ficos visibles del sprite a mezclar en el �rea ocupada por el sprite que se est� procesando
 	int despSrc = despGfx + dist2Y*ancho*4 + dist2X*4;

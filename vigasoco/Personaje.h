@@ -60,7 +60,7 @@ protected:
 public:
 	virtual void run() = 0;
 
-	virtual void notificaVisibleEnPantalla(int posXPant, int posYPant, int profundidad);
+	void notificaVisibleEnPantalla(int posXPant, int posYPant, int profundidad) override;
 
 	int puedeDejarObjeto(int &posXObj, int &posYObj, int &alturaObj);
 

@@ -133,7 +133,6 @@ void SpriteMonje::dibuja(Sprite *spr, UINT8 *bufferMezclas, int lgtudClipX, int 
 {
 	// obtiene los objetos que se usan luego
 	UINT8 *roms = elJuego->roms + 0x20000-1;
-	CPC6128 *cpc6128 = elJuego->cpc6128;
 
 	int despSrc;
 

@@ -260,7 +260,6 @@ void CPC6128::showVGAScreen(const UINT8 *data)
 void CPC6128::markAllPixelsDirty()
 {
 	//TODO VGA
-	UINT8 *buf = DirtyPixels;
 	memset(DirtyPixels,0xFF,sizeof(DirtyPixels));
 
 }
