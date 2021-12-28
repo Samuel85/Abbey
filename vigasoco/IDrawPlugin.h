@@ -21,8 +21,8 @@ class IDrawPlugin
 {
 // abstract methods
 public:
-	IDrawPlugin(){}
-	virtual ~IDrawPlugin(){}
+	IDrawPlugin() = default;
+	virtual ~IDrawPlugin() = default;
 	virtual bool init(const VideoInfo *vi, IPalette *pal) = 0;
 	virtual void end() = 0;
 
