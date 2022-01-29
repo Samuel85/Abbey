@@ -92,59 +92,22 @@ void System::init()
 	for (int i=0;i<TOTAL_MUSIC_FILES;i++){
 		music.push_back(Mix_LoadWAV(musicPathList[i]));
 		if (music[i] == NULL){
-			print("Error: can't read music file.\n");
-			//std::cout << "Error: can't read " << musicPathList[i] <<std::endl;            
+			print("Error: can't read music file.\n");			
 		}
 	}
-
-	//surface = SDL_CreateRGBSurface(0, TEXTURE_WIDTH,TEXTURE_HEIGHT>>1,32, rmask, gmask,bmask, amask);
+	
 	surface = SDL_CreateRGBSurface(0, TEXTURE_WIDTH,TEXTURE_HEIGHT,32, rmask, gmask,bmask, amask);
-	if (surface == NULL){
-		//std::cout << "Surface Error:" << SDL_GetError() << std::endl;
+	if (surface == NULL){		
         print ("Error: Can't create surface.\n");
 	}
 	texture = SDL_CreateTextureFromSurface(renderer, surface);	
 	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	
-    /*
-	// Load tiles
-	for (int i=0;i<TOTAL_TILEMAP_FILES;i++){
-		tilemap[i] = SDL_LoadBMP(tilemapList[i]);
-		if (tilemap[i] == NULL){
-			std::cout << "Error: Can't load " << tilemapList[i] << std::endl;
-			break;
-		}
-		// transparency
-		SDL_SetColorKey(tilemap[i], SDL_TRUE, 0);
-	}
-	*/
 }
-/*
-SDL_Surface* System::flipSurfaceHorizontally(SDL_Surface *src)
-{	
-	assert((src != NULL) && "Error: Can't flip a NULL SDL_Surface");
-	
-	// create dst with the same properties as src	
-	Uint32 colorkey;
-	SDL_Surface *dst = SDL_CreateRGBSurface(0, src->w, src->h, src->format->BytesPerPixel * 8,rmask,gmask,bmask,amask);
-	if (SDL_GetColorKey(src, &colorkey)==0){
-		SDL_SetColorKey(dst, SDL_TRUE, colorkey);
-	}
 
-	// copy fliped pixels to destiny
-	for (int j=0; j < src->h; j++){
-		Uint32 *pSrc = (Uint32 *)src->pixels + j*src->w;
-		Uint32 *pDst = (Uint32 *)dst->pixels + (j+1)*src->w - 1;
-		for (int i=0; i < src->w; i++){			
-			*(pDst--) = *(pSrc++);
-		}
-	}	
-	return dst;
-}
-*/
 void System::hapticFeedback()
 {
 	if (!haveHapticDevice) return;
+    
 	if (SDL_HapticRumblePlay(hapticDevice, 0.80f /* Strength */, 200 /* Time */) < 0){
 		print("Error: SDL_HapticRumblePlay failed\n");
 	}
@@ -157,10 +120,6 @@ void System::quit()
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);	
 
-	// tilemaps
-	for (int i=0;i<TOTAL_TILEMAP_FILES;i++){
-		SDL_FreeSurface(tilemap[i]);
-	}
 	// music
 	for (int i=0;i<TOTAL_MUSIC_FILES;i++){
         Mix_FreeChunk(music[i]);

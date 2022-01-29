@@ -4,26 +4,20 @@
 //
 /////////////////////////////////////////////////////////////////////////////
 
-#ifndef _ABADIA_JUEGO_H_
-#define _ABADIA_JUEGO_H_
+#ifndef __ABADIA_JUEGO_H__
+#define __ABADIA_JUEGO_H__
 
 #include <stdio.h>
-
-#include "Singleton.h"
-#include "Types.h"
-#include "Paleta.h"
-
-#ifdef ANDROID
-#include "configreader.h"
-#else 
-#include "../ConfigReader/configreader.h"
-#endif
-
 #include <string>
 #include <iostream>
 #include <cstdlib>
 #include <csignal>
 #include <sys/stat.h> 
+
+#include "Singleton.h"
+#include "Types.h"
+#include "Paleta.h"
+#include "configreader.h"
 
 class CPC6128;					// definido en CPC6128.h
 
@@ -88,7 +82,7 @@ public:
 	Objeto *objetos[numObjetos];			// objetos del juego
 	Personaje *personajes[numPersonajes];	// personajes del juego
 
-	volatile int contadorInterrupcion;		// contador incrementado en la interrupci??n para sincronizar el juego
+
 
 	bool pausa;								// indica si el juego est?? pausado
 	bool modoInformacion;					// modo de informaci??n del juego
@@ -104,14 +98,13 @@ public:
 private:
 	bool cargar(int slot);
 	void save(int slot);
-	// TODO sacar todo lo relativo a menus
-	// a una clase para menu y no ensuciar la clase Juego
+	
+    /////////////////////////////////////////////////////////
 	void pintaMenuCargar(int seleccionado,bool efecto=false);
-	bool menuCargar(void);
-	bool menuCargar2(void);
+
+	bool menuCargar2();
 	void pintaMenuGrabar(int seleccionado,bool efecto=false);
-	bool menuGrabar(void);
-	bool menuGrabar2(void);
+	bool menuGrabar2();
 	bool menuIntroduccion(void);
 	void pintaMenuTeclado(int seleccionado);
 	bool menuTeclado(void);
@@ -126,7 +119,9 @@ private:
 	void pintaMenuIdioma(int seleccionado,bool efecto=false);
 	bool menuIdioma(void);
 	void pintaMenuPrincipal(int seleccionado,bool efecto=false);
-	bool menu(void);	
+	bool menu(void);
+    ////////////////////////////////////////////////////////////
+    
 	void cambioCPC_VGA(void);
 	void compruebaCambioCPC_VGA(void);
 	bool compruebaMenu(void);

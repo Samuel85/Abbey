@@ -42,7 +42,7 @@ void checkSaveDirectory()
 #endif			
 }
 
-int main(int argc, char *argv[])
+int main()
 {
 #if defined(VITA) || defined(RG350)	
 	checkSaveDirectory();

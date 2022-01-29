@@ -1,6 +1,6 @@
 // AccionesDia.h
 //
-//	Clase para ejecutar las acciones programadas depnediendo del momento del día
+//	Clase para ejecutar las acciones programadas depnediendo del momento del dï¿½a
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -14,13 +14,13 @@ class AccionesDia;
 
 class AccionProgramada
 {
-// métodos
+// mï¿½todos
 public:
-	virtual void ejecuta(AccionesDia *ad) = 0;
+	virtual void ejecuta([[maybe_unused]] AccionesDia *ad) = 0;
 
-	// inicialización y limpieza
-	AccionProgramada(){}
-	virtual ~AccionProgramada(){}
+	// inicializaciï¿½n y limpieza
+	AccionProgramada()= default;
+	virtual ~AccionProgramada()= default;
 };
 
 class Objeto;								// definido en Objeto.h
@@ -32,18 +32,18 @@ class AccionesDia
 protected:
 	static AccionProgramada *acciones[7];	// acciones programadas
 
-// métodos
+// mï¿½todos
 public:
 	void ejecutaAccionesProgramadas();
 	void dibujaEfectoEspiral();
 	void colocaObjeto(Objeto *obj, int posX, int posY, int altura);
 	void colocaPersonaje(Personaje *pers, int posX, int posY, int altura, int orientacion);
 
-	// inicialización y limpieza
+	// inicializaciï¿½n y limpieza
 	AccionesDia();
 	virtual ~AccionesDia();
 
-// métodos de ayuda
+// mï¿½todos de ayuda
 protected:
 	void dibujaEspiral(int color);
 	void dibujaBloque(int posX, int posY, int color);
@@ -52,51 +52,51 @@ protected:
 
 class AccionesNoche : public AccionProgramada
 {
-// métodos
+// mï¿½todos
 public:
-	virtual void ejecuta(AccionesDia *ad);
+	void ejecuta(AccionesDia *ad) override;
 };
 
 class AccionesPrima : public AccionProgramada
 {
-// métodos
+// mï¿½todos
 public:
-	virtual void ejecuta(AccionesDia *ad);
+	void ejecuta(AccionesDia *ad) override;
 };
 
 class AccionesTercia : public AccionProgramada
 {
-// métodos
+// mï¿½todos
 public:
-	virtual void ejecuta(AccionesDia *ad);
+	void ejecuta(AccionesDia *ad) override;
 };
 
 class AccionesSexta : public AccionProgramada
 {
-// métodos
+// mï¿½todos
 public:
-	virtual void ejecuta(AccionesDia *ad);
+	void ejecuta(AccionesDia *ad) override;
 };
 
 class AccionesNona : public AccionProgramada
 {
-// métodos
+// mï¿½todos
 public:
-	virtual void ejecuta(AccionesDia *ad);
+	void ejecuta(AccionesDia *ad) override;
 };
 
 class AccionesVisperas : public AccionProgramada
 {
-// métodos
+// mï¿½todos
 public:
-	virtual void ejecuta(AccionesDia *ad);
+	void ejecuta(AccionesDia *ad) override;
 };
 
 class AccionesCompletas : public AccionProgramada
 {
-// métodos
+// mï¿½todos
 public:
-	virtual void ejecuta(AccionesDia *ad);
+	void ejecuta(AccionesDia *ad) override;
 };
 
 

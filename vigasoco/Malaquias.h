@@ -1,6 +1,6 @@
 // Malaquias.h
 //
-//	Clase que representa a Malaquías
+//	Clase que representa a Malaquï¿½as
 //
 /////////////////////////////////////////////////////////////////////////////
 
@@ -17,27 +17,27 @@ class Malaquias : public Monje
 {
 // campos
 public:
-	int estaMuerto;								// indica si el personaje está muerto o muriéndose
-	int estado2;								// guarda información extra sobre el estado del personaje
+	int estaMuerto;								// indica si el personaje estï¿½ muerto o muriï¿½ndose
+	int estado2;								// guarda informaciï¿½n extra sobre el estado del personaje
 
 protected:
-	int contadorEnScriptorium;					// indica el tiempo que guillermo está sin salir del scriptorium
-	static PosicionJuego posicionesPredef[9];	// posiciones a las que puede ir el personaje según el estado
+	int contadorEnScriptorium;					// indica el tiempo que guillermo estï¿½ sin salir del scriptorium
+	static PosicionJuego posicionesPredef[9];	// posiciones a las que puede ir el personaje segï¿½n el estado
 
-// métodos
+// mï¿½todos
 public:
-	virtual void piensa();
+	void piensa() override;
 
-	// inicialización y limpieza
-	Malaquias(SpriteMonje *spr);
-	virtual ~Malaquias();
+	// inicializaciï¿½n y limpieza
+	explicit Malaquias(SpriteMonje *spr);
+	~Malaquias() override = default;
 
 	// cargar/salvar
 	friend std::ofstream& operator<<(std::ofstream&,const Malaquias* const);
 	friend std::ifstream& operator>>(std::ifstream&,Malaquias* const);
 
 protected:
-	virtual void avanzaAnimacionOMueve();
+	void avanzaAnimacionOMueve() override;
 };
 
 

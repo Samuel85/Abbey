@@ -48,8 +48,6 @@
 class IDrawPlugin;		// defined in video/IDrawPlugin.h
 struct GfxElement;		// defined in GfxData.h
 struct GfxEncoding;		// defined in GfxData.h
-class InputPort;		// defined in InputPort.h
-
 
 class GameDriver
 {
@@ -58,7 +56,7 @@ public:
 	typedef std::vector<GameDataEntity *> GameDataEntities;
 	typedef std::vector<GfxEncoding *> GfxEncodings;
 	typedef std::vector<GfxElement *> GfxElements;
-	typedef std::vector<InputPort *> InputPorts;
+// 	typedef std::vector<InputPort *> InputPorts;
 
 // fields
 protected:
@@ -73,7 +71,6 @@ protected:
 	GameDataEntities _gameFiles;
 	GfxEncodings _gfxEncoding;
 	GfxElements _gfx;
-	InputPorts _inputs;
 
 	SDLPalette *_palette;
 
@@ -89,7 +86,6 @@ public:
 	const GameDataEntities* getGameFiles() const { return &_gameFiles; }
 	const GfxEncodings* getGameGfxEncoding() const { return &_gfxEncoding; }
 	const GfxElements* getGameGfx() const { return &_gfx; }
-	InputPorts *getInputs() { return &_inputs; }
 	int getNumInterruptsPerSecond() const { return _numInterruptsPerSecond; }
 	int getNumInterruptsPerVideoUpdate() const { return _numInterruptsPerVideoUpdate; }
 	int getnumInterruptsPerLogicUpdate() const { return _numInterruptsPerLogicUpdate; }
@@ -102,18 +98,19 @@ public:
 	virtual void preRun() = 0;
 	virtual void runSync() = 0;
 	virtual void runAsync() = 0;
-	virtual void render(IDrawPlugin *dp) = 0;
-	virtual void showGameLogic(IDrawPlugin *dp){}
+	virtual void render() = 0;
+
 	virtual void showMenu() = 0;
 	virtual void changeState(int newState) = 0;
+        virtual void showGameLogic() = 0;
 
 
 	// initialization and cleanup
 	GameDriver(std::string driverName, std::string fullName, int intsPerSecond);
 	virtual ~GameDriver();
 
-	virtual void videoInitialized(IDrawPlugin *dp){}
-	virtual void videoFinalizing(IDrawPlugin *dp){}
+
+
 
 
 

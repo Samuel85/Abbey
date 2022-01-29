@@ -59,10 +59,6 @@ Malaquias::Malaquias(SpriteMonje *spr) : Monje(spr)
 	posiciones = posicionesPredef;
 }
 
-Malaquias::~Malaquias()
-{
-}
-
 /////////////////////////////////////////////////////////////////////////////
 // comportamiento
 /////////////////////////////////////////////////////////////////////////////
@@ -82,8 +78,6 @@ Malaquias::~Malaquias()
 //		0x0c -> va a buscar al abad para que eche a guillermo
 void Malaquias::piensa()
 {
-	int momentoDia = laLogica->momentoDia;
-
 	// si malaqu?as ha muerto, sale
 	if (estaMuerto == 2){
 		elBuscadorDeRutas->seBuscaRuta = false;

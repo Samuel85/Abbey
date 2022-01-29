@@ -425,6 +425,7 @@ void Adso::piensa()
 					return;
 				}
 			}
+                        break;
 		default:
 			// sigue a guillermo
 			aDondeVa = POS_GUILLERMO;

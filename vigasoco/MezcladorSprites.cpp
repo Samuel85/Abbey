@@ -287,7 +287,6 @@ void MezcladorSprites::combinaTile(Sprite *spr, int tile, int despBufSprites)
 			for (int i = 0; i < 16; i++){
 //CPC			for (int i = 0; i < 4; i++){
 				// lee un byte del gr�fico (1 pixels)
-				int data = *tileData;
 
 				// para cada pixel del byte leido
 //CPC				for (int k = 0; k < 4; k++){
@@ -304,22 +303,21 @@ void MezcladorSprites::combinaTile(Sprite *spr, int tile, int despBufSprites)
 			dest += despSgteLinea;
 		}
 	} else {
-		int numTabla = (tile & 0x80) ? 2 : 0;
+
 
 		// dibuja cada linea del tile
 		for (int j = 0; j < 8; j++){
 			// repite para 16 bytes (16 pixels)
 			for (int i = 0; i < 4; i++){
 				// lee un byte del gr�fico (1 pixels)
-				int data = *tileData;
+
 
 				// para cada pixel del byte leido
 				for (int k = 0; k < 4; k++){
 					// obtiene el color del pixel
-					int color = cpc6128->unpackPixelMode1(data, k);
+
 
 					// obtiene el color del pixel en el buffer de sprites
-					int oldColor = *dest;
 					if (*tileDataVGA!=0)
 					{
 						*dest=*tileDataVGA;

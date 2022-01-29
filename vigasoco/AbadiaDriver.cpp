@@ -6,7 +6,6 @@
 #include "cpc6128.h"
 #include "DskReader.h"
 
-#include "IDrawPlugin.h"
 #include "GameDataEntity.h"
 #include "GameDriver.h"
 #include "GfxData.h"
@@ -16,12 +15,7 @@
 #include "GestorFrases.h"
 #include "Juego.h"
 
-//para print
-#include <stdio.h>
-//para memcpy
-#include <string.h>
-#include <iostream>
-#include <stdio.h>
+#include <string>
 
 using namespace Abadia;
 
@@ -29,29 +23,10 @@ using namespace Abadia;
 // initialization and cleanup
 /////////////////////////////////////////////////////////////////////////////
 
-AbadiaDriver::AbadiaDriver() : GameDriver("abadia", "La abadia del crimen", 300)
+AbadiaDriver::AbadiaDriver() : GameDriver("abadia", "La abadia del crimen", 300),
+                               _abadiaGame{0}, cpc6128{0}, romsPtr{0}
 {
-	/*
-	_videoInfo.width = 640;
-	_videoInfo.height = 400;
-	_videoInfo.visibleArea = Rect(_videoInfo.width, _videoInfo.height);
-	_videoInfo.colors = 32;			// 16 del juego + 16 para mostrar informaci?n interna del juego
-	_videoInfo.colors = 256;		// TODO: PRUEBAS VGA
-	_videoInfo.refreshRate = 50;
-	_numInterruptsPerVideoUpdate = 6;
-	_numInterruptsPerLogicUpdate = 1;
-	*/
-	
-	_abadiaGame = 0;
-	cpc6128 = 0;
-	romsPtr = 0;
-
 	createGameDataEntities();
-	
-}
-
-AbadiaDriver::~AbadiaDriver()
-{
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -61,17 +36,17 @@ AbadiaDriver::~AbadiaDriver()
 void AbadiaDriver::createGameDataEntities()
 {
 	// el c?digo y los gr?ficos est?n mezclados en la imagen
-	GameDataEntity *roms = new GameDataEntity(MIXED, "Code + Graphics + Sound");
+	auto *roms = new GameDataEntity(MIXED, "Code + Graphics + Sound");
 	roms->addFile(new GameFile("abadia.dsk", 0x00000, 0x27400, 0xd37cf8e7, 0));
 	_gameFiles.push_back(roms);
 
 	// Graficos VGA
-	GameDataEntity *GfxVGA = new GameDataEntity(GRAPHICS,"Graphics VGA + Palette");
+	auto *GfxVGA = new GameDataEntity(GRAPHICS,"Graphics VGA + Palette");
 	GfxVGA->addFile(new GameFile("GraficosVGA",0,174065,0,0));
 	_gameFiles.push_back(GfxVGA);
 
 	// Graficos CPC adaptados a modo 256 colores
-	GameDataEntity *GfxCPC = new GameDataEntity(GRAPHICS,"Graphics CPC + Palette");
+	auto *GfxCPC = new GameDataEntity(GRAPHICS,"Graphics CPC + Palette");
 	GfxCPC->addFile(new GameFile("GraficosCPC",0,174065,0,0));
 	_gameFiles.push_back(GfxCPC);
 
@@ -83,14 +58,6 @@ void AbadiaDriver::createGameDataEntities()
 	// lo hace GameDriver::deallocateFilesMemory()
 	// asi , que cuidado al usar los _gameFiles despues de iniciar, porque
 	// no estan disponibles
-}
-
-void AbadiaDriver::createGameGfxDescriptions()
-{
-}
-
-void AbadiaDriver::createGameInputsAndDips()
-{
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -184,7 +151,7 @@ void AbadiaDriver::filesLoaded()
 }
 
 // reordena los datos gr?ficos y los copia en el destino
-void AbadiaDriver::reOrderAndCopy(UINT8 *src, UINT8 *dst, int size)
+void AbadiaDriver::reOrderAndCopy(const UINT8 *src, UINT8 *dst, int size)
 {
 	for (int i = 0; i < size; i++){
 		dst[size - i - 1] = src[i];
@@ -203,20 +170,15 @@ void AbadiaDriver::finishInit()
 
 	// crea el objeto del juego
 	_abadiaGame = new Abadia::Juego(romsPtr, cpc6128);
-	_abadiaGame->contadorInterrupcion = 0;
 }
 
-void AbadiaDriver::videoInitialized(IDrawPlugin *dp)
-{
-}
+
 
 /////////////////////////////////////////////////////////////////////////////
 // template method overrides to customize cleanup
 /////////////////////////////////////////////////////////////////////////////
 
-void AbadiaDriver::videoFinalizing(IDrawPlugin *dp)
-{
-}
+
 
 void AbadiaDriver::end()
 {
@@ -260,74 +222,45 @@ void AbadiaDriver::changeState(int newState)
 {
 	_abadiaGame->changeState(newState);
 }
-void AbadiaDriver::render(IDrawPlugin *dp)
+void AbadiaDriver::render()
 {
 	//TODO: VGA
 	//El codigo si usasemos los graficos originales
 	//de abadia.dsk seria diferente
 
-	UINT8 *posPant = cpc6128->screenBuffer;
+	auto *posPant = cpc6128->screenBuffer;
 	UINT8 *posPantTmp = NULL;
-	// dibuja los datos que el juego escribe en el otro hilo en el buffer de pantalla
-	uint8_t *pixels = (uint8_t*)sys->surface->pixels;
-	int pitch = sys->surface->pitch;
-	Uint32 *p = NULL;
-	Uint8 *dirtyByte, bit, r,g,b;
-	bool dirty = false;	
-	int data;
+	auto *pixels = (uint8_t*)sys->surface->pixels;
+	auto p = (Uint32 *)pixels;
 
-	/*	
-	for (int y = 0; y < 200; y++)
+        for (int y = 0; y < TEXTURE_HEIGHT/2; y++)
 	{
-		p = (Uint32 *)(pixels + pitch*y);			
-		for (int x = 0; x < 640; x++)
-		{
-			dirtyByte = &(cpc6128->DirtyPixels[(y*640 + x)/8]);
-			bit = 1<<((y*640 + x)%8);
-			dirty = *dirtyByte & bit;
-			if (dirty)
-			{
-				*dirtyByte = *dirtyByte & (~bit);
-				data = *posPant;														
-				r = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].R;
-				g = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].G;
-				b = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].B;															
-				*p = sys->RGBA(r,g,b,0xFF);
-				
-			}
-			p++;
-			posPant++;
-		}
-	}
-	*/
-	//p = (Uint32 *)(pixels + pitch*y);
-	p = (Uint32 *)pixels;
-	for (int y = 0; y < TEXTURE_HEIGHT>>1; y++)
-	{	
-		posPantTmp = posPant;			
+		posPantTmp = posPant;
 		for (int x = 0; x < TEXTURE_WIDTH; x++)
-		{			
-			data = *posPant;														
-			r = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].R;
-			g = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].G;
-			b = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].B;															
+		{
+                        auto data = *posPant;
+			auto r = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].R;
+			auto g = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].G;
+			auto b = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].B;
 			*p = sys->RGBA(r,g,b,0xFF);
-			
+
 			p++;
 			posPant++;
 		}
+
 		posPant = posPantTmp;
 		for (int x = 0; x < TEXTURE_WIDTH; x++)
-		{			
-			data = *posPant;														
-			r = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].R;
-			g = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].G;
-			b = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].B;															
+		{
+			auto data = *posPant;
+			auto r = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].R;
+			auto g = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].G;
+			auto b = (Uint8) _abadiaGame->paleta->paleta2->_palette[data].B;
 			*p = sys->RGBA(r,g,b,0xFF);
-			
+
 			p++;
 			posPant++;
 		}
+
 	}
 
 	sys->updateTexture();
@@ -337,7 +270,7 @@ void AbadiaDriver::render(IDrawPlugin *dp)
 // display internal game information
 /////////////////////////////////////////////////////////////////////////////
 
-void AbadiaDriver::showGameLogic(IDrawPlugin *dp)
+void AbadiaDriver::showGameLogic()
 {
 	_abadiaGame->modoInformacion = !_abadiaGame->modoInformacion;
 	_abadiaGame->cambioModoInformacion = true;

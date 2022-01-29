@@ -64,35 +64,27 @@ protected:
 public:
 	// iniciaci�n y limpieza
 	AbadiaDriver();
-	virtual ~AbadiaDriver();
-	virtual void preRun();
-	virtual void runSync();
-	virtual void runAsync();
-	virtual void showMenu();
-	virtual void changeState(int newState);
-	virtual void render(IDrawPlugin *dp);
-	virtual void showGameLogic(IDrawPlugin *dp);
+	~AbadiaDriver() override = default;
+	void preRun() override;
+	void runSync() override;
+	void runAsync() override;
+	void showMenu() override;
+	void changeState(int newState) override;
+	void render() override;
+	void showGameLogic() override;
 
-	// template methods overrides
-	virtual void videoInitialized(IDrawPlugin *dp);
-	virtual void videoFinalizing(IDrawPlugin *dp);
 	int state;
 
 protected:
 	// template methods overrides
-	virtual void filesLoaded();
-	virtual void finishInit();
-	virtual void end();
+	void filesLoaded() override;
+	void finishInit() override;
+	void end() override;
 
 	// m�todos de ayuda
 	void createGameDataEntities();
-	void createGameGfxDescriptions();
-	void createGameInputsAndDips();
 
-	void drawGrid(IDrawPlugin *dp);
-	void drawDestPos(IDrawPlugin *dp);
-
-	void reOrderAndCopy(UINT8 *src, UINT8 *dst, int size);
+	static void reOrderAndCopy(const UINT8 *src, UINT8 *dst, int size);
 };
 
 #endif	// _ABADIA_DRIVER_H_

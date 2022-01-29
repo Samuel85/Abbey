@@ -461,10 +461,7 @@ struct parche {
  
 };
 
-	for (	int i=0;
-		i<sizeof(parches)/sizeof(struct parche) &&
-		parches[i].pantalla<=numPantalla;
-		i++)
+	for (size_t i=0;i<sizeof(parches)/sizeof(struct parche) &&parches[i].pantalla<=numPantalla;i++)
 	{
 		if(parches[i].pantalla==numPantalla) 
 		{	
@@ -536,11 +533,6 @@ void GeneradorPantallas::genera(UINT8 *datosPantalla)
 	// repite el proceso de generaci�n de bloques hasta que no se encuentre el marcador de fin de datos
 	while (*datosPantalla != 0xff){
 
-		if (datosPantalla[0] == 0x2f){
-			if ((datosPantalla[1] == 0x0e) && (datosPantalla[2] == 0xb0) && (datosPantalla[3] == 0x0e)){
-				int a = 0;
-			}
-		}
 		// los 7 bits m�s significativos del primer byte de los datos indican el tipo de bloque a construir
 		int despTipoBloque = obtenerDir(0x156d + (datosPantalla[0] & 0xfe));
 
@@ -907,8 +899,8 @@ void GeneradorPantallas::dibujaTira(int &x, int &y, int deltaX, int deltaY, int 
 	for (int m=0;m<20;m++){
 		for (int n=0;n<16;n++){
 			// Layers in the current scene.
-			for (int k = 0; k < nivelesProfTiles; k++){				
-				dibujaTile(32+n*16, m*8,bufferTiles[m][n].tile[k]);
+			for (unsigned char k : bufferTiles[m][n].tile){
+				dibujaTile(32+n*16, m*8,k);
 			}
 		}
 	}
@@ -966,7 +958,7 @@ void GeneradorPantallas::dibujaTile(int x, int y, int num)
 		// 0x20000 de los 0x24000 de rom CPC menos los 0x4000 de la presentacion que el puntero de roms se salta
 		// en el constructor de Juego.cpp
 
-	int numTabla = (num & 0x80) ? 2 : 0;
+
 
 	// dibuja cada linea del tile
 	for (int j = 0; j < 8; j++){
