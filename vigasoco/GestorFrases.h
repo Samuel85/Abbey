@@ -26,13 +26,13 @@ public:
 	std::string frasePergamino;	// frase del pergamino (necesario, porque en C++ no se puede modificar un static char *)
 
 protected:
-	CPC6128	*cpc6128;			// objeto que presta ayuda para realizar operaciones gr?ficas del cpc6128
+	CPC6128	*cpc6128;			// objeto que presta ayuda para realizar operaciones gráficas del cpc6128
 
-	int contadorActualizacion;	// contador para actualizar la frase que se est? poniendo en el marcador
-	int espaciosParaFin;		// n?mero de espacios para que la frase haya salido completamente del marcador
-	bool fraseTerminada;		// indica si se termin? una frase
-	bool reproduciendoFrase;	// indica que se est? mostrando una frase en el marcador
-	const char *frase;				// apunta a la frase que se est? poniendo en el marcador
+	int contadorActualizacion;	// contador para actualizar la frase que se está poniendo en el marcador
+	int espaciosParaFin;		// número de espacios para que la frase haya salido completamente del marcador
+	bool fraseTerminada;		// indica si se terminó una frase
+	bool reproduciendoFrase;	// indica que se está mostrando una frase en el marcador
+	const char *frase;				// apunta a la frase que se está poniendo en el marcador
 
 	// CPC
 	//static char *frases[0x38];	// tabla de frases
@@ -41,16 +41,16 @@ protected:
 	//Anyadimos una frase mas que en la version original
 	//para limpiar el area de frases al cargar/grabar las partidas
 		// convertimos en array para cada idioma
-        static const char* frases[8][0x38+1];	// tabla de frases
+	static const char *frases[8][0x38+1];	// tabla de frases
 
-// m?todos
+// métodos
 public:
 	void procesaFraseActual();
 	void muestraFrase(int numFrase);
 	void muestraFraseYa(int numFrase);
 	void actualizaEstado();
 
-	// inicializaci?n y limpieza
+	// inicialización y limpieza
 	GestorFrases();
 	~GestorFrases();
 
