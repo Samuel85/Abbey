@@ -3,11 +3,10 @@
 #define VITASDK
 #endif
 
-#include <dirent.h>
+
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 
 #include "system.h"
 #include "game.h"
@@ -42,7 +41,7 @@ void checkSaveDirectory()
 #endif			
 }
 
-int main()
+int main(int argc, char* argv[])
 {
 #if defined(VITA) || defined(RG350)	
 	checkSaveDirectory();

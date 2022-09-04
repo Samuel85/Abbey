@@ -66,7 +66,7 @@ void System::init()
 	window = SDL_CreateWindow(WINDOW_TITLE, 0, 0, 0, 0, windowFlags);
 	SDL_GetWindowSize(window, &w, &h);
 #else
-	window = SDL_CreateWindow(WINDOW_TITLE, 0, 0, w, h, windowFlags);
+	window = SDL_CreateWindow(WINDOW_TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, w, h, windowFlags);
 #endif
 	
 	if (window == NULL){		

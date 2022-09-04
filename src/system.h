@@ -6,6 +6,7 @@
 #include <cassert>
 #include <vector>
 
+#define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_mixer.h>
 
@@ -38,9 +39,9 @@ musicPathList[] = {
 #else
 static const char* const
 musicPathList[] = {
-	"./roms/abadia/inicio.wav",
-	"./roms/abadia/final.wav",
-	"./roms/abadia/fondo.wav",
+	"/roms/abadia/inicio.wav",
+	"/roms/abadia/final.wav",
+	"/roms/abadia/fondo.wav",
 };
 #endif
 
@@ -135,10 +136,10 @@ struct System
 	const Uint32 bmask = 0x0000ff00;
 	const Uint32 amask = 0x000000ff;
 #else
-	const Uint32 rmask = 0x000000ff;
-	const Uint32 gmask = 0x0000ff00;
-	const Uint32 bmask = 0x00ff0000;
-	const Uint32 amask = 0xff000000;
+	const Uint32 rmask = 0;
+	const Uint32 gmask = 0;
+	const Uint32 bmask = 0;
+	const Uint32 amask = 0;
 #endif
 
 	SDL_Surface *surface;
