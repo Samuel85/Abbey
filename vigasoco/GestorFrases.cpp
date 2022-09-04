@@ -13,8 +13,8 @@ using namespace Abadia;
 // tabla de frases
 /////////////////////////////////////////////////////////////////////////////
 
-// CPC
-// char * GestorFrases::frases[0x38] = {
+	//CPC
+	//char * GestorFrases::frases[0x38] = {
 
 	//VGA
 	//Anyadimos una frase mas que en la version original
@@ -631,18 +631,17 @@ void GestorFrases::procesaFraseActual() {
 // métodos de ayuda
 /////////////////////////////////////////////////////////////////////////////
 
-void GestorFrases::scrollFrase() {
-  // 8 l?neas de alto
-  // for (int j = 0; j < 8; j++){
-  // con las traducciones hay nuevos caracteres que son de 8x10 en vez de 8x8
-  // al tener que pintar el acento encima
-  // 10 líneas de alto
-  for (int j = -2; j < 8; j++) {
-    // desplaza 120/8 = 15 caracteres a la izquierda 1 caracter (cada caracter es de 8x8)
-    for (int i = 0; i < 120; i++) {
-      cpc6128->setMode1Pixel(104 + i - 8, 164 + j,
-                             cpc6128->getMode1Pixel(104 + i, 164 + j));
-    }
-  }
-}
+void GestorFrases::scrollFrase()
+{
+	// 8 líneas de alto
+	//for (int j = 0; j < 8; j++){
+	// con las traducciones hay nuevos caracteres que son de 8x10 en vez de 8x8
+	// al tener que pintar el acento encima
+	// 10 líneas de alto
+	for (int j = -2; j < 8; j++){
+		// desplaza 120/8 = 15 caracteres a la izquierda 1 caracter (cada caracter es de 8x8)
+		for (int i = 0; i < 120; i++){
+			cpc6128->setMode1Pixel(104 + i - 8, 164 + j, cpc6128->getMode1Pixel(104 + i, 164 + j));
+		}
+	}
 }
