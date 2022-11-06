@@ -39,9 +39,9 @@ musicPathList[] = {
 #else
 static const char* const
 musicPathList[] = {
-	"/roms/abadia/inicio.wav",
-	"/roms/abadia/final.wav",
-	"/roms/abadia/fondo.wav",
+	"./roms/abadia/inicio.wav",
+	"./roms/abadia/final.wav",
+	"./roms/abadia/fondo.wav",
 };
 #endif
 
