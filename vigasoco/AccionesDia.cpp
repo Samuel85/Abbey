@@ -136,6 +136,15 @@ void AccionesPrima::ejecuta(AccionesDia *ad)
 	}
 
 	if (laLogica->dia == 3){
+		// en el código en ensamblador original Jorge y Berengario son el mismo
+		// ya que nunca coinciden (también Bernardo) y comparten estructura en memoria
+		// pero en Vigasoco Jorge y Berengario son dos objetos distintos
+		// así que si el día II se duerme y Berengario no llega a robar el libro
+		// y morir en la celda de Severino se queda andando zombie por la abadía
+		// Así que aquí tenemos que asegurarnos que Berengario no pasa al día 3
+		laLogica->berengario->estaVivo=false;
+		laLogica->berengario->posX= laLogica->berengario->posY= laLogica->berengario->altura=0;
+
 		// jorge coge el libro y lo esconde
 		laLogica->jorge->objetos = LIBRO;
 		ad->colocaObjeto(elJuego->objetos[0], 0x0f, 0x2e, 0x00);

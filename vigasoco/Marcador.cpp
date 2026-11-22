@@ -14,6 +14,10 @@
 //para printf trazas
 #include <stdio.h>
 
+// para manejar UTF8
+#include <codecvt>
+#include <locale>
+
 using namespace Abadia;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -380,9 +384,21 @@ void Marcador::limpiaAreaFrases()
 // recorre los caracteres de la frase, mostr�ndolos por pantalla
 void Marcador::imprimeFrase(std::string frase, int x, int y, int colorTexto, int colorFondo)
 {
+	/*
 	for (unsigned int i = 0; i < frase.length(); i++){
 		imprimirCaracter(frase[i], x + 8*i, y, colorTexto, colorFondo);
-	}
+	} */
+	// Compatible con archivos fuente UTF-8 con acentos
+	// requiere compilarse con -std=c+11 
+	// en VigasocoSDL podía ser un problema con PS2 y otros sistemas que usan un gcc antiguo
+	// no debería ser un problema con los sistemas compatibles con Abbey que usa SDL2 
+        std::wstring_convert<std::codecvt_utf8<char32_t>, char32_t> conv;
+        std::u32string utf32str = conv.from_bytes(frase);
+        int i=0;
+        for (auto &letter : utf32str) {
+                imprimirCaracter(letter, x + 8*i, y, colorTexto, colorFondo);
+                i++;
+        }	
 }
 
 void Marcador::imprimirCaracter(int caracter, int x, int y, int colorTexto, int colorFondo)

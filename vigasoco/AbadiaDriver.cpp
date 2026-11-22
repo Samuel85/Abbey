@@ -148,6 +148,31 @@ void AbadiaDriver::filesLoaded()
 	memcpy(&romsPtr[0x24000-1+_gameFiles[1]->getTotalSize()+21600],_gameFiles[1]->getData(),_gameFiles[1]->getTotalSize());
 	memcpy(&romsPtr[0x24000-1+(_gameFiles[1]->getTotalSize()+21600)*2],_gameFiles[2]->getData(),_gameFiles[1]->getTotalSize());
 	// Los sonidos no se copian, y se cargan directamente en Audioplugin
+
+        // En la versión 0.09 se incluyeron nuevos caracteres para soportar nuevos idiomas
+        // Esos nuevos caracteres incluian '-' y '.' , a los que se le añadio nuevo gráfico
+        // Pero en el código original algunos caracteres como - . > /
+        // se usan para representar varios caracteres a la vez
+        // Por ejemplo, COMPLETAS no cabe en el hueco del Marcador
+        // donde se muestra el día
+        // Y en la ROM está grabado como COM-./>
+        // El gráfico del guión es el texto PL comprimido y ajustado para que
+        // COMPLETAS entre en el marcador
+        //
+        // Parcheamos el texto de COMPLETAS en la ROM para que en vez de usar - y .
+        // como caracteres especiales que representan varias letras a la vez,
+        // se usen @ y ~  , que son códigos ASCII que no se usan en ninguno de los
+        // nuevos textos multiidioma
+        // Junto a este cambio, se modifica Marcador::imprimirCaracter para que
+        // se tenga en cuenta este parche y cuando se imprima @ o ~
+        // se usan los antiguos gráficos asociados a - y .
+        //
+        // Accedemos a la posición de la ROM dónd está el texto COM-./>
+        UINT8*tmp=&romsPtr[0x4000+0x4fbc + 7*6];
+        // Modificamos el tercer byte cambiando - por #
+        *(tmp+3)='#';
+        // Modificamos el cuarto byte cambiando . por ~
+        *(tmp+4)='~';
 }
 
 // reordena los datos gr?ficos y los copia en el destino
