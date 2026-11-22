@@ -1,4 +1,9 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
+
+if(DEFINED ENV{EMSCRIPTEN})
+  set(EMSCRIPTEN ON)
+endif()
+
 
 if (VITA)
 	add_compile_definitions(VITA)
@@ -13,7 +18,6 @@ if (VITA)
 endif()
 
 project (abbey)
-
 
 if(RG350)
 	add_compile_definitions(RG350)
@@ -35,8 +39,6 @@ if (VITA)
 	set(VITA_VERSION  "01.00")
 endif(VITA)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wl,-q -Wall -fno-lto -std=c++11")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Wl,-q -Wall -fno-lto -std=c++11")
 
 file(GLOB_RECURSE vigasoco_core_SOURCES "vigasoco/*.cpp")
 file(GLOB_RECURSE vigasoco_SOURCES "src/*.cpp")
@@ -124,3 +126,16 @@ add_custom_command(TARGET abbey
   COMMENT "Creating OPK file..."
 )
 endif(RG350)
+
+if(EMSCRIPTEN)
+	set(CMAKE_EXECUTABLE_SUFFIX ".html")	
+	#	add_executable ("abbey.html")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Wall -fno-lto -std=c++11 -s USE_SDL=2 -s USE_SDL_MIXER=2")
+	#	set(CMAKE_LD_FLAGS "${CMAKE_LD_FLAGS}  -Wall -fno-lto -std=c++11 -s USE_SDL=2 -s USE_SDL_MIXER=2 -s ALLOW_MEMORY_GROWTH=1 --pre-js pre.js -s FORCE_FILESYSTEM -lidbfs.js --preload-file roms/abadia@/roms/abadia")
+	set_target_properties(abbey PROPERTIES LINK_FLAGS "-s USE_SDL=2 -s USE_SDL_MIXER=2 -s ALLOW_MEMORY_GROWTH=1 --pre-js pre.js -s FORCE_FILESYSTEM -lidbfs.js --preload-file roms/abadia@/roms/abadia")
+else()
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -Wl,-q -Wall -fno-lto -std=c++11")
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  -Wl,-q -Wall -fno-lto -std=c++11")
+endif()
+
+

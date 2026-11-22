@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Asegurarse de que estamos en el directorio correcto
+cd "$(dirname "$0")"
+
+# Ruta al directorio raíz del proyecto (un nivel arriba)
+PROJECT_ROOT="$(pwd)/.."
+
+# Verificar que emcc está disponible
+if ! command -v emcc &> /dev/null; then
+  echo "Error: emcc no encontrado. ¿Has activado emsdk?"
+  echo "Ejecuta: source /ruta/a/emsdk/emsdk_env.sh"
+  exit 1
+fi
+
+# Limpiar flags problemáticos del entorno (opcional, pero recomendado)
+unset CXX
+unset CC
+
+# Ejecutar cmake con emscripten
+emcmake cmake \
+  -DCMAKE_BUILD_TYPE=Release \
+  "$PROJECT_ROOT"
+
+echo ""
+echo "✅ Configuración para Emscripten completada."
+echo "Ahora ejecuta: make -j"
+echo "Generará abbey.html, abbey.js, abbey.wasm y abbey.data (si hay assets)."

@@ -120,7 +120,11 @@ Juego::Juego(UINT8 *romData, CPC6128 *cpc)
 	#ifdef RG350	
 	configReader = new ConfigReader("/usr/local/home/Abbey/config.txt");
 	#else
+#ifdef __EMSCRIPTEN__
+	configReader = new ConfigReader("/save/config.txt");
+#else
 	configReader = new ConfigReader("config.txt");
+#endif
 	#endif
 
 	selectedSlot = -1;
@@ -242,6 +246,10 @@ bool Juego::menuCargar2()
 bool Juego::cargar(int slot)
 {	
 	std::string path = "";
+
+#ifdef __EMSCRIPTEN__
+	path="/save/";
+#endif
 
 	#ifdef RG350
 	path = "/usr/local/home/Abbey/";
@@ -567,6 +575,9 @@ void Juego::save(int slot)
 	// save "abadiaX.save"
 
 	std::string path = "";
+#ifdef __EMSCRIPTEN__
+	path="/save/";
+#endif
 
 	#ifdef RG350
 	path = "/usr/local/home/Abbey/";
@@ -976,6 +987,10 @@ bool Juego::readConfigFile()
 	path = "/usr/local/home/Abbey/";
 	#endif
 
+#ifdef __EMSCRIPTEN__
+	path="/save/";
+#endif
+
 	#ifdef ANDROID
 	if (SDL_AndroidGetExternalStorageState() != 0){
 		path = SDL_AndroidGetExternalStoragePath();
@@ -1010,6 +1025,9 @@ bool Juego::saveConfigFile()
 	#ifdef RG350
 	path = "/usr/local/home/Abbey/";
 	#endif
+#ifdef __EMSCRIPTEN__
+	path="/save/";
+#endif
 
 	#ifdef ANDROID
 	if (SDL_AndroidGetExternalStorageState() != 0){

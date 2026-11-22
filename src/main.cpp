@@ -15,6 +15,9 @@
 #include <psp2/io/stat.h> 
 #endif
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
 
 #define SAVE_DIR "/usr/local/home/Abbey/"
 #define VITA_SAVE_DIR "ux0:data/Abbey"
@@ -41,15 +44,30 @@ void checkSaveDirectory()
 #endif			
 }
 
+Game* game = nullptr;
+
+void mainloop() 
+{
+	game->mainLoop();
+	return; 
+}
+
 int main(int argc, char* argv[])
 {
 #if defined(VITA) || defined(RG350)	
 	checkSaveDirectory();
 #endif
-	
-	Game *game = new Game();
+
+	game = new Game();
 	sys->init();
-	game->mainLoop();
+
+#ifdef __EMSCRIPTEN__
+        emscripten_set_main_loop(mainloop, 0, 1);
+#else
+        while (!sys->exit) {
+                mainloop();
+        }
+#endif
 	sys->quit();
 	return 0;
 }

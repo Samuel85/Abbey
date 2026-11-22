@@ -1,0 +1,52 @@
+name: Build and Deploy Emscripten
+
+on:
+  push:
+    branches:
+      - emscripten
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Emscripten
+        uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: 'latest'
+          actions-cache-folder: 'emsdk-cache'
+
+      - name: Configure and Build
+        run: |
+          cd build_emscripten
+          ./configure
+          make -j 4
+
+      - name: Prepare deployment artifacts
+        run: |
+          mkdir -p deploy
+          cp build_emscripten/abbey-ghpages.html deploy/index.html
+          cp build_emscripten/abbey.data deploy/
+          cp build_emscripten/abbey.js deploy/
+          cp build_emscripten/abbey.wasm deploy/
+          cp build_emscripten/coi-serviceworker.min.js deploy/
+          touch deploy/.nojekyll  # ⬅️ Desactiva Jekyll en GitHub Pages
+
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: deploy
+          token: ${{ secrets.GITHUB_TOKEN }}
+          clean: true
+          commit-message: "🚀 Deploy: ${{ github.event.head_commit.message }}"
+          single-commit: true

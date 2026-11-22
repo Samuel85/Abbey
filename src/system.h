@@ -14,8 +14,14 @@
 #include <android/log.h>
 #endif
 
+#ifdef __EMSCRIPTEN__
+#define WINDOW_WIDTH 640
+#define WINDOW_HEIGHT 400 
+#else
 #define WINDOW_WIDTH 1280  
 #define WINDOW_HEIGHT 800
+#endif
+
 #define TEXTURE_WIDTH 640
 #define TEXTURE_HEIGHT 400
 #define WINDOW_TITLE "Abbey"
@@ -153,7 +159,17 @@ struct System
 
 	std::vector<Mix_Chunk*>sounds;
 	std::vector<Mix_Chunk*>music;
-	
+
+	uint64_t frameTime=0;
+#ifdef __EMSCRIPTEN__
+	uint64_t interruptCounter=0;
+	uint64_t targetFrameTime=0;
+	bool logicInterrupt=false;
+#endif
+
+	void initFrame();
+	void endFrame();
+
 	void init();
 	void quit();
 	void playMusic(int i);

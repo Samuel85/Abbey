@@ -1,6 +1,10 @@
 #include "game.h"
 #include "system.h"
 
+#ifdef __EMSCRIPTEN__
+#include "emscripten.h"
+#endif
+
 Game::Game()
 {
 	vigasocosdl = new Vigasoco();
@@ -17,19 +21,32 @@ Game::~Game()
 
 void Game::mainLoop()
 {
-	while(!sys->exit)
-	{
-		auto frameTime = SDL_GetTicks();
-		
+#ifndef __EMSCRIPTEN__
+        while(!sys->exit)
+        {
+		sys->initFrame();
+
+                handleEvents();
+                logic();
+                render();
+
+		sys->endFrame();
+        }
+#else
+        if (sys->exit) {
+                sys->quit();
+                emscripten_cancel_main_loop();
+        }
+	sys->initFrame();
+
+	if (sys->logicInterrupt) {
 		handleEvents();
 		logic();
-		render();
-		
-		//cap the frame rate
-		if (SDL_GetTicks() - frameTime < sys->minimumFrameTime){
-			SDL_Delay(sys->minimumFrameTime - (SDL_GetTicks() - frameTime));
-		}
 	}
+	render();
+
+	sys->endFrame();
+#endif
 }
 
 void Game::handleEvents()
