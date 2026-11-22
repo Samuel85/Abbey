@@ -1085,7 +1085,9 @@ void Juego::run()
 	
 	if (cambioModoInformacion && modoInformacion)
 	{
-		limpiaAreaJuego(12);			
+		// para permitir modoInformacion
+		// superpuesto a la pantalla de Juego
+		//limpiaAreaJuego(12);			
 		cambioModoInformacion=false;
 	}
 
@@ -1096,6 +1098,8 @@ void Juego::run()
 		cambioModoInformacion=false;			
 	}
 
+	// así el infoJuego tapa totalmente la pantalla
+	/*
 	if (modoInformacion){
 		infoJuego->muestraInfo();
 	} 
@@ -1103,6 +1107,18 @@ void Juego::run()
 	{		
 		motor->dibujaPantalla();
 		motor->dibujaSprites();				
+	} */
+	// así es posible superponer el modoInformacion
+	// a la pantalla de juego
+	// TODO: probar el comportamiento en el laberinto
+	// con el Sprite de Luz y cuando se agota la lampara
+	// por si no se viese bien
+	{		
+		motor->dibujaPantalla();
+		motor->dibujaSprites();				
+	}
+	if (modoInformacion){
+		infoJuego->muestraInfo();
 	}
 
 	if (laLogica->guillermo->contadorAnimacion==1){			
